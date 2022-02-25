@@ -28,5 +28,3 @@ module.exports = {
   APP_SECRET,
   getUserId
 };
-
-//HMM
