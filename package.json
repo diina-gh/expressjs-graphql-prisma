@@ -17,17 +17,20 @@
     "url": "https://github.com/diina-gh/trade/issues"
   },
   "homepage": "https://github.com/diina-gh/trade#readme",
-  "type": "module",
   "dependencies": {
+    "@prisma/client": "^3.10.0",
     "apollo-server-core": "^3.6.3",
     "apollo-server-express": "^3.6.3",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.3",
-    "graphql": "^16.3.0"
+    "graphql": "^16.3.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "consola": "^2.15.3",
     "dotenv": "^16.0.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "prisma": "^3.10.0"
   }
 }

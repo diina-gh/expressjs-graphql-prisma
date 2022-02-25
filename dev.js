@@ -1,10 +1,10 @@
-import app from "./api/index.js";
-import consola from "consola";
-import dotenv from "dotenv";
+// import app from "./api/index.js";
+// import consola from "consola";
+// import dotenv from "dotenv";
 
-// const app = require('./api/index')
-// const consola = require('consola')
-// const dotenv = require('dotenv')
+const {httpServer} = require('./api/index')
+const consola = require('consola')
+const dotenv = require('dotenv')
 
 dotenv.config();
-app.listen(3000, () => consola.info("Server started"));
+httpServer.listen(3000, () => consola.info("Server started"));
