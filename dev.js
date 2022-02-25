@@ -7,4 +7,4 @@ const consola = require('consola')
 const dotenv = require('dotenv')
 
 dotenv.config();
-httpServer.listen(3000, () => consola.info("Server started"));
+httpServer.listen(4000, () => consola.info("Server started"));
