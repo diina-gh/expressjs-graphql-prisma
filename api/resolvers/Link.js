@@ -1,7 +1,7 @@
-function postedBy(parent, args, context) {
+export function postedBy(parent, args, context) {
     return context.prisma.link.findUnique({ where: { id: parent.id } }).postedBy()
 }
   
-module.exports = {
-    postedBy,
-}
+// module.exports = {
+//     postedBy,
+// }
