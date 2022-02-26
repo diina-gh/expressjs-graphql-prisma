@@ -9,54 +9,54 @@ generator client {
 
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique @db.VarChar(100)
-  email     String   @unique @db.VarChar(100)
-  phonenumber String @db.VarChar(100)
-  fisrtname String   @db.VarChar(100)
-  lastname  String   @db.VarChar(100)
-  emailVerified Boolean @default(false)
-  enabled Boolean @default(false)
-  lastlogin DateTime
-  password  String @db.VarChar(200)
-  imageurl String  @db.VarChar(200)
-  imagesrc String  @db.VarChar(200)
-  roles RolesOnUsers[]
+  id            Int      @id @default(autoincrement())
+  username      String   @unique @db.VarChar(100)
+  email         String   @unique @db.VarChar(100)
+  phonenumber   String   @db.VarChar(100)
+  fisrtname     String   @db.VarChar(100)
+  lastname      String   @db.VarChar(100)
+  emailVerified Boolean  @default(false)
+  enabled       Boolean  @default(false)
+  lastlogin     DateTime
+  password      String   @db.VarChar(200)
+  imageurl      String   @db.VarChar(200)
+  imagesrc      String   @db.VarChar(200)
+  roles         RolesOnUsers[]
 }
 
 model RolesOnUsers {
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int 
-  role       Role     @relation(fields: [roleId], references: [id])
-  roleId     Int 
-  assignedAt DateTime @default(now())
-  assignedById Int
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int 
+  role          Role     @relation(fields: [roleId], references: [id])
+  roleId        Int 
+  assignedAt    DateTime @default(now())
+  assignedById  Int
   @@id([userId, roleId])
 }
 
 model Role {
-  id        Int      @id @default(autoincrement())
-  title     String   @db.VarChar(200)
-  description String @db.VarChar(400)
-  users RolesOnUsers[]
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(200)
+  desc        String @db.VarChar(400)
+  users       RolesOnUsers[]
   permissions PermissionsOnRoles[]
 }
 
 model PermissionsOnRoles {
-  permission Permission     @relation(fields: [permissionId], references: [id])
-  permissionId     Int 
-  role       Role     @relation(fields: [roleId], references: [id])
-  roleId     Int 
-  assignedAt DateTime @default(now())
-  assignedById Int
+  permission      Permission     @relation(fields: [permissionId], references: [id])
+  permissionId    Int 
+  role            Role     @relation(fields: [roleId], references: [id])
+  roleId          Int 
+  assignedAt      DateTime @default(now())
+  assignedById    Int
   @@id([roleId, permissionId])
 }
 
 model Permission {
   id        Int      @id @default(autoincrement())
   title     String   @db.VarChar(200)
-  description String @db.VarChar(400)
-  roles PermissionsOnRoles[]
+  desc      String @db.VarChar(400)
+  roles     PermissionsOnRoles[]
 }
 
 model Category{
@@ -89,33 +89,34 @@ model Product {
   views       Int
   createdat   DateTime @default(now())
   updatedat   DateTime 
-  photos      Image[]
+  images      Image[]
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
   discount    Discount @relation(fields: [discountId], references: [id])
-  discountId Int
-  inventory Inventory?
-
+  discountId  Int
+  variants    VariantsOnProducts[]
+  options     OptionsOnProducts[]
+  inventory   Inventory?
 }
 
 model Inventory {
-    id          Int      @id @default(autoincrement())
-    createdat   DateTime @default(now())
-    updatedat   DateTime 
-    quantity    Int
-    product     Product @relation(fields: [productId], references: [id])
-    productId Int
+  id          Int      @id @default(autoincrement())
+  createdat   DateTime @default(now())
+  updatedat   DateTime 
+  quantity    Int
+  product     Product @relation(fields: [productId], references: [id])
+  productId   Int
 }
 
 model Discount {
-    id          Int      @id @default(autoincrement())
-    title       String
-    desc        String
-    percent     Decimal
-    enabled     Boolean @default(false)
-    createdat   DateTime @default(now())
-    updatedat   DateTime 
-    products    Product[]
+  id          Int      @id @default(autoincrement())
+  title       String
+  desc        String
+  percent     Decimal
+  enabled     Boolean @default(false)
+  createdat   DateTime @default(now())
+  updatedat   DateTime 
+  products    Product[]
 }
 
 // model flashSale {
@@ -124,10 +125,51 @@ model Discount {
 // }
 
 model Image {
-  id        Int      @id @default(autoincrement())
-  url       String
-  default   Boolean
-  src       String
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
+  id                    Int      @id @default(autoincrement())
+  url                   String
+  default               Boolean
+  src                   String
+  product               Product @relation(fields: [productId], references: [id])
+  productId             Int
+  OptionsOnProducts     OptionsOnProducts @relation(fields: [optionId, productId], references: [optionId, productId])
+  optionId              Int
+  // productId Int
+}
+
+
+model VariantsOnProducts {
+  product         Product     @relation(fields: [productId], references: [id])
+  productId       Int 
+  variant         Variant     @relation(fields: [variantId], references: [id])
+  variantId       Int 
+  assignedAt      DateTime @default(now())
+  @@id([variantId, productId])
+}
+
+
+model Variant {
+  id          Int      @id @default(autoincrement())
+  title       String
+  desc        String
+  options     Option[]
+  products    VariantsOnProducts[]
+}
+
+model Option {
+  id          Int      @id @default(autoincrement())
+  value       String
+  variant     Variant @relation(fields: [variantId], references: [id])
+  variantId   Int
+  products    OptionsOnProducts[]
+}
+
+model OptionsOnProducts {
+  option          Option      @relation(fields: [optionId], references: [id])
+  optionId        Int 
+  product         Product     @relation(fields: [productId], references: [id])
+  productId       Int 
+  assignedAt      DateTime    @default(now())
+  images          Image[]
+
+  @@id([optionId, productId])
 }
