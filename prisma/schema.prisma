@@ -7,19 +7,127 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Link {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  description String
-  url         String
-  postedBy    User?    @relation(fields: [postedById], references: [id])
-  postedById  Int?
-}
 
 model User {
   id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  links     Link[]
+  username  String   @unique @db.VarChar(100)
+  email     String   @unique @db.VarChar(100)
+  phonenumber String @db.VarChar(100)
+  fisrtname String   @db.VarChar(100)
+  lastname  String   @db.VarChar(100)
+  emailVerified Boolean @default(false)
+  enabled Boolean @default(false)
+  lastlogin DateTime
+  password  String @db.VarChar(200)
+  imageurl String  @db.VarChar(200)
+  imagesrc String  @db.VarChar(200)
+  roles RolesOnUsers[]
+}
+
+model RolesOnUsers {
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int 
+  role       Role     @relation(fields: [roleId], references: [id])
+  roleId     Int 
+  assignedAt DateTime @default(now())
+  assignedById Int
+  @@id([userId, roleId])
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  description String @db.VarChar(400)
+  users RolesOnUsers[]
+  permissions PermissionsOnRoles[]
+}
+
+model PermissionsOnRoles {
+  permission Permission     @relation(fields: [permissionId], references: [id])
+  permissionId     Int 
+  role       Role     @relation(fields: [roleId], references: [id])
+  roleId     Int 
+  assignedAt DateTime @default(now())
+  assignedById Int
+  @@id([roleId, permissionId])
+}
+
+model Permission {
+  id        Int      @id @default(autoincrement())
+  title     String   @db.VarChar(200)
+  description String @db.VarChar(400)
+  roles PermissionsOnRoles[]
+}
+
+model Category{
+  id          Int      @id @default(autoincrement())
+  name        String
+  desc        String
+  order       Int
+  parent_id   Int
+  createdat   DateTime @default(now())
+  updatedat   DateTime 
+  products    Product[]
+
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  sku         String
+  name        String
+  short_desc  String
+  long_desc   String
+  status      Int
+  activated   Boolean @default(false)
+  unit        String
+  unitweight  Decimal
+  unitprice   Decimal
+  taxable     Boolean
+  ranking     Int
+  order       Int
+  likes       Int
+  views       Int
+  createdat   DateTime @default(now())
+  updatedat   DateTime 
+  photos      Image[]
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  discount    Discount @relation(fields: [discountId], references: [id])
+  discountId Int
+  inventory Inventory?
+
+}
+
+model Inventory {
+    id          Int      @id @default(autoincrement())
+    createdat   DateTime @default(now())
+    updatedat   DateTime 
+    quantity    Int
+    product     Product @relation(fields: [productId], references: [id])
+    productId Int
+}
+
+model Discount {
+    id          Int      @id @default(autoincrement())
+    title       String
+    desc        String
+    percent     Decimal
+    enabled     Boolean @default(false)
+    createdat   DateTime @default(now())
+    updatedat   DateTime 
+    products    Product[]
+}
+
+// model flashSale {
+//     id          Int      @id @default(autoincrement())
+
+// }
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  url       String
+  default   Boolean
+  src       String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
 }
