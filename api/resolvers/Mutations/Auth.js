@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs/index.js"
 import jwt from "jsonwebtoken"
-import { APP_SECRET, getUserId } from "../../utils.js"
+import { APP_SECRET, getUserId } from "../../../utils.js"
 
 export async function signup(parent, args, context, info) {
     // 1
