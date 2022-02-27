@@ -44,6 +44,7 @@ const startApolloServer = async(app, httpServer) => {
         };
       },    
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+      introspection: true
     });
   
     await server.start();
