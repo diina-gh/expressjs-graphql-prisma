@@ -63,12 +63,12 @@ model Category{
   id          Int      @id @default(autoincrement())
   name        String
   desc        String
+  long_desc        String
   order       Int
   parent_id   Int
   createdat   DateTime @default(now())
   updatedat   DateTime 
   products    Product[]
-
 }
 
 model Product {
@@ -172,4 +172,9 @@ model OptionsOnProducts {
   images          Image[]
 
   @@id([optionId, productId])
+}
+
+model Newsletter {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
 }

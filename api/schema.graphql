@@ -1,19 +1,20 @@
 type Query {
   info: String!
-  feed: [Link!]!
+  #Auth's Queries
+
+  #Newsletters's Queries
+  newsletters(filter: String): [Newsletter!]!
+  newsletter(id: Int): [Newsletter!]!
 }
 
 type Mutation {
-  post(url: String!, description: String!): Link!
+  #Auth's Mutations
   signup(email: String!, password: String!, name: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
-}
-
-type Link {
-  id: ID!
-  description: String!
-  url: String!
-  postedBy: User
+  #Newsletter's mutations
+  createNewsletter(email: String!): Newsletter!
+  updateNewsletter(email: String!): Newsletter!
+  deleteNewsletter(email: String!): Int!
 }
 
 type AuthPayload {
@@ -23,7 +24,158 @@ type AuthPayload {
 
 type User {
   id: ID!
-  name: String!
+  username: String!
   email: String!
-  links: [Link!]!
+  phonenumber: String!
+  fisrtname: String!
+  lastname: String!
+  emailVerified: Boolean
+  enabled: Boolean
+  lastlogin: String
+  password: String
+  imageurl: String
+  imagesrc: String
+  RolesOnUsers: [RolesOnUsers]
+}
+
+type Role {
+  id: ID!
+  title: String
+  desc: String
+  RolesOnUsers: [RolesOnUsers]
+  PermissionsOnRoles: [PermissionsOnRoles]
+}
+
+type Permission {
+  id: ID!
+  title: String
+  desc: String
+  PermissionsOnRoles: [PermissionsOnRoles]
+}
+
+type RolesOnUsers {
+  user: User
+  userId: Int 
+  role: Role
+  roleId: Int 
+  assignedAt: String
+  assignedById: Int
+}
+
+type PermissionsOnRoles {
+  permission: Permission
+  permissionId: Int 
+  role: Role
+  roleId: Int 
+  assignedAt: String
+  assignedById: Int
+}
+
+type Category{
+  id: ID!
+  name: String
+  desc: String
+  long_desc: String
+  order: Int
+  parent_id: Int
+  createdat: String
+  updatedat: String
+  products: [Product]
+}
+
+type Product {
+  id: ID!
+  sku: String
+  name: String
+  short_desc: String
+  long_desc: String
+  status: Int
+  activated: Boolean
+  unit: String
+  unitweight: Float
+  unitprice: Float
+  taxable: Boolean
+  ranking: Int
+  order: Int
+  likes: Int
+  views: Int
+  createdat: String
+  updatedat: String 
+  images: [Image]
+  category: Category
+  categoryId:Int
+  discount: Discount
+  discountId: Int
+  VariantsOnProducts: [VariantsOnProducts]
+  OptionsOnProducts: [OptionsOnProducts]
+  inventory: Inventory
+}
+
+type Inventory {
+  id: ID!
+  createdat: String
+  updatedat: String 
+  quantity: Int
+  product: Product
+  productId: Int
+}
+
+type Discount {
+  id: ID!
+  title: String
+  desc: String
+  percent: Float
+  enabled: Boolean
+  createdat: String
+  updatedat: String 
+  products: [Product]
+}
+
+type Image {
+  id: ID!
+  url: String
+  default: Boolean
+  src: String
+  product: Product
+  productId: Int
+  OptionsOnProducts: OptionsOnProducts
+  optionId: Int
+}
+
+type VariantsOnProducts {
+  product: Product
+  productId: Int 
+  variant: Variant
+  variantId: Int 
+  assignedAt: String
+}
+
+type Variant {
+  id: ID!
+  title: String
+  desc: String
+  options: [Option]
+  VariantsOnProducts: [VariantsOnProducts]
+}
+
+type Option {
+  id: ID!
+  value: String
+  variant: Variant
+  variantId: Int
+  OptionsOnProducts: [OptionsOnProducts]
+}
+
+type OptionsOnProducts {
+  option: Option
+  optionId: Int 
+  product: Product
+  productId: Int 
+  assignedAt: String
+  images: [Image]
+}
+
+type Newsletter {
+  id: ID!
+  email: String
 }
