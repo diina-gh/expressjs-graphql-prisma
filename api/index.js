@@ -11,8 +11,8 @@ import { fileURLToPath } from "url";
 import { PrismaClient } from ".prisma/client/index.js";
 import { getUserId } from "../utils.js";
 
-import * as Query from "./resolvers/Queries/index.js";
-import * as Mutation from "./resolvers/Mutations/index.js";
+import * as Query from "../resolvers/Queries/index.js";
+import * as Mutation from "../resolvers/Mutations/index.js";
 
 const prisma = new PrismaClient()
 const __filename = fileURLToPath(import.meta.url);
