@@ -9,7 +9,7 @@ type Query {
 
 type Mutation {
   #Auth's Mutations
-  signup(email: String!, password: String!, name: String!): AuthPayload
+  signup(email: String!, password: String!, username: String!): AuthPayload
   login(email: String!, password: String!): AuthPayload
   #Newsletter's mutations
   createNewsletter(email: String!): Newsletter!
@@ -26,9 +26,9 @@ type User {
   id: ID!
   username: String!
   email: String!
-  phonenumber: String!
-  fisrtname: String!
-  lastname: String!
+  phonenumber: String
+  fisrtname: String
+  lastname: String
   emailVerified: Boolean
   enabled: Boolean
   lastlogin: String
