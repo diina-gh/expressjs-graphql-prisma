@@ -33,8 +33,8 @@ export async function deleteNewsletter(parent, args, context, info){
     throw new UserInputError("Cette adresse email n'éxiste pas.", {cstm_code: 'E-3192013'});
   }
   else{
-    const deleteEntity = await context.prisma.newsletter.delete({where: {id: args.id,},})
-    return deleteEntity
+    const deletedEntity = await context.prisma.newsletter.delete({where: {id: args.id,},})
+    return deletedEntity
   }
 
 }

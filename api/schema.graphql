@@ -18,6 +18,9 @@ type Mutation {
   #Newsletter's mutations
   saveNewsletter(id:Int, email: String!): Newsletter!
   deleteNewsletter(id:Int!): Newsletter!
+  #Category's mutations
+  saveCategory(id:Int, name: String!, desc: String!, long_desc: String, order: Int!, parentId: Int, updatedat: String): Category!
+  deleteCategory(id:Int!): Category!
 }
 
 
@@ -82,7 +85,6 @@ type Category{
   desc: String
   long_desc: String
   order: Int
-  parent_id: Int
   createdat: String
   updatedat: String
   products: [Product]
