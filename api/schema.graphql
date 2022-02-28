@@ -24,6 +24,13 @@ type Mutation {
 }
 
 
+# Scalar
+
+scalar Date
+scalar Time
+scalar DateTime
+
+
 # Type definitions
 
 type AuthPayload {
@@ -44,6 +51,7 @@ type User {
   imageurl: String
   imagesrc: String
   RolesOnUsers: [RolesOnUsers]
+  createdat: Date
 }
 
 type Role {
@@ -85,7 +93,7 @@ type Category{
   desc: String
   long_desc: String
   order: Int
-  createdat: String
+  createdat: Date
   updatedat: String
   products: [Product]
   parent: Category
@@ -188,7 +196,7 @@ type OptionsOnProducts {
 type Newsletter {
   id: ID!
   email: String
-  createdat: String
+  createdat: Date
 }
 
 

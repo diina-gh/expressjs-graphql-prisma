@@ -1,5 +1,6 @@
 import { ApolloServer, gql } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import {GraphQLDate,GraphQLDateTime,GraphQLTime} from 'graphql-scalars';
 import http from "http";
 import express from "express";
 import cors from "cors";
@@ -19,6 +20,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const resolvers = {
+    Date: GraphQLDate,
+    Time: GraphQLTime,
+    DateTime: GraphQLDateTime,
     Query,
     Mutation,
   }
