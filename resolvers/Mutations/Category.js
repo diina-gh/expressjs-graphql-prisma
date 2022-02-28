@@ -24,10 +24,12 @@ export async function saveCategory(parent, args, context, info) {
 
   const date = new Date()
 
+  const data= {name: args.name,desc: args.desc, long_desc:args.long_desc, order:args.order,parent:{connect:{id: args.parentId}} }
+
   let category = await context.prisma.category.upsert({
     where: {id: args.id ? args.id : 0,},
-    update: {...args, updatedat: date},
-    create: args,
+    update: {...data, updatedat: date},
+    create: data
   })
   
   return category

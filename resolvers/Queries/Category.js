@@ -13,6 +13,10 @@ export async function categories(parent, args, context, info) {
   
     const items = await context.prisma.category.findMany({
       where,
+      include: {
+        parent: true,
+        childs: true
+      },
       skip: args.skip,
       take: args.take,
       orderBy: args.orderBy,
