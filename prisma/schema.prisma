@@ -68,6 +68,9 @@ model Category{
   createdat   DateTime @default(now())
   updatedat   DateTime 
   products    Product[]
+  parentId    Int?
+  parent      Category?   @relation("ParentChilds", fields: [parentId], references: [id])
+  childs      Category[]  @relation("ParentChilds")
 }
 
 model Product {
@@ -176,4 +179,5 @@ model OptionsOnProducts {
 model Newsletter {
   id          Int      @id @default(autoincrement())
   email       String   @unique
+  createdat   DateTime @default(now())
 }

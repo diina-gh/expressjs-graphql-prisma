@@ -1,10 +1,14 @@
 type Query {
   info: String!
   #Auth's Queries
-
+  users(filter: String, skip: Int, take: Int, orderBy: UserOrderByInput): [User!]!
+  user(id: Int): [User!]!
   #Newsletters's Queries
-  newsletters(filter: String): [Newsletter!]!
+  newsletters(filter: String, skip: Int, take: Int, orderBy: NewsletterOrderByInput): [Newsletter!]!
   newsletter(id: Int): [Newsletter!]!
+  #Categories's Queries
+  categories(filter: String, skip: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
+  category(id: Int): [Category!]!
 }
 
 type Mutation {
@@ -15,6 +19,9 @@ type Mutation {
   saveNewsletter(id:Int, email: String!): Newsletter!
   deleteNewsletter(id:Int!): Newsletter!
 }
+
+
+# Type definitions
 
 type AuthPayload {
   token: String
@@ -79,6 +86,9 @@ type Category{
   createdat: String
   updatedat: String
   products: [Product]
+  parent: Category
+  parentId: Int
+  childs: [Category]
 }
 
 type Product {
@@ -176,4 +186,31 @@ type OptionsOnProducts {
 type Newsletter {
   id: ID!
   email: String
+  createdat: String
+}
+
+
+
+# Sorting definitions
+
+enum Sort {
+  asc
+  desc
+}
+
+input NewsletterOrderByInput {
+  createdat: Sort
+  email: Sort
+}
+
+input UserOrderByInput {
+  createdat: Sort
+  firstname: Sort
+  lastname: Sort
+}
+
+input CategoryOrderByInput {
+  createdat: Sort
+  name: Sort
+  order: Sort
 }
