@@ -1,6 +1,5 @@
 import { UserInputError} from "apollo-server-express";
 
-
 export async function saveNewsletter(parent, args, context, info) {
     
   if(args.email == null){
@@ -25,3 +24,18 @@ export async function saveNewsletter(parent, args, context, info) {
   
   return newsletter
 }
+
+export async function deleteNewsletter(parent, args, context, info){
+
+  let entity = await context.prisma.newsletter.findUnique({ where: { id: args.id } })
+
+  if(!entity){
+    throw new UserInputError("Cette adresse email n'éxiste pas.", {cstm_code: 'E-3192013'});
+  }
+  else{
+    const deleteEntity = await context.prisma.newsletter.delete({where: {id: args.id,},})
+    return deleteEntity
+  }
+
+}
+

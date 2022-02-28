@@ -13,7 +13,7 @@ type Mutation {
   login(email: String!, password: String!): AuthPayload
   #Newsletter's mutations
   saveNewsletter(id:Int, email: String!): Newsletter!
-  deleteNewsletter(email: String!): Int!
+  deleteNewsletter(id:Int!): Newsletter!
 }
 
 type AuthPayload {
