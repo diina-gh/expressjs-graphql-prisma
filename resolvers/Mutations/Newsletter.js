@@ -1,17 +1,27 @@
-export async function createNewsletter(parent, args, context, info) {
-    
-    let email = await context.prisma.newsletter.findUnique({ where: { email: args.email } })
+import { UserInputError} from "apollo-server-express";
 
-    if (email) {
-      throw new Error('Vous vous etes déjà inscrit(e) à notre newsletter.')
-    }
-  
-    let newsletter = await context.prisma.newsletter.create({
-      data: {
-        email: args.email,
-      }
-    })
 
-    return newsletter
+export async function saveNewsletter(parent, args, context, info) {
     
+  if(args.email == null){
+    throw new UserInputError("Veuillez renseigner le champ adresse email.", {cstm_code: 'E-3192013'});
   }
+  else {
+    if(args.id == null){
+      let email = await context.prisma.newsletter.findUnique({ where: { email: args.email } })
+      if (email) throw new UserInputError("Vous vous etes déjà inscrit(e) à notre newsletter.", {cstm_code: 'E-3192013'});
+    }
+    else{
+      let email = await context.prisma.newsletter.findUnique({ where: { id: args.id } })
+      if (!email) throw new UserInputError("Cette adresse email n'éxiste pas.", {cstm_code: 'E-3192013'});
+    }
+  }
+
+  let newsletter = await context.prisma.newsletter.upsert({
+    where: {id: args.id ? args.id : 0,},
+    update: {email: args.email},
+    create: {email: args.email},
+  })
+  
+  return newsletter
+}
