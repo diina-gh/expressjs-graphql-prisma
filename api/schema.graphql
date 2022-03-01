@@ -9,18 +9,24 @@ type Query {
   #Categories's Queries
   categories(filter: String, skip: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
   category(id: Int): [Category!]!
+  #Permission's Queries
+  permissions(filter: String, skip: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
+  permission(id: Int): [Permission!]!
 }
 
 type Mutation {
   #Auth's Mutations
   signup(firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String ): AuthPayload
-  login(email: String!, password: String!): AuthPayload
+  login(email: String, password: String): AuthPayload
   #Newsletter's mutations
-  saveNewsletter(id:Int, email: String!): Newsletter!
-  deleteNewsletter(id:Int!): Newsletter!
+  saveNewsletter(id:Int, email: String): Newsletter!
+  deleteNewsletter(id:Int): Newsletter!
   #Category's mutations
   saveCategory(id:Int, name: String!, desc: String!, long_desc: String, order: Int!, parentId: Int, updatedat: String): Category!
-  deleteCategory(id:Int!): Category!
+  deleteCategory(id:Int): Category!
+  #Permission's mutations
+  savePermission(id:Int, title: String, desc:String): Permission!
+  deletePermission(id:Int): Permission!
 }
 
 
@@ -66,6 +72,8 @@ type Permission {
   id: ID!
   title: String
   desc: String
+  createdat: Date
+  updatedat: Date
   PermissionsOnRoles: [PermissionsOnRoles]
 }
 
@@ -74,16 +82,16 @@ type RolesOnUsers {
   userId: Int 
   role: Role
   roleId: Int 
-  assignedAt: String
+  assignedAt: Date
   assignedById: Int
 }
 
 type PermissionsOnRoles {
-  permission: Permission
+  permission: Permission 
   permissionId: Int 
   role: Role
   roleId: Int 
-  assignedAt: String
+  assignedAt: Date
   assignedById: Int
 }
 
@@ -94,7 +102,7 @@ type Category{
   long_desc: String
   order: Int
   createdat: Date
-  updatedat: String
+  updatedat: Date
   products: [Product]
   parent: Category
   parentId: Int
@@ -165,7 +173,7 @@ type VariantsOnProducts {
   productId: Int 
   variant: Variant
   variantId: Int 
-  assignedAt: String
+  assignedAt: Date
 }
 
 type Variant {
@@ -189,7 +197,7 @@ type OptionsOnProducts {
   optionId: Int 
   product: Product
   productId: Int 
-  assignedAt: String
+  assignedAt: Date
   images: [Image]
 }
 
@@ -223,4 +231,9 @@ input CategoryOrderByInput {
   createdat: Sort
   name: Sort
   order: Sort
+}
+
+input PermissionOrderByInput {
+  createdat: Sort
+  name: Sort
 }
