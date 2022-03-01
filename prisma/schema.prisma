@@ -157,7 +157,7 @@ model Variant {
   title       String   @unique
   desc        String
   createdat   DateTime @default(now())
-  updatedat   DateTime 
+  updatedat   DateTime?
   options     Option[]
   products    VariantsOnProducts[]
 }
@@ -166,7 +166,7 @@ model Option {
   id          Int      @id @default(autoincrement())
   value       String
   colorCode   String?
-  variant     Variant  @relation(fields: [variantId], references: [id])
+  variant     Variant  @relation(fields: [variantId], references: [id],  onUpdate: Cascade, onDelete: Cascade)
   variantId   Int
   products    OptionsOnProducts[]
 }

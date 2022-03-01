@@ -225,7 +225,6 @@ type Newsletter {
 # Input types definitions
 
 input OptionInput {
-  id: Int
   value: String
   colorCode: String
 }
