@@ -12,6 +12,9 @@ type Query {
   #Permission's Queries
   permissions(filter: String, skip: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
   permission(id: Int): [Permission!]!
+  #Permission's Queries
+  roles(filter: String, skip: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
+  role(id: Int): [Role!]!
 }
 
 type Mutation {
@@ -30,6 +33,9 @@ type Mutation {
   #Role's mutations
   saveRole(id:Int, title: String, desc:String, permissions:[Int]): Role!
   deleteRole(id:Int): Role!
+  #Role's mutations
+  saveVariant(id:Int, title: String, desc:String, options:[OptionInput]): Variant!
+  deleteVariant(id:Int): Variant!
 }
 
 
@@ -68,7 +74,7 @@ type Role {
   title: String
   desc: String
   RolesOnUsers: [RolesOnUsers]
-  PermissionsOnRoles: [PermissionsOnRoles]
+  permissions: [PermissionsOnRoles]
 }
 
 type Permission {
@@ -77,8 +83,10 @@ type Permission {
   desc: String
   createdat: Date
   updatedat: Date
-  PermissionsOnRoles: [PermissionsOnRoles]
+  roles: [PermissionsOnRoles]
+  count: Int
 }
+
 
 type RolesOnUsers {
   user: User
@@ -155,8 +163,8 @@ type Discount {
   desc: String
   percent: Float
   enabled: Boolean
-  createdat: String
-  updatedat: String 
+  createdat: Date
+  updatedat: Date 
   products: [Product]
 }
 
@@ -183,6 +191,8 @@ type Variant {
   id: ID!
   title: String
   desc: String
+  createdat: Date
+  updatedat: Date 
   options: [Option]
   VariantsOnProducts: [VariantsOnProducts]
 }
@@ -190,6 +200,7 @@ type Variant {
 type Option {
   id: ID!
   value: String
+  colorCode: String
   variant: Variant
   variantId: Int
   OptionsOnProducts: [OptionsOnProducts]
@@ -211,8 +222,17 @@ type Newsletter {
 }
 
 
+# Input types definitions
 
-# Sorting definitions
+input OptionInput {
+  id: Int
+  value: String
+  colorCode: String
+}
+
+
+
+# Sorting input types definitions
 
 enum Sort {
   asc

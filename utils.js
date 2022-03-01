@@ -27,16 +27,3 @@ export function getUserId(req, authToken) {
   throw new Error('Not authenticated');
 }
 
-export async function checkLinks(context, entity, entity_ids) {
-
-  var row = null
-
-  for (let i = 0; i < entity_ids.length; i++) {
-    if(entity = "permission") row = await context.prisma.permission.findUnique({ where: { id: entity_ids[i] } })
-    if(!row) break
-  }
-
-  if(!row) return false
-  return true
-
-}

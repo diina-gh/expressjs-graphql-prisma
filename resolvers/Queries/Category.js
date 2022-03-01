@@ -28,8 +28,7 @@ export async function categories(parent, args, context, info) {
   
   export async function category(parent, args, context, info) {
     return await prisma.category.findUnique({
-        where: {
-        id: args.id,
-        }
+        where: {id: args.id,},
+        include: {parent: true,childs: true},
     })
   }
