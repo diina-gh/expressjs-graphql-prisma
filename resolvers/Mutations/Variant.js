@@ -15,8 +15,8 @@ export async function saveVariant(parent, args, context, info) {
   else {
 
     for (let i = 0; i < args.options.length; i++) {
-        if(args.options[i].value == null || args.options[i].value == '') throw new UserInputError("Veuillez donner la valeur de l'option " + i, {cstm_code: 'E3192013'});
-        if( (args.title == "couleur" || args.title == "couleurs") && (args.options[i].colorCode == null || args.options[i].colorCode == '')) throw new UserInputError("Veuillez donner le code couleur de l'option " + i, {cstm_code: 'E3192013'});
+        if(args.options[i].value == null || args.options[i].value == '') throw new UserInputError("Veuillez donner la valeur de l'option " + (i+1), {cstm_code: 'E3192013'});
+        if( args.title.toLowerCase().includes("couleur") && (args.options[i].colorCode == null || args.options[i].colorCode == '')) throw new UserInputError("Veuillez donner le code couleur de l'option " + i, {cstm_code: 'E3192013'});
     }
 
     if(args.id == null){
@@ -47,12 +47,10 @@ export async function deleteVariant(parent, args, context, info){
     throw new UserInputError("Ce variant n'éxiste pas.", {cstm_code: 'E3192013'});
   }
   else if(entity){
-    let entity2 = await context.prisma.variantsOnUsers.findMany({ where: { variantId: args.id } })
-    if(entity2 != null && entity2.length > 0) throw new UserInputError("Ce variant est liée à des utilisateurs.", {cstm_code: 'E3192013'});
+    let entity2 = await context.prisma.variantsOnProducts.findMany({ where: { variantId: args.id } })
+    if(entity2 != null && entity2.length > 0) throw new UserInputError("Ce variant est liée à des produits.", {cstm_code: 'E3192013'});
   }
     
-  context.prisma.permissionsOnvariants.deleteMany({where: { variantId: args.id },})
-
   const deletedEntity = await context.prisma.variant.delete({where: {id: args.id,},})
   return deletedEntity
   
