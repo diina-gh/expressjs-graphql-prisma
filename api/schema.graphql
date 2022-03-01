@@ -27,6 +27,9 @@ type Mutation {
   #Permission's mutations
   savePermission(id:Int, title: String, desc:String): Permission!
   deletePermission(id:Int): Permission!
+  #Role's mutations
+  saveRole(id:Int, title: String, desc:String, permissions:[Int]): Role!
+  deleteRole(id:Int): Role!
 }
 
 
@@ -235,5 +238,10 @@ input CategoryOrderByInput {
 
 input PermissionOrderByInput {
   createdat: Sort
-  name: Sort
+  title: Sort
+}
+
+input RoleOrderByInput {
+  createdat: Sort
+  title: Sort
 }
