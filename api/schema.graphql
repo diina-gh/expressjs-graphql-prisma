@@ -18,6 +18,9 @@ type Query {
   #Variant's Queries
   variants(filter: String, skip: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
   variant(id: Int): [Variant!]!
+  #Variant's Queries
+  products(filter: String, skip: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
+  product(id: Int): [Product!]!
 }
 
 type Mutation {
@@ -39,6 +42,9 @@ type Mutation {
   #Role's mutations
   saveVariant(id:Int, title: String, desc:String, options:[OptionInput]): Variant!
   deleteVariant(id:Int): Variant!
+  #Role's mutations
+  saveProduct(id:Int, sku: String, name:String, short_desc: String, long_desc: String, status: Int , activated: Boolean, unit: String, unitweight: Float, unitprice: Float, taxable: Boolean, order: Int, categoryId: Int, discountId: Int, images:[ImageInput] ,variants:[Int], options:[Int]): Product!
+  deleteProduct(id:Int): Product!
 }
 
 
@@ -232,6 +238,14 @@ input OptionInput {
   colorCode: String
 }
 
+input ImageInput {
+  url: String
+  default: Boolean
+  src: String
+  productId: Int
+  optionId: Int
+}
+
 
 
 # Sorting input types definitions
@@ -271,4 +285,14 @@ input RoleOrderByInput {
 input VariantOrderByInput {
   createdat: Sort
   title: Sort
+}
+
+input ProductOrderByInput {
+  createdat: Sort
+  name: Sort
+  ranking: Sort
+  order: Sort
+  likes: Sort
+  view: Sort
+  unitprice: Sort
 }
