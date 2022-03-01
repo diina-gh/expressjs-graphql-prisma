@@ -15,6 +15,9 @@ type Query {
   #Permission's Queries
   roles(filter: String, skip: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
   role(id: Int): [Role!]!
+  #Variant's Queries
+  variants(filter: String, skip: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
+  variant(id: Int): [Variant!]!
 }
 
 type Mutation {
@@ -261,6 +264,11 @@ input PermissionOrderByInput {
 }
 
 input RoleOrderByInput {
+  createdat: Sort
+  title: Sort
+}
+
+input VariantOrderByInput {
   createdat: Sort
   title: Sort
 }
