@@ -97,7 +97,7 @@ model Product {
   images      Image[]
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  discount    Discount? @relation(fields: [discountId], references: [id])
+  discount    Discount? @relation(fields: [discountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   discountId  Int?
   variants    VariantsOnProducts[]
   options     OptionsOnProducts[]
@@ -115,12 +115,12 @@ model Inventory {
 
 model Discount {
   id          Int        @id @default(autoincrement())
-  title       String
+  title       String     @unique
   desc        String
   percent     Decimal
   enabled     Boolean   @default(false)
   createdat   DateTime  @default(now())
-  updatedat   DateTime 
+  updatedat   DateTime?
   products    Product[]
 }
 

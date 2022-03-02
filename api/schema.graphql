@@ -21,6 +21,9 @@ type Query {
   #Variant's Queries
   products(filter: String, skip: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
   product(id: Int): [Product!]!
+  #Variant's Queries
+  discounts(filter: String, skip: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
+  discount(id: Int): [Discount!]!
 }
 
 type Mutation {
@@ -45,6 +48,9 @@ type Mutation {
   #Role's mutations
   saveProduct(id:Int, sku: String, name:String, short_desc: String, long_desc: String, status: Int , activated: Boolean, unit: String, unitweight: Float, unitprice: Float, taxable: Boolean, order: Int, categoryId: Int, discountId: Int, images:[ImageInput] ,variants:[Int], options:[Int]): Product!
   deleteProduct(id:Int): Product!
+  #Discount's mutations
+  saveDiscount(id:Int, title: String, desc:String, percent: Float, products:[Int]): Discount!
+  deleteDiscount(id:Int): Discount!
 }
 
 
@@ -152,8 +158,8 @@ type Product {
   categoryId:Int
   discount: Discount
   discountId: Int
-  VariantsOnProducts: [VariantsOnProducts]
-  OptionsOnProducts: [OptionsOnProducts]
+  variants: [VariantsOnProducts]
+  options: [OptionsOnProducts]
   inventory: Inventory
 }
 
@@ -203,7 +209,7 @@ type Variant {
   createdat: Date
   updatedat: Date 
   options: [Option]
-  VariantsOnProducts: [VariantsOnProducts]
+  products: [VariantsOnProducts]
 }
 
 type Option {
@@ -212,7 +218,7 @@ type Option {
   colorCode: String
   variant: Variant
   variantId: Int
-  OptionsOnProducts: [OptionsOnProducts]
+  products: [OptionsOnProducts]
   images: [Image]
 }
 
@@ -295,4 +301,9 @@ input ProductOrderByInput {
   likes: Sort
   view: Sort
   unitprice: Sort
+}
+
+input DiscountOrderByInput {
+  createdat: Sort
+  title: Sort
 }

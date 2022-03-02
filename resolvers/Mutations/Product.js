@@ -1,5 +1,6 @@
 import { UserInputError} from "apollo-server-express";
 
+
 export async function saveProduct(parent, args, context, info) {
     
   if(args.name == null){
@@ -35,7 +36,6 @@ export async function saveProduct(parent, args, context, info) {
     for (let i = 0; i < args.images.length; i++) {
         if(args.images[i].url == null || args.images[i].url == '') throw new UserInputError("Veuillez donner l'url de l'image " + (i+1), {cstm_code: 'E3192013'});
         if(args.images[i].imageref == null || args.images[i].imageref == '') throw new UserInputError("Veuillez donner la référence de l'image " + (i+1), {cstm_code: 'E3192013'});
-        // if(args.images[i].productId == null ) throw new UserInputError("Veuillez donner le produit correspondant à l'image " + (i+1), {cstm_code: 'E3192013'});
     }
 
     if(args.variants != null && args.variants.length >= 0){
@@ -50,7 +50,7 @@ export async function saveProduct(parent, args, context, info) {
   }
 
   const date = new Date()
-  
+
   let links = []
   let links2 = []
   
@@ -82,12 +82,12 @@ export async function deleteProduct(parent, args, context, info){
   let entity = await context.prisma.product.findUnique({ where: { id: args.id } })
 
   if(!entity){
-    throw new UserInputError("Ce product n'éxiste pas.", {cstm_code: 'E3192013'});
+    throw new UserInputError("Ce produit n'éxiste pas.", {cstm_code: 'E3192013'});
   }
-  else if(entity){
-    let entity2 = await context.prisma.productsOnProducts.findMany({ where: { productId: args.id } })
-    if(entity2 != null && entity2.length > 0) throw new UserInputError("Ce product est liée à des produits.", {cstm_code: 'E3192013'});
-  }
+//   else if(entity){
+//     let entity2 = await context.prisma.productsOnProducts.findMany({ where: { productId: args.id } })
+//     if(entity2 != null && entity2.length > 0) throw new UserInputError("Ce product est liée à des produits.", {cstm_code: 'E3192013'});
+//   }
     
   const deletedEntity = await context.prisma.product.delete({where: {id: args.id,},})
   return deletedEntity

@@ -5,6 +5,8 @@ export * from "./Permission.js";
 export * from "./Role.js";
 export * from "./Variant.js";
 export * from "./Product.js";
+export * from "./Discount.js";
+
 
 
 
