@@ -11,6 +11,7 @@ generator client {
 model User {
   id            Int      @id @default(autoincrement())
   email         String   @unique @db.VarChar(100)
+  token         String?  @unique
   phonenumber   String?  @db.VarChar(100)
   firstname     String?  @db.VarChar(100)
   lastname      String?  @db.VarChar(100)
@@ -20,7 +21,13 @@ model User {
   password      String?   @db.VarChar(200)
   imageurl      String?   @db.VarChar(200)
   imagesrc      String?   @db.VarChar(200)
+  admin         Boolean   @default(false)
+  vendor        Boolean   @default(false)
   roles         RolesOnUsers[]
+  cart          Cart?
+  districts     DistrictsOnUsers[]
+  orders        Order[]
+  transactions  Transaction[]
 }
 
 model RolesOnUsers {
@@ -101,6 +108,8 @@ model Product {
   discountId  Int?
   variants    VariantsOnProducts[]
   options     OptionsOnProducts[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
   inventory   Inventory?
 }
 
@@ -115,8 +124,8 @@ model Inventory {
 }
 
 model Discount {
-  id          Int        @id @default(autoincrement())
-  title       String     @unique
+  id          Int       @id @default(autoincrement())
+  title       String    @unique
   desc        String
   percent     Decimal
   enabled     Boolean   @default(false)
@@ -187,3 +196,138 @@ model Newsletter {
   email       String   @unique
   createdat   DateTime @default(now())
 }
+
+
+model Cart {
+  id          Int      @id @default(autoincrement())
+  token       String   
+  status      Int
+  createdat   DateTime @default(now())
+  updatedat   DateTime
+  cartItems   CartItem[]
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int 
+}
+
+model CartItem {
+  id          Int      @id @default(autoincrement())
+  token       String   
+  status      Int
+  sku         String?
+  unitprice   Float
+  discount    Float?
+  quantity    Int
+  active      Boolean  @default(false)
+  createdat   DateTime @default(now())
+  updatedat   DateTime
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   Int 
+  cart        Cart     @relation(fields: [cartId], references: [id])
+  cartId      Int 
+}
+
+model Transaction{
+  id            Int        @id @default(autoincrement())
+  code          String?
+  type          Int?
+  mode          Int?
+  status        Int?
+  createdat     DateTime    @default(now())
+  updatedat     DateTime?
+  user          User?       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId        Int 
+  order         Order?      @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId       Int 
+}
+
+model Order{
+  id            Int      @id @default(autoincrement())
+  token         String   
+  status        Int
+  subTotal      Float
+  itemDiscount  Float?
+  tax           Float?
+  total         Float?
+  promo         String?
+  discount      Float?
+  grandTotal    Float?
+  fistname      String?
+  lastname      String?
+  phonenumber   String?
+  email         String?
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+  user          User?       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId        Int 
+  districts     DistrictsOnOrders[]
+  transactions  Transaction[]
+}
+
+model  OrderItem{
+  id            Int      @id @default(autoincrement())
+  product       Product  @relation(fields: [productId], references: [id])
+  productId     Int
+  unitprice     Float
+  quantity      Int
+  discount      Float 
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+}
+
+model DistrictsOnOrders{
+  order           Order?       @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId         Int 
+  district        District?     @relation(fields: [districtId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  districtId      Int 
+  line1           String?
+  line2           String?
+  assignedAt      DateTime     @default(now())
+  @@id([orderId, districtId])
+}
+
+model DistrictsOnUsers{
+  user            User?       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId          Int 
+  district        District?    @relation(fields: [districtId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  districtId      Int 
+  line1           String?
+  line2           String?
+  assignedAt      DateTime     @default(now())
+  @@id([userId, districtId])
+}
+
+
+model District{
+  id            Int      @id @default(autoincrement())
+  name          String
+  shipping      Float?
+  region        Region   @relation(fields: [regionId], references: [id])
+  regionId      Int 
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+  orders        DistrictsOnOrders[]
+  users         DistrictsOnUsers[]
+}
+
+model Region{
+  id            Int      @id @default(autoincrement())
+  code          String   @db.Char(2)
+  name          String
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+  country       Country     @relation(fields: [countryId], references: [id])
+  countryId     Int 
+  districts     District[]
+}
+
+model Country{
+  id            Int      @id @default(autoincrement())
+  iso3          String   @db.Char(3)
+  isoNum        String   @db.Char(3)
+  name          String
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+  regions       Region[]
+}
+
+
