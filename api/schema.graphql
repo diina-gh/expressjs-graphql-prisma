@@ -180,11 +180,11 @@ type Discount {
 type Image {
   id: ID!
   url: String
+  imageref: String
   default: Boolean
-  src: String
   product: Product
   productId: Int
-  OptionsOnProducts: OptionsOnProducts
+  option: Option
   optionId: Int
 }
 
@@ -213,6 +213,7 @@ type Option {
   variant: Variant
   variantId: Int
   OptionsOnProducts: [OptionsOnProducts]
+  images: [Image]
 }
 
 type OptionsOnProducts {
@@ -221,7 +222,6 @@ type OptionsOnProducts {
   product: Product
   productId: Int 
   assignedAt: Date
-  images: [Image]
 }
 
 type Newsletter {
@@ -240,8 +240,8 @@ input OptionInput {
 
 input ImageInput {
   url: String
+  imageref: String
   default: Boolean
-  src: String
   productId: Int
   optionId: Int
 }
