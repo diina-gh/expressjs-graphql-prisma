@@ -9,8 +9,8 @@ export async function products(parent, args, context, info) {
         { category: {
           name: {contains: args.filter,},
           desc: {contains: args.filter,},
-        },
-      }
+          },
+        }
       ],
     }
     : {}

@@ -5,7 +5,6 @@ export async function districts(parent, args, context, info) {
     ? {
       OR: [
         { name: { contains: args.filter } },
-        { shipping: { contains: args.filter } },
         { region: {
           name: {contains: args.filter,},
           code: {contains: args.filter,},

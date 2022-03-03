@@ -7,11 +7,11 @@ export async function regions(parent, args, context, info) {
         { name: { contains: args.filter } },
         { code: { contains: args.filter } },
         { country: {
-          name: {contains: args.filter,},
-          iso3: {contains: args.filter,},
-          isoNum: {contains: args.filter,},
-        },
-      }
+            name: {contains: args.filter,},
+            iso3: {contains: args.filter,},
+            isoNum: {contains: args.filter,},
+            },
+        }
       ],
     }
     : {}

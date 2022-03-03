@@ -8,7 +8,7 @@ export async function saveDistrict(parent, args, context, info) {
   else if(args.shipping == null){
     throw new UserInputError("Veuillez donnez le prix de livraison pour ce quartier.", {cstm_code: 'E3192013'});
   }
-  else if(args.countryId == null){
+  else if(args.regionId == null){
     throw new UserInputError("Veuillez sélectionner une région.", {cstm_code: 'E3192013'});
   }
 
