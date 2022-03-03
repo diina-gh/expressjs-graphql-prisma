@@ -421,6 +421,91 @@ type Notification{
   updatedat: Date
 }
 
+# Blog types
+
+type Post{
+  id: Int
+  title: String
+  metaTitle: String
+  slug: String
+  summary: String
+  published: Boolean
+  createdat: Date
+  updatedat: Date
+  parent: Post
+  parentId: Int
+  childs: [Post]
+  user: User
+  userId: Int
+  postCategories: [PostCategoriesOnPosts]
+  postTags: [PostTagsOnPosts]
+  postMeta: PostMeta
+}
+
+type Comment{
+  id: Int
+  text: String
+  published: Boolean
+  parent: Comment
+  parentId: Int
+  childs: [Comment]
+  user: User
+  userId: Int
+  createdat: Date
+  updatedat: Date
+}
+
+type PostCategoriesOnPosts{
+  id: Int
+  post: Post
+  postId: Int 
+  postCategory: PostCategory
+  postCategoryId: Int 
+  createdat: DateTime  
+}
+
+type PostCategory{
+  id: Int
+  title: String
+  desc: String
+  posts: PostCategoriesOnPosts
+  parent: PostCategory
+  parentId: Int
+  childs: [PostCategory]
+  createdat: Date
+  updatedat: Date
+}
+
+
+type PostTagsOnPosts{
+  id: Int
+  post: Post
+  postId: Int 
+  postTag: PostTag
+  postTagId: Int 
+  createdat: Date  
+}
+
+type PostTag{
+  id: Int
+  title: String
+  desc: String
+  posts: [PostTagsOnPosts]
+  parent: PostTag
+  parentId: Int
+  childs: [PostTag]
+  createdat: Date
+  updatedat: Date
+}
+
+type PostMeta{
+  id: Int
+  key: String
+  createdat: DateTime
+  updatedat: DateTime
+  post: Post
+  postId: Int 
+}
 
 
 # Input types definitions
