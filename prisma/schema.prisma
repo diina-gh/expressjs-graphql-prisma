@@ -307,7 +307,7 @@ model DistrictsOnUsers{
 
 model District{
   id            Int      @id @default(autoincrement())
-  name          String
+  name          String   
   shipping      Float?
   region        Region   @relation(fields: [regionId], references: [id])
   regionId      Int 
@@ -330,9 +330,9 @@ model Region{
 
 model Country{
   id            Int      @id @default(autoincrement())
-  iso3          String   @db.Char(3)
-  isoNum        String   @db.Char(3)
-  name          String
+  iso3          String   @db.Char(3) @unique
+  isoNum        String   @db.Char(3) @unique
+  name          String   @unique
   createdat     DateTime @default(now())
   updatedat     DateTime?
   regions       Region[]

@@ -30,6 +30,15 @@ type Query {
   #CartItems's Queries
   cartItems(filter: String, skip: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
   cartItem(id: Int): [Inventory!]!
+  #Country's Queries
+  countries(filter: String, skip: Int, take: Int, orderBy: CountryOrderByInput): [Country!]!
+  country(id: Int): [Country!]!
+  #Region's Queries
+  regions(filter: String, skip: Int, take: Int, orderBy: RegionOrderByInput): [Region!]!
+  region(id: Int): [Region!]!
+  #District's Queries
+  districts(filter: String, skip: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
+  district(id: Int): [Region!]!
 }
 
 type Mutation {
@@ -63,6 +72,15 @@ type Mutation {
   #Discount's mutations
   saveCartItem(id: Int, unitprice: Float, discount: Float, quantity: Int, productId: Int, optionId: Int ): CartItem!
   deleteCartItem(id:Int): CartItem!
+  #Country's mutations
+  saveCountry(id: Int, iso3: String, isoNum: String, name: String): Country!
+  deleteCountry(id:Int): Country!
+  #Region's mutations
+  saveRegion(id: Int, code: String, name: String, countryId: Int ): Region!
+  deleteRegion(id:Int): Region!
+  #District's mutations
+  saveDistrict(id: Int, name: String, shipping: Float, regionId: Int ): District!
+  deleteDistrict(id:Int): District!
 }
 
 
@@ -597,4 +615,23 @@ input CartItemOrderByInput {
   createdat: Sort
   quantity: Sort
   unitprice: Sort
+}
+
+input CountryOrderByInput {
+  createdat: Sort
+  iso3: Sort
+  isoNum: Sort
+  name: Sort
+}
+
+input RegionOrderByInput {
+  createdat: Sort
+  code: Sort
+  name: Sort
+}
+
+input DistrictOrderByInput {
+  createdat: Sort
+  shipping: Sort
+  name: Sort
 }
