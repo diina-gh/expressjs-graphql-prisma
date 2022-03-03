@@ -48,15 +48,14 @@ export async function signup(parent, args, context, info) {
     else if(args.password == null){
       throw new UserInputError("Veuillez donner votre mot de passe.", {cstm_code: 'E3192013'});
     }
-    else{
-      const user = await context.prisma.user.findUnique({ where: { email: args.email } })
-      if (!user) throw new UserInputError("Cet utilisateur n'éxiste pas.", {cstm_code: 'E3192013'});
-      const valid = await bcrypt.compare(args.password, user.password)
-      if (!valid) throw new UserInputError("Mot de passe incorrecte.", {cstm_code: 'E3192013'});
-    }
-  
+    
+    const user = await context.prisma.user.findUnique({ where: { email: args.email } })
+    if (!user) throw new UserInputError("Cet utilisateur n'éxiste pas.", {cstm_code: 'E3192013'});
+    const valid = await bcrypt.compare(args.password, user.password)
+    if (!valid) throw new UserInputError("Mot de passe incorrecte.", {cstm_code: 'E3192013'});
+
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
     return {token,user,}
-
+   
   }
 

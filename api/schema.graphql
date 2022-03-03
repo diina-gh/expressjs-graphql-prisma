@@ -18,15 +18,18 @@ type Query {
   #Variant's Queries
   variants(filter: String, skip: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
   variant(id: Int): [Variant!]!
-  #Variant's Queries
+  #Product's Queries
   products(filter: String, skip: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
   product(id: Int): [Product!]!
-  #Variant's Queries
+  #Discount's Queries
   discounts(filter: String, skip: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
   discount(id: Int): [Discount!]!
-  #Variant's Queries
+  #Inventory's Queries
   inventories(filter: String, skip: Int, take: Int, orderBy: InventoryOrderByInput): [Inventory!]!
   inventory(id: Int): [Inventory!]!
+  #CartItems's Queries
+  cartItems(filter: String, skip: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
+  cartItem(id: Int): [Inventory!]!
 }
 
 type Mutation {
@@ -45,10 +48,10 @@ type Mutation {
   #Role's mutations
   saveRole(id:Int, title: String, desc:String, permissions:[Int]): Role!
   deleteRole(id:Int): Role!
-  #Role's mutations
+  #Variant's mutations
   saveVariant(id:Int, title: String, desc:String, options:[OptionInput]): Variant!
   deleteVariant(id:Int): Variant!
-  #Role's mutations
+  #Product's mutations
   saveProduct(id:Int, sku: String, name:String, short_desc: String, long_desc: String, status: Int , activated: Boolean, unit: String, unitweight: Float, unitprice: Float, taxable: Boolean, order: Int, categoryId: Int, discountId: Int, images:[ImageInput] ,variants:[Int], options:[Int]): Product!
   deleteProduct(id:Int): Product!
   #Discount's mutations
@@ -58,8 +61,8 @@ type Mutation {
   saveInventory(id:Int, quantity:Int, productId:Int, details:String): Inventory!
   deleteInventory(id:Int): Inventory!
   #Discount's mutations
-  saveCartItem(id:Int, quantity:Int, productId:Int, details:String): Inventory!
-  deleteCartItem(id:Int): Inventory!
+  saveCartItem(id: Int, unitprice: Float, discount: Float, quantity: Int, productId: Int, optionId: Int ): CartItem!
+  deleteCartItem(id:Int): CartItem!
 }
 
 
@@ -250,7 +253,6 @@ type Newsletter {
 
 type Cart {
   id: Int
-  token: String   
   status: Int
   createdat: Date
   updatedat: Date
@@ -261,7 +263,6 @@ type Cart {
 
 type CartItem {
   id: Int
-  token: String   
   status: Int
   unitprice: Float
   discount: Float
@@ -590,4 +591,10 @@ input DiscountOrderByInput {
 input InventoryOrderByInput {
   createdat: Sort
   quantity: Sort
+}
+
+input CartItemOrderByInput {
+  createdat: Sort
+  quantity: Sort
+  unitprice: Sort
 }
