@@ -243,6 +243,185 @@ type Newsletter {
   createdat: Date
 }
 
+type Cart {
+  id: Int
+  token: String   
+  status: Int
+  createdat: Date
+  updatedat: Date
+  cartItems: [CartItem]
+  user: User
+  userId: Int 
+}
+
+type CartItem {
+  id: Int
+  token: String   
+  status: Int
+  sku: String
+  unitprice: Float
+  discount: Float
+  quantity: Int
+  active: Boolean
+  createdat: Date
+  updatedat: Date
+  product: Product
+  productId: Int 
+  cart: Cart
+  cartId: Int 
+}
+
+type Transaction{
+  id: Int
+  code: String
+  type: Int
+  mode: Int
+  status: Int
+  createdat: Date
+  updatedat: DateTime
+  user: User
+  userId: Int 
+  order: Order
+  orderId: Int 
+}
+
+type Order{
+  id: Int 
+  token: String   
+  status: Int
+  subTotal: Float
+  itemDiscount: Float
+  tax: Float
+  total: Float
+  promo: String
+  discount: Float
+  grandTotal: Float
+  fistname: String
+  lastname: String
+  phonenumber: String
+  email: String
+  createdat: Date
+  updatedat: Date
+  user: User
+  userId: Int 
+  districts: [DistrictsOnOrders]
+  transactions: [Transaction]
+  shipment: Shipment
+}
+
+type OrderItem{
+  id: Int
+  product: Product
+  productId: Int
+  unitprice: Float
+  quantity: Int
+  discount: Float 
+  createdat: Date
+  updatedat: Date
+}
+
+type DistrictsOnOrders{
+  order: Order
+  orderId: Int 
+  district: District
+  districtId: Int 
+  line1: String
+  line2: String
+  assignedAt: Date
+}
+
+type DistrictsOnUsers{
+  user: User
+  userId: Int 
+  district: District
+  districtId: Int 
+  line1: String
+  line2: String
+  assignedAt: Date
+}
+
+
+type District{
+  id: Int
+  name: String
+  shipping: Float
+  region: Region
+  regionId: Int 
+  createdat: Date
+  updatedat: Date
+  orders: [DistrictsOnOrders]
+  users: [DistrictsOnUsers]
+}
+
+type Region{
+  id: Int
+  code: String
+  name: String
+  createdat: Date
+  updatedat: Date
+  country: Country
+  countryId: Int 
+  districts: [District]
+}
+
+type Country{
+  id: Int
+  iso3: String  
+  isoNum: String 
+  name: String
+  createdat: Date
+  updatedat: Date
+  regions: [Region]
+}
+
+
+type Shipment{
+  id: Int
+  shipmentTrackingNumber: Int
+  shipmentDate: Date
+  shipmentDetails: String
+  createdat: Date
+  updatedat: Date
+  order: Order
+  orderId: Int 
+  shipmentStage: ShipmentStage
+  shipmentStageId: Int
+}
+
+type ShipmentStage{
+  id: Int
+  stage: String
+  desc: String
+  nextStage: ShipmentStage
+  previousStage: ShipmentStage
+  nextStageId: Int
+  createdat: Date
+  updatedat: Date
+  shipments: [Shipment]
+}
+
+
+type NotificationsOnUsers{
+  id: Int 
+  read: Boolean
+  user: User
+  userId: Int 
+  notification: Notification
+  notificationId: Int 
+}
+
+
+type Notification{
+  id: Int
+  text: String
+  imageUrl: String
+  link: String
+  users: [NotificationsOnUsers]
+  createdat: Date
+  updatedat: Date
+}
+
+
 
 # Input types definitions
 

@@ -28,6 +28,9 @@ model User {
   districts     DistrictsOnUsers[]
   orders        Order[]
   transactions  Transaction[]
+  posts         Post[]
+  comments      Comment[]
+  notifications NotificationsOnUsers[]
 }
 
 model RolesOnUsers {
@@ -261,6 +264,7 @@ model Order{
   userId        Int 
   districts     DistrictsOnOrders[]
   transactions  Transaction[]
+  shipment      Shipment?
 }
 
 model  OrderItem{
@@ -331,3 +335,135 @@ model Country{
 }
 
 
+model Shipment{
+  id                       Int      @id @default(autoincrement())
+  shipmentTrackingNumber   Int
+  shipmentDate             DateTime?
+  shipmentDetails          String
+  createdat                DateTime @default(now())
+  updatedat                DateTime?
+  order                    Order?       @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId                  Int 
+  shipmentStage            ShipmentStage?    @relation(fields: [shipmentStageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  shipmentStageId          Int
+}
+
+model ShipmentStage{
+  id                       Int      @id @default(autoincrement())
+  stage                    String
+  desc                     String?
+  nextStage                ShipmentStage?  @relation("NextShipmentStage", fields: [nextStageId], references: [id])
+  previousStage            ShipmentStage?   @relation("NextShipmentStage")
+  nextStageId              Int?
+  createdat                DateTime @default(now())
+  updatedat                DateTime?
+  shipments                Shipment[]
+}
+
+
+model NotificationsOnUsers{
+  id                       Int              @id @default(autoincrement())
+  read                     Boolean          @default(false)
+  user                     User?            @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId                   Int 
+  notification             Notification?    @relation(fields: [notificationId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  notificationId           Int 
+}
+
+
+model Notification{
+  id                       Int      @id @default(autoincrement())
+  text                     String
+  imageUrl                 String?
+  link                     String?
+  users                    NotificationsOnUsers[]
+  createdat                DateTime @default(now())
+  updatedat                DateTime?
+}
+
+
+// Blog Database design
+
+model Post{
+  id            Int       @id @default(autoincrement())
+  title         String?
+  metaTitle     String?
+  slug          String?
+  summary       String?
+  published     Boolean?
+  createdat     DateTime  @default(now())
+  updatedat     DateTime?
+  parent        Post?     @relation("PostParentChilds", fields: [parentId], references: [id])
+  parentId      Int?
+  childs        Post[]    @relation("PostParentChilds")
+  user          User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId        Int?
+  postCategories PostCategoriesOnPosts[]
+  postTags      PostTagsOnPosts[]
+  postMeta      PostMeta?
+}
+
+model Comment{
+  id            Int       @id @default(autoincrement())
+  text          String
+  published     Boolean   @default(false)
+  parent        Comment?  @relation("CommentParentChilds", fields: [parentId], references: [id])
+  parentId      Int?
+  childs        Comment[] @relation("CommentParentChilds")
+  user          User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId        Int?
+  createdat     DateTime  @default(now())
+  updatedat     DateTime?
+}
+
+model PostCategoriesOnPosts{
+  id              Int               @id @default(autoincrement())
+  post            Post              @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postId          Int 
+  postCategory    PostCategory?     @relation(fields: [postCategoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postCategoryId  Int 
+  createdat       DateTime          @default(now())   
+}
+
+model PostCategory{
+  id            Int       @id @default(autoincrement())
+  title         String
+  desc          String?
+  posts         PostCategoriesOnPosts[]
+  parent        PostCategory?  @relation("PostCategoryParentChilds", fields: [parentId], references: [id])
+  parentId      Int?
+  childs        PostCategory[] @relation("PostCategoryParentChilds")
+  createdat     DateTime  @default(now())
+  updatedat     DateTime?
+}
+
+
+model PostTagsOnPosts{
+  id              Int               @id @default(autoincrement())
+  post            Post              @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postId          Int 
+  postTag         PostTag?          @relation(fields: [postTagId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postTagId       Int 
+  createdat       DateTime          @default(now())   
+}
+
+model PostTag{
+  id            Int       @id @default(autoincrement())
+  title         String
+  desc          String?
+  posts         PostTagsOnPosts[]
+  parent        PostTag?  @relation("PostTagParentChilds", fields: [parentId], references: [id])
+  parentId      Int?
+  childs        PostTag[] @relation("PostTagParentChilds")
+  createdat     DateTime  @default(now())
+  updatedat     DateTime?
+}
+
+model PostMeta{
+  id            Int         @id @default(autoincrement())
+  key           String?
+  createdat     DateTime    @default(now())
+  updatedat     DateTime?
+  post          Post        @relation(fields: [postId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  postId        Int 
+}
