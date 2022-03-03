@@ -190,7 +190,10 @@ model OptionsOnProducts {
   optionId        Int 
   product         Product?     @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId       Int 
+  sku             String?
   assignedAt      DateTime    @default(now())
+  cartItems       CartItem[]
+  orderItems      OrderItem[]
   @@id([optionId, productId])
 }
 
@@ -216,7 +219,6 @@ model CartItem {
   id          Int      @id @default(autoincrement())
   token       String   
   status      Int
-  sku         String?
   unitprice   Float
   discount    Float?
   quantity    Int
@@ -227,6 +229,8 @@ model CartItem {
   productId   Int 
   cart        Cart     @relation(fields: [cartId], references: [id])
   cartId      Int 
+  optionsOnProducts  OptionsOnProducts?  @relation(fields: [optionId, productId], references: [optionId, productId], onUpdate: Cascade, onDelete: Cascade)
+  optionId  Int 
 }
 
 model Transaction{
@@ -276,6 +280,8 @@ model  OrderItem{
   discount      Float 
   createdat     DateTime @default(now())
   updatedat     DateTime?
+  optionsOnProducts  OptionsOnProducts?  @relation(fields: [optionId, productId], references: [optionId, productId], onUpdate: Cascade, onDelete: Cascade)
+  optionId  Int 
 }
 
 model DistrictsOnOrders{

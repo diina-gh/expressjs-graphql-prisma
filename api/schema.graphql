@@ -57,6 +57,9 @@ type Mutation {
   #Discount's mutations
   saveInventory(id:Int, quantity:Int, productId:Int, details:String): Inventory!
   deleteInventory(id:Int): Inventory!
+  #Discount's mutations
+  saveCartItem(id:Int, quantity:Int, productId:Int, details:String): Inventory!
+  deleteCartItem(id:Int): Inventory!
 }
 
 
@@ -235,6 +238,8 @@ type OptionsOnProducts {
   product: Product
   productId: Int 
   assignedAt: Date
+  cartItems: [CartItem]
+  orderItems: [OrderItem]
 }
 
 type Newsletter {
@@ -258,7 +263,6 @@ type CartItem {
   id: Int
   token: String   
   status: Int
-  sku: String
   unitprice: Float
   discount: Float
   quantity: Int
@@ -269,6 +273,8 @@ type CartItem {
   productId: Int 
   cart: Cart
   cartId: Int 
+  optionsOnProducts: OptionsOnProducts
+  optionId: Int 
 }
 
 type Transaction{
@@ -318,6 +324,8 @@ type OrderItem{
   discount: Float 
   createdat: Date
   updatedat: Date
+  optionsOnProducts: OptionsOnProducts
+  optionId: Int 
 }
 
 type DistrictsOnOrders{
