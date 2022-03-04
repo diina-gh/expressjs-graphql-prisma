@@ -39,6 +39,11 @@ type Query {
   #District's Queries
   districts(filter: String, skip: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
   district(id: Int): [Region!]!
+  #DistrictsOnUser's Queries
+  districtsOnUsers(filter: String, skip: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
+  districtsOnUser(id: Int): [DistrictsOnUsers!]!
+  # districtsOnUsersByUserId(userId: Int, skip: Int, take: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
+
 }
 
 type Mutation {
@@ -81,6 +86,9 @@ type Mutation {
   #District's mutations
   saveDistrict(id: Int, name: String, shipping: Float, regionId: Int ): District!
   deleteDistrict(id:Int): District!
+  #DistrictsOnUsers's mutations
+  saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
+  deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
 }
 
 
@@ -358,10 +366,12 @@ type DistrictsOnOrders{
 }
 
 type DistrictsOnUsers{
+  id: ID!
   user: User
   userId: Int 
   district: District
   districtId: Int 
+  default: Boolean
   line1: String
   line2: String
   assignedAt: Date
@@ -635,3 +645,10 @@ input DistrictOrderByInput {
   shipping: Sort
   name: Sort
 }
+
+input DistrictsOnUsersOrderByInput {
+  createdat: Sort
+  line1: Sort
+  name: Sort
+}
+

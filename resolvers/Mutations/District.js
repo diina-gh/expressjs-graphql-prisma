@@ -18,7 +18,7 @@ export async function saveDistrict(parent, args, context, info) {
     var query1 = { id: args.regionId }
     var query2 = { name: args.name, regionId:args.regionId }
     var query3 = { id: {not: args.id,}}
-    if(args.id != null) query1.push(query3) && query2.push(query3) && query3.push(query3);
+    if(args.id != null) query2.push(query3) && query3.push(query3);
 
     let row = await context.prisma.region.findUnique({ where: query1 })
     if(!row) throw new UserInputError("Cette région n'éxiste pas.", {cstm_code: 'E3192013'});

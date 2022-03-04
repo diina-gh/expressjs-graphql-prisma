@@ -294,14 +294,16 @@ model DistrictsOnOrders{
 }
 
 model DistrictsOnUsers{
-  user            User?       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  id            Int      @id @default(autoincrement())
+  user            User?        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId          Int 
   district        District?    @relation(fields: [districtId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   districtId      Int 
+  default         Boolean      @default(false)
   line1           String?
   line2           String?
   assignedAt      DateTime     @default(now())
-  @@id([userId, districtId])
+  // @@id([userId, districtId])
 }
 
 

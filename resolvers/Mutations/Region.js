@@ -19,7 +19,7 @@ export async function saveRegion(parent, args, context, info) {
     var query2 = { code: args.code, countryId:args.countryId }
     var query3 = { name: args.name, countryId:args.countryId }
     var query4 = { id: {not: args.id,}}
-    if(args.id != null) query1.push(query4) && query2.push(query4) && query3.push(query4);
+    if(args.id != null) query2.push(query4) && query3.push(query4);
 
     let row = await context.prisma.country.findUnique({ where: query1 })
     if(!row) throw new UserInputError("Ce pays n'éxiste pas.", {cstm_code: 'E3192013'});

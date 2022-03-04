@@ -11,3 +11,4 @@ export * from "./CartItem.js";
 export * from "./Country.js";
 export * from "./Region.js";
 export * from "./District.js";
+export * from "./DistrictsOnUsers.js";
