@@ -88,9 +88,11 @@ type Mutation {
   #DistrictsOnUsers's mutations
   saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
   deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
-  #DistrictsOnUsers's mutations
-  saveOrder(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
-  deleteOrder(id:Int): DistrictsOnUsers!
+  #Order's mutations
+  saveOrder(id: Int, discount: Float, userId: Int, districtsOnUsersId: Int, cartItems: [CartItemInput] ): Order!
+  saveOrder2(id: Int, discount: Float, firstname: String, lastname: String, phonenumber: String, email: String, 
+             line1: String, line2: String, districtId: Int ): Order!
+  deleteOrder(id:Int): Order!
 }
 
 
@@ -110,18 +112,27 @@ type AuthPayload {
 
 type User {
   id: ID!
-  email: String!
+  email: String 
+  token: String
   phonenumber: String
   firstname: String
   lastname: String
   emailVerified: Boolean
   enabled: Boolean
-  lastlogin: String
+  lastlogin: Date
   password: String
   imageurl: String
   imagesrc: String
-  RolesOnUsers: [RolesOnUsers]
-  createdat: Date
+  admin: Boolean
+  vendor: Boolean
+  roles: [RolesOnUsers]
+  cart: Cart
+  districts: [DistrictsOnUsers]
+  orders: [Order]
+  transactions: [Transaction]
+  posts: [Post]
+  comments: [Comment]
+  notifications: [NotificationsOnUsers]
 }
 
 type Role {
@@ -325,13 +336,11 @@ type Order{
   token: String   
   status: Int
   subTotal: Float
-  itemDiscount: Float
   tax: Float
   total: Float
   promo: String
   discount: Float
-  grandTotal: Float
-  fistname: String
+  firstname: String
   lastname: String
   phonenumber: String
   email: String
@@ -345,10 +354,13 @@ type Order{
   line2: String
   district: District
   districtId: Int
+  orderItems: [OrderItem]
 }
 
 type OrderItem{
   id: Int
+  order: Order
+  orderId: Int
   product: Product
   productId: Int
   unitprice: Float
@@ -440,7 +452,6 @@ type NotificationsOnUsers{
   notification: Notification
   notificationId: Int 
 }
-
 
 type Notification{
   id: Int
@@ -552,6 +563,16 @@ input ImageInput {
   default: Boolean
   productId: Int
   optionId: Int
+}
+
+input CartItemInput {
+  id: Int
+  unitprice: Float
+  discount: Float
+  quantity: Int
+  active: Boolean
+  productId: Int 
+  optionId: Int 
 }
 
 

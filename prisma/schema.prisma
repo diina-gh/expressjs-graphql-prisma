@@ -247,16 +247,15 @@ model Transaction{
 
 model Order{
   id            Int      @id @default(autoincrement())
-  token         String   
+  token         String?   
   status        Int
   subTotal      Float
-  itemDiscount  Float?
   tax           Float?
   total         Float?
+  shipping      Float?
   promo         String?
   discount      Float?
-  grandTotal    Float?
-  fistname      String?
+  firstname      String?
   lastname      String?
   phonenumber   String?
   email         String?
@@ -270,10 +269,13 @@ model Order{
   line2         String?
   district      District? @relation(fields: [districtId], references: [id])
   districtId    Int?
+  orderItems    OrderItem[]
 }
 
 model  OrderItem{
   id            Int      @id @default(autoincrement())
+  order         Order    @relation(fields: [orderId], references: [id])
+  orderId       Int
   product       Product  @relation(fields: [productId], references: [id])
   productId     Int
   unitprice     Float
