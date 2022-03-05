@@ -42,7 +42,15 @@ type Query {
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, skip: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
   districtsOnUser(id: Int): [DistrictsOnUsers!]!
-
+  #Order's Queries
+  shippingMethods(filter: String, skip: Int, take: Int, orderBy: ShippingMethodOrderByInput): [ShippingMethod!]!
+  shippingMethod(id: Int): [ShippingMethod!]!
+  #Order's Queries
+  orders(filter: String, skip: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
+  order(id: Int): [Order!]!
+  #Shipment's Queries
+  shipmentStages(filter: String, skip: Int, take: Int, orderBy: ShipmentStageOrderByInput): [ShipmentStage!]!
+  shipmentStage(id: Int): [ShipmentStage!]!
 }
 
 type Mutation {
@@ -88,11 +96,17 @@ type Mutation {
   #DistrictsOnUsers's mutations
   saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
   deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
+  #ShippingMethod's mutations
+  saveShippingMethod(id: Int, code: String, name: String, desc: String ): ShippingMethod!
+  deleteShippingMethod(id:Int): ShippingMethod!
   #Order's mutations
-  saveOrder(id: Int, discount: Float, userId: Int, districtsOnUsersId: Int, cartItems: [CartItemInput] ): Order!
+  saveOrder(id: Int, discount: Float, userId: Int, districtsOnUsersId: Int, shippingMethodId: Int, cartItems: [CartItemInput] ): Order!
   saveOrder2(id: Int, discount: Float, firstname: String, lastname: String, phonenumber: String, email: String, 
              line1: String, line2: String, districtId: Int ): Order!
   deleteOrder(id:Int): Order!
+  #Shipment's mutations
+  saveShipmentStage(id: Int, stage: String, desc: String, nextStageId: Int): ShipmentStage!
+  deleteShipmentStage(id:Int): ShipmentStage!
 }
 
 
@@ -324,7 +338,7 @@ type Transaction{
   mode: Int
   status: Int
   createdat: Date
-  updatedat: DateTime
+  updatedat: Date
   user: User
   userId: Int 
   order: Order
@@ -372,6 +386,14 @@ type OrderItem{
   optionId: Int 
 }
 
+type ShippingMethod{
+    id: Int
+    code: String
+    name: String
+    desc: String
+    orders: [Order]
+}
+
 
 type DistrictsOnUsers{
   id: ID!
@@ -394,7 +416,7 @@ type District{
   regionId: Int 
   createdat: Date
   updatedat: Date
-  orders: [Orders]
+  orders: [Order]
   users: [DistrictsOnUsers]
 }
 
@@ -437,11 +459,11 @@ type ShipmentStage{
   stage: String
   desc: String
   nextStage: ShipmentStage
-  previousStage: ShipmentStage
   nextStageId: Int
   createdat: Date
   updatedat: Date
   shipments: [Shipment]
+  previous: ShipmentStage
 }
 
 type NotificationsOnUsers{
@@ -503,7 +525,7 @@ type PostCategoriesOnPosts{
   postId: Int 
   postCategory: PostCategory
   postCategoryId: Int 
-  createdat: DateTime  
+  createdat: Date
 }
 
 type PostCategory{
@@ -543,8 +565,8 @@ type PostTag{
 type PostMeta{
   id: Int
   key: String
-  createdat: DateTime
-  updatedat: DateTime
+  createdat: Date
+  updatedat: Date
   post: Post
   postId: Int 
 }
@@ -665,5 +687,25 @@ input DistrictsOnUsersOrderByInput {
   createdat: Sort
   line1: Sort
   name: Sort
+}
+
+input OrderOrderByInput {
+  createdat: Sort
+  updatedat: Sort
+  firstname: Sort
+  lastname: Sort
+  total: Sort
+}
+
+input ShippingMethodOrderByInput {
+  createdat: Sort
+  updatedat: Sort
+  name: Sort
+  code: Sort
+}
+
+input ShipmentStageOrderByInput {
+  createdat: Sort
+  stage: Sort
 }
 
