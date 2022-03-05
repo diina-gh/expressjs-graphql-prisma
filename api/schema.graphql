@@ -339,9 +339,12 @@ type Order{
   updatedat: Date
   user: User
   userId: Int 
-  districts: [DistrictsOnOrders]
   transactions: [Transaction]
   shipment: Shipment
+  line1: String
+  line2: String
+  district: District
+  districtId: Int
 }
 
 type OrderItem{
@@ -357,15 +360,6 @@ type OrderItem{
   optionId: Int 
 }
 
-type DistrictsOnOrders{
-  order: Order
-  orderId: Int 
-  district: District
-  districtId: Int 
-  line1: String
-  line2: String
-  assignedAt: Date
-}
 
 type DistrictsOnUsers{
   id: ID!
@@ -388,7 +382,7 @@ type District{
   regionId: Int 
   createdat: Date
   updatedat: Date
-  orders: [DistrictsOnOrders]
+  orders: [Orders]
   users: [DistrictsOnUsers]
 }
 
@@ -412,7 +406,6 @@ type Country{
   updatedat: Date
   regions: [Region]
 }
-
 
 type Shipment{
   id: Int
@@ -438,7 +431,6 @@ type ShipmentStage{
   updatedat: Date
   shipments: [Shipment]
 }
-
 
 type NotificationsOnUsers{
   id: Int 

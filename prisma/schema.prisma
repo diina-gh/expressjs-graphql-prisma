@@ -268,7 +268,8 @@ model Order{
   shipment      Shipment?
   line1         String?
   line2         String?
-  district      District?
+  district      District? @relation(fields: [districtId], references: [id])
+  districtId    Int?
 }
 
 model  OrderItem{
@@ -307,8 +308,7 @@ model District{
   createdat     DateTime @default(now())
   updatedat     DateTime?
   users         DistrictsOnUsers[]
-  order         Order?   @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  orderId       Int? 
+  orders        Order[]
 }
 
 model Region{
