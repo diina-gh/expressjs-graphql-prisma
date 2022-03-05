@@ -42,7 +42,6 @@ type Query {
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, skip: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
   districtsOnUser(id: Int): [DistrictsOnUsers!]!
-  # districtsOnUsersByUserId(userId: Int, skip: Int, take: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
 
 }
 
@@ -89,6 +88,9 @@ type Mutation {
   #DistrictsOnUsers's mutations
   saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
   deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
+  #DistrictsOnUsers's mutations
+  saveOrder(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
+  deleteOrder(id:Int): DistrictsOnUsers!
 }
 
 

@@ -264,9 +264,11 @@ model Order{
   updatedat     DateTime?
   user          User?       @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId        Int 
-  districts     DistrictsOnOrders[]
   transactions  Transaction[]
   shipment      Shipment?
+  line1         String?
+  line2         String?
+  district      District?
 }
 
 model  OrderItem{
@@ -280,17 +282,6 @@ model  OrderItem{
   updatedat     DateTime?
   optionsOnProducts  OptionsOnProducts?  @relation(fields: [optionId, productId], references: [optionId, productId], onUpdate: Cascade, onDelete: Cascade)
   optionId  Int 
-}
-
-model DistrictsOnOrders{
-  order           Order?       @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  orderId         Int 
-  district        District?     @relation(fields: [districtId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  districtId      Int 
-  line1           String?
-  line2           String?
-  assignedAt      DateTime     @default(now())
-  @@id([orderId, districtId])
 }
 
 model DistrictsOnUsers{
@@ -315,8 +306,9 @@ model District{
   regionId      Int 
   createdat     DateTime @default(now())
   updatedat     DateTime?
-  orders        DistrictsOnOrders[]
   users         DistrictsOnUsers[]
+  order         Order?   @relation(fields: [orderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  orderId       Int? 
 }
 
 model Region{
