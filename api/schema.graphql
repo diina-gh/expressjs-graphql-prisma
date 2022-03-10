@@ -301,7 +301,7 @@ type OptionsOnProducts {
 type Newsletter {
   id: ID!
   email: String
-  createdat: Date!
+  createdat: String
 }
 
 type Cart {
