@@ -2,55 +2,55 @@ type Query {
   info: String!
   #Auth's Queries
   users(filter: String, skip: Int, take: Int, orderBy: UserOrderByInput): [User!]!
-  user(id: Int): [User!]!
+  user(id: Int): User
   #Newsletters's Queries
-  newsletters(filter: String, skip: Int, take: Int, orderBy: NewsletterOrderByInput): [Newsletter!]!
-  newsletter(id: Int): [Newsletter!]!
+  newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): [Newsletter!]!
+  newsletter(id: Int): Newsletter
   #Categories's Queries
   categories(filter: String, skip: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
-  category(id: Int): [Category!]!
+  category(id: Int): Category
   #Permission's Queries
   permissions(filter: String, skip: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
-  permission(id: Int): [Permission!]!
+  permission(id: Int): Permission
   #Permission's Queries
   roles(filter: String, skip: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
-  role(id: Int): [Role!]!
+  role(id: Int): Role
   #Variant's Queries
   variants(filter: String, skip: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
-  variant(id: Int): [Variant!]!
+  variant(id: Int): Variant
   #Product's Queries
   products(filter: String, skip: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
-  product(id: Int): [Product!]!
+  product(id: Int): Product
   #Discount's Queries
   discounts(filter: String, skip: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
-  discount(id: Int): [Discount!]!
+  discount(id: Int): Discount
   #Inventory's Queries
   inventories(filter: String, skip: Int, take: Int, orderBy: InventoryOrderByInput): [Inventory!]!
-  inventory(id: Int): [Inventory!]!
+  inventory(id: Int): Inventory
   #CartItems's Queries
   cartItems(filter: String, skip: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
-  cartItem(id: Int): [Inventory!]!
+  cartItem(id: Int): Inventory
   #Country's Queries
   countries(filter: String, skip: Int, take: Int, orderBy: CountryOrderByInput): [Country!]!
-  country(id: Int): [Country!]!
+  country(id: Int): Country
   #Region's Queries
   regions(filter: String, skip: Int, take: Int, orderBy: RegionOrderByInput): [Region!]!
-  region(id: Int): [Region!]!
+  region(id: Int): Region
   #District's Queries
   districts(filter: String, skip: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
-  district(id: Int): [Region!]!
+  district(id: Int): Region
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, skip: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
-  districtsOnUser(id: Int): [DistrictsOnUsers!]!
+  districtsOnUser(id: Int): DistrictsOnUsers
   #Order's Queries
   shippingMethods(filter: String, skip: Int, take: Int, orderBy: ShippingMethodOrderByInput): [ShippingMethod!]!
-  shippingMethod(id: Int): [ShippingMethod!]!
+  shippingMethod(id: Int): ShippingMethod
   #Order's Queries
   orders(filter: String, skip: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
-  order(id: Int): [Order!]!
+  order(id: Int): Order
   #Shipment's Queries
   shipmentStages(filter: String, skip: Int, take: Int, orderBy: ShipmentStageOrderByInput): [ShipmentStage!]!
-  shipmentStage(id: Int): [ShipmentStage!]!
+  shipmentStage(id: Int): ShipmentStage
 }
 
 type Mutation {
@@ -607,6 +607,7 @@ enum Sort {
 }
 
 input NewsletterOrderByInput {
+  id: Sort
   createdat: Sort
   email: Sort
 }
