@@ -1,7 +1,9 @@
 
 export async function newsletters(parent, args, context, info) {
 
-  var skip = args.page && args.take ? (args.page - 1) * args.take : 0
+  const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+
+  const count = await context.prisma.category.count()
 
   const where = args.filter
   ? {
@@ -19,7 +21,7 @@ export async function newsletters(parent, args, context, info) {
     orderBy: args.orderBy,
   })
 
-  return items
+  return items.map(obj=> ({ ...obj, count }))
 
 }
 

@@ -1,55 +1,55 @@
 type Query {
   info: String!
   #Auth's Queries
-  users(filter: String, skip: Int, take: Int, orderBy: UserOrderByInput): [User!]!
+  users(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): [User!]!
   user(id: Int): User
   #Newsletters's Queries
   newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): [Newsletter!]!
   newsletter(id: Int): Newsletter
   #Categories's Queries
-  categories(filter: String, skip: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
+  categories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
   category(id: Int): Category
   #Permission's Queries
-  permissions(filter: String, skip: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
+  permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
   permission(id: Int): Permission
   #Permission's Queries
-  roles(filter: String, skip: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
+  roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
   role(id: Int): Role
   #Variant's Queries
-  variants(filter: String, skip: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
+  variants(filter: String, page: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
   variant(id: Int): Variant
   #Product's Queries
-  products(filter: String, skip: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
+  products(filter: String, page: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
   product(id: Int): Product
   #Discount's Queries
-  discounts(filter: String, skip: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
+  discounts(filter: String, page: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
   discount(id: Int): Discount
   #Inventory's Queries
-  inventories(filter: String, skip: Int, take: Int, orderBy: InventoryOrderByInput): [Inventory!]!
+  inventories(filter: String, page: Int, take: Int, orderBy: InventoryOrderByInput): [Inventory!]!
   inventory(id: Int): Inventory
   #CartItems's Queries
-  cartItems(filter: String, skip: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
+  cartItems(filter: String, page: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
   cartItem(id: Int): Inventory
   #Country's Queries
-  countries(filter: String, skip: Int, take: Int, orderBy: CountryOrderByInput): [Country!]!
+  countries(filter: String, page: Int, take: Int, orderBy: CountryOrderByInput): [Country!]!
   country(id: Int): Country
   #Region's Queries
-  regions(filter: String, skip: Int, take: Int, orderBy: RegionOrderByInput): [Region!]!
+  regions(filter: String, page: Int, take: Int, orderBy: RegionOrderByInput): [Region!]!
   region(id: Int): Region
   #District's Queries
-  districts(filter: String, skip: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
+  districts(filter: String, page: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
   district(id: Int): Region
   #DistrictsOnUser's Queries
-  districtsOnUsers(filter: String, skip: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
+  districtsOnUsers(filter: String, page: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
   districtsOnUser(id: Int): DistrictsOnUsers
   #Order's Queries
-  shippingMethods(filter: String, skip: Int, take: Int, orderBy: ShippingMethodOrderByInput): [ShippingMethod!]!
+  shippingMethods(filter: String, page: Int, take: Int, orderBy: ShippingMethodOrderByInput): [ShippingMethod!]!
   shippingMethod(id: Int): ShippingMethod
   #Order's Queries
-  orders(filter: String, skip: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
+  orders(filter: String, page: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
   order(id: Int): Order
   #Shipment's Queries
-  shipmentStages(filter: String, skip: Int, take: Int, orderBy: ShipmentStageOrderByInput): [ShipmentStage!]!
+  shipmentStages(filter: String, page: Int, take: Int, orderBy: ShipmentStageOrderByInput): [ShipmentStage!]!
   shipmentStage(id: Int): ShipmentStage
 }
 
@@ -613,33 +613,39 @@ input NewsletterOrderByInput {
 }
 
 input UserOrderByInput {
+   id: Sort
   createdat: Sort
   firstname: Sort
   lastname: Sort
 }
 
 input CategoryOrderByInput {
+   id: Sort
   createdat: Sort
   name: Sort
   order: Sort
 }
 
 input PermissionOrderByInput {
+   id: Sort
   createdat: Sort
   title: Sort
 }
 
 input RoleOrderByInput {
+   id: Sort
   createdat: Sort
   title: Sort
 }
 
 input VariantOrderByInput {
+   id: Sort
   createdat: Sort
   title: Sort
 }
 
 input ProductOrderByInput {
+   id: Sort
   createdat: Sort
   name: Sort
   ranking: Sort
@@ -650,22 +656,26 @@ input ProductOrderByInput {
 }
 
 input DiscountOrderByInput {
+   id: Sort
   createdat: Sort
   title: Sort
 }
 
 input InventoryOrderByInput {
+   id: Sort
   createdat: Sort
   quantity: Sort
 }
 
 input CartItemOrderByInput {
+   id: Sort
   createdat: Sort
   quantity: Sort
   unitprice: Sort
 }
 
 input CountryOrderByInput {
+   id: Sort
   createdat: Sort
   iso3: Sort
   isoNum: Sort
@@ -673,24 +683,28 @@ input CountryOrderByInput {
 }
 
 input RegionOrderByInput {
+   id: Sort
   createdat: Sort
   code: Sort
   name: Sort
 }
 
 input DistrictOrderByInput {
+   id: Sort
   createdat: Sort
   shipping: Sort
   name: Sort
 }
 
 input DistrictsOnUsersOrderByInput {
+   id: Sort
   createdat: Sort
   line1: Sort
   name: Sort
 }
 
 input OrderOrderByInput {
+   id: Sort
   createdat: Sort
   updatedat: Sort
   firstname: Sort
@@ -699,6 +713,7 @@ input OrderOrderByInput {
 }
 
 input ShippingMethodOrderByInput {
+   id: Sort
   createdat: Sort
   updatedat: Sort
   name: Sort
@@ -706,6 +721,7 @@ input ShippingMethodOrderByInput {
 }
 
 input ShipmentStageOrderByInput {
+   id: Sort
   createdat: Sort
   stage: Sort
 }

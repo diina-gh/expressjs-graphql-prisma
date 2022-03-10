@@ -1,6 +1,10 @@
 
 export async function variants(parent, args, context, info) {
 
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+
+    const count = await context.prisma.category.count()
+
     const where = args.filter
     ? {
       OR: [
@@ -13,12 +17,12 @@ export async function variants(parent, args, context, info) {
     const items = await context.prisma.variant.findMany({
       where,
       include: {options: true},
-      skip: args.skip,
+      skip: skip,
       take: args.take,
       orderBy: args.orderBy,
     })
   
-    return items
+    return items.map(obj=> ({ ...obj, count }))
   
   }
   

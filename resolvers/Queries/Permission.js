@@ -1,6 +1,8 @@
 
 export async function permissions(parent, args, context, info) {
 
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+    
     const count = await context.prisma.permission.count()
 
     const where = args.filter
@@ -15,7 +17,7 @@ export async function permissions(parent, args, context, info) {
     const items = await context.prisma.permission.findMany({
       where,
       include: {roles: {include:{role:true}},},
-      skip: args.skip,
+      skip: skip,
       take: args.take,
       orderBy: args.orderBy,
     })
