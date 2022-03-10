@@ -8,6 +8,7 @@ type Query {
   newsletter(id: Int): Newsletter
   #Categories's Queries
   categories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
+  subcategories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
   category(id: Int): Category
   #Permission's Queries
   permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
