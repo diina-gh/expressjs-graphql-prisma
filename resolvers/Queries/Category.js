@@ -30,7 +30,7 @@ export async function categories(parent, args, context, info) {
   
 }
 
-export async function subcategories(parent, args, context, info) {
+export async function subCategories(parent, args, context, info) {
 
   const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
