@@ -305,7 +305,7 @@ type OptionsOnProducts {
 type Newsletter {
   id: ID!
   email: String
-  createdat: DateTime
+  createdat: Date
 }
 
 type PaginatedNewsletter{

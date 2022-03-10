@@ -2,29 +2,33 @@ import { UserInputError} from "apollo-server-express";
 
 export async function saveCategory(parent, args, context, info) {
     
-  if(args.name == null){
-    throw new UserInputError("Veuillez donner un nom.", {cstm_code: 'E3192013'});
-  }
-  else if(args.desc == null){
-    throw new UserInputError("Veuillez donner une description.", {cstm_code: 'E3192013'});
-  }
-  else if(args.order == null){
-    throw new UserInputError("Veuillez donner un ordre.", {cstm_code: 'E3192013'});
-  }
-  else {
-    if(args.id == null){
-      let category = await context.prisma.category.findUnique({ where: { name: args.name } })
-      if (category) throw new UserInputError("Cette catégorie éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
-    }
-    else{
-      let category = await context.prisma.category.findUnique({ where: { id: args.id } })
-      if (!category) throw new UserInputError("Cette catégorie n'éxiste pas.", {cstm_code: 'E3192013'});
-    }
+  if(args.name == null) throw new UserInputError("Veuillez donner un nom.", {cstm_code: 'E3192013'});
+  
+  if(args.desc == null) throw new UserInputError("Veuillez donner une description.", {cstm_code: 'E3192013'});
+  
+  if(args.order == null) throw new UserInputError("Veuillez donner un ordre.", {cstm_code: 'E3192013'});
+
+  var query0 = { id: args.id }
+  var query1 = { name: args.name }
+  var query2 = { id: {not: args.id,}}
+  if(args.id != null) query1.push(query2);
+
+  let row = await context.prisma.category.findUnique({ where: query1 })
+  if(row) throw new UserInputError("Cette catégorie éxiste déjà. Veuillez choisir un autre nom.", {cstm_code: 'E3192013'});
+
+  if(args.parentId != null){
+    let row2 = await context.prisma.category.findUnique({ where: {id: args.parentId} })
+    if(!row2) throw new UserInputError("Cette catégorie parent n'éxiste pas.", {cstm_code: 'E3192013'});
   }
 
+  if(args.id != null){
+    let category = await context.prisma.category.findUnique({ where: query0 })
+    if (!category) throw new UserInputError("Cette catégorie n'éxiste pas.", {cstm_code: 'E3192013'});
+  }
+  
   const date = new Date()
-
-  const data= {name: args.name,desc: args.desc, long_desc:args.long_desc, order:args.order,parent:{connect:{id: args.parentId}} }
+  var data = {name: args.name,desc: args.desc, long_desc:args.long_desc, order:args.order }
+  if(args.parentId != null) data.parentId = args.parentId
 
   let category = await context.prisma.category.upsert({
     where: {id: args.id ? args.id : 0,},
