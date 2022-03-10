@@ -4,10 +4,10 @@ type Query {
   users(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): [User!]!
   user(id: Int): User
   #Newsletters's Queries
-  newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): [Newsletter!]!
+  newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): PaginatedNewsletter
   newsletter(id: Int): Newsletter
   #Categories's Queries
-  categories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): [Category!]!
+  categories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
   category(id: Int): Category
   #Permission's Queries
   permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
@@ -147,8 +147,6 @@ type User {
   posts: [Post]
   comments: [Comment]
   notifications: [NotificationsOnUsers]
-  count: Int
-
 }
 
 type Role {
@@ -157,8 +155,6 @@ type Role {
   desc: String
   RolesOnUsers: [RolesOnUsers]
   permissions: [PermissionsOnRoles]
-  count: Int
-
 }
 
 type Permission {
@@ -168,7 +164,6 @@ type Permission {
   createdat: Date
   updatedat: Date
   roles: [PermissionsOnRoles]
-  count: Int
 }
 
 
@@ -179,7 +174,6 @@ type RolesOnUsers {
   roleId: Int 
   assignedAt: Date
   assignedById: Int
-  count: Int
 }
 
 type PermissionsOnRoles {
@@ -189,7 +183,6 @@ type PermissionsOnRoles {
   roleId: Int 
   assignedAt: Date
   assignedById: Int
-  count: Int
 }
 
 type Category{
@@ -204,7 +197,11 @@ type Category{
   parent: Category
   parentId: Int
   childs: [Category]
+}
+
+type PaginatedCategory{
   count: Int
+  categories: [Category]
 }
 
 type Product {
@@ -233,8 +230,6 @@ type Product {
   variants: [VariantsOnProducts]
   options: [OptionsOnProducts]
   inventory: Inventory
-  count: Int
-
 }
 
 type Inventory {
@@ -245,7 +240,6 @@ type Inventory {
   details: String
   product: Product
   productId: Int
-  count: Int
 }
 
 type Discount {
@@ -257,7 +251,6 @@ type Discount {
   createdat: Date
   updatedat: Date 
   products: [Product]
-  count: Int
 }
 
 type Image {
@@ -269,7 +262,6 @@ type Image {
   productId: Int
   option: Option
   optionId: Int
-  count: Int
 }
 
 type VariantsOnProducts {
@@ -278,7 +270,6 @@ type VariantsOnProducts {
   variant: Variant
   variantId: Int 
   assignedAt: Date
-  count: Int
 }
 
 type Variant {
@@ -289,7 +280,6 @@ type Variant {
   updatedat: Date 
   options: [Option]
   products: [VariantsOnProducts]
-  count: Int
 }
 
 type Option {
@@ -300,7 +290,6 @@ type Option {
   variantId: Int
   products: [OptionsOnProducts]
   images: [Image]
-  count: Int
 }
 
 type OptionsOnProducts {
@@ -311,14 +300,17 @@ type OptionsOnProducts {
   assignedAt: Date
   cartItems: [CartItem]
   orderItems: [OrderItem]
-  count: Int
 }
 
 type Newsletter {
   id: ID!
   email: String
   createdat: DateTime
+}
+
+type PaginatedNewsletter{
   count: Int
+  newsletters: [Newsletter]
 }
 
 type Cart {
@@ -329,7 +321,6 @@ type Cart {
   cartItems: [CartItem]
   user: User
   userId: Int 
-  count: Int
 }
 
 type CartItem {
@@ -347,7 +338,6 @@ type CartItem {
   cartId: Int 
   optionsOnProducts: OptionsOnProducts
   optionId: Int 
-  count: Int
 }
 
 type Transaction{
@@ -362,7 +352,6 @@ type Transaction{
   userId: Int 
   order: Order
   orderId: Int 
-  count: Int
 }
 
 type Order{
@@ -389,7 +378,6 @@ type Order{
   district: District
   districtId: Int
   orderItems: [OrderItem]
-  count: Int
 }
 
 type OrderItem{
@@ -405,7 +393,6 @@ type OrderItem{
   updatedat: Date
   optionsOnProducts: OptionsOnProducts
   optionId: Int 
-  count: Int
 }
 
 type ShippingMethod{
@@ -414,7 +401,6 @@ type ShippingMethod{
     name: String
     desc: String
     orders: [Order]
-    count: Int
 }
 
 
@@ -428,7 +414,6 @@ type DistrictsOnUsers{
   line1: String
   line2: String
   assignedAt: Date
-  count: Int
 }
 
 
@@ -442,7 +427,6 @@ type District{
   updatedat: Date
   orders: [Order]
   users: [DistrictsOnUsers]
-  count: Int
 }
 
 type Region{
@@ -454,7 +438,6 @@ type Region{
   country: Country
   countryId: Int 
   districts: [District]
-  count: Int
 }
 
 type Country{
@@ -465,7 +448,6 @@ type Country{
   createdat: Date
   updatedat: Date
   regions: [Region]
-  count: Int
 }
 
 type Shipment{
@@ -479,7 +461,6 @@ type Shipment{
   orderId: Int 
   shipmentStage: ShipmentStage
   shipmentStageId: Int
-  count: Int
 }
 
 type ShipmentStage{
@@ -492,7 +473,6 @@ type ShipmentStage{
   updatedat: Date
   shipments: [Shipment]
   previous: ShipmentStage
-  count: Int
 }
 
 type NotificationsOnUsers{
@@ -502,7 +482,6 @@ type NotificationsOnUsers{
   userId: Int 
   notification: Notification
   notificationId: Int 
-  count: Int
 }
 
 type Notification{
@@ -513,7 +492,6 @@ type Notification{
   users: [NotificationsOnUsers]
   createdat: Date
   updatedat: Date
-  count: Int
 }
 
 # Blog types
@@ -535,7 +513,6 @@ type Post{
   postCategories: [PostCategoriesOnPosts]
   postTags: [PostTagsOnPosts]
   postMeta: PostMeta
-  count: Int
 }
 
 type Comment{
@@ -549,7 +526,6 @@ type Comment{
   userId: Int
   createdat: Date
   updatedat: Date
-  count: Int
 }
 
 type PostCategoriesOnPosts{
@@ -559,7 +535,6 @@ type PostCategoriesOnPosts{
   postCategory: PostCategory
   postCategoryId: Int 
   createdat: Date
-  count: Int
 }
 
 type PostCategory{
@@ -572,7 +547,6 @@ type PostCategory{
   childs: [PostCategory]
   createdat: Date
   updatedat: Date
-  count: Int
 }
 
 
@@ -583,7 +557,6 @@ type PostTagsOnPosts{
   postTag: PostTag
   postTagId: Int 
   createdat: Date  
-  count: Int
 }
 
 type PostTag{
@@ -596,7 +569,6 @@ type PostTag{
   childs: [PostTag]
   createdat: Date
   updatedat: Date
-  count: Int
 }
 
 type PostMeta{
@@ -606,8 +578,8 @@ type PostMeta{
   updatedat: Date
   post: Post
   postId: Int 
-  count: Int
 }
+
 
 
 # Input types definitions
@@ -623,7 +595,6 @@ input ImageInput {
   default: Boolean
   productId: Int
   optionId: Int
-
 }
 
 input CartItemInput {

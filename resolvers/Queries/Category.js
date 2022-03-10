@@ -1,9 +1,7 @@
 
 export async function categories(parent, args, context, info) {
 
-   const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-
-   const count = await context.prisma.category.count()
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
     const where = args.filter
     ? {
@@ -15,7 +13,7 @@ export async function categories(parent, args, context, info) {
     }
     : {}
   
-    const items = await context.prisma.category.findMany({
+    const categories = await context.prisma.category.findMany({
       where,
       include: {
         parent: true,
@@ -26,7 +24,8 @@ export async function categories(parent, args, context, info) {
       orderBy: args.orderBy,
     })
   
-    return items.map(obj=> ({ ...obj, count }))
+    const count = await context.prisma.category.count()
+    return {count, categories}
   
   }
   
