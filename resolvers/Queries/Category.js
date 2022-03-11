@@ -9,10 +9,11 @@ export async function categories(parent, args, context, info) {
         { name: { contains: args.filter } },
         { desc: { contains: args.filter } },
         { long_desc: { contains: args.filter } },
-        {parentId: null}
+        { parent: null}
       ],
     }
-    : {}
+    :
+    { parent: null}
   
     const categories = await context.prisma.category.findMany({
       where,
@@ -25,7 +26,10 @@ export async function categories(parent, args, context, info) {
       orderBy: args.orderBy,
     })
   
-    const count = await context.prisma.category.count()
+    const count = await context.prisma.category.count({
+      where: { parent: null}
+    })
+
     return {count, categories}
   
 }
@@ -40,10 +44,12 @@ export async function subCategories(parent, args, context, info) {
       { name: { contains: args.filter } },
       { desc: { contains: args.filter } },
       { long_desc: { contains: args.filter } },
-      {parentId:  {not: null,}}
+      { parentId: {not: null,}}
     ],
   }
-  : {}
+  :
+  { parentId: {not: null,}}
+
 
   const categories = await context.prisma.category.findMany({
     where,
@@ -56,7 +62,10 @@ export async function subCategories(parent, args, context, info) {
     orderBy: args.orderBy,
   })
 
-  const count = await context.prisma.category.count()
+  const count = await context.prisma.category.count({
+    where: { parentId: {not: null,}}
+  })
+
   return {count, categories}
 
 }
