@@ -30,7 +30,11 @@ export async function categories(parent, args, context, info) {
       where: { parent: null}
     })
 
-    return {count, categories}
+    const countSub = await context.prisma.category.count({
+      where: { parentId: {not: null,}}
+    })
+
+    return {count, countSub, categories}
   
 }
 
@@ -63,10 +67,14 @@ export async function subCategories(parent, args, context, info) {
   })
 
   const count = await context.prisma.category.count({
+    where: { parent: null}
+  })
+
+  const countSub = await context.prisma.category.count({
     where: { parentId: {not: null,}}
   })
 
-  return {count, categories}
+  return {count, countSub, categories}
 
 }
   
