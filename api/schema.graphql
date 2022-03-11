@@ -35,13 +35,13 @@ type Query {
   cartItems(filter: String, page: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
   cartItem(id: Int): Inventory
   #Country's Queries
-  countries(filter: String, page: Int, take: Int, orderBy: CountryOrderByInput): [Country!]!
+  countries(filter: String, page: Int, take: Int, orderBy: CountryOrderByInput): PaginatedCountry
   country(id: Int): Country
   #Region's Queries
-  regions(filter: String, page: Int, take: Int, orderBy: RegionOrderByInput): [Region!]!
+  regions(filter: String, page: Int, take: Int, orderBy: RegionOrderByInput): PaginatedRegion
   region(id: Int): Region
   #District's Queries
-  districts(filter: String, page: Int, take: Int, orderBy: DistrictOrderByInput): [District!]!
+  districts(filter: String, page: Int, take: Int, orderBy: DistrictOrderByInput): PaginatedDistrict
   district(id: Int): Region
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, page: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
@@ -445,6 +445,13 @@ type District{
   users: [DistrictsOnUsers]
 }
 
+type PaginatedDistrict{
+  count: Int
+  countRegions: Int
+  countCountries: Int
+  districts: [District]
+}
+
 type Region{
   id: Int
   code: String
@@ -456,6 +463,11 @@ type Region{
   districts: [District]
 }
 
+type PaginatedRegion{
+  count: Int
+  regions: [Region]
+}
+
 type Country{
   id: Int
   iso3: String  
@@ -464,6 +476,11 @@ type Country{
   createdat: Date
   updatedat: Date
   regions: [Region]
+}
+
+type PaginatedCountry{
+  count: Int
+  countries: [Country]
 }
 
 type Shipment{

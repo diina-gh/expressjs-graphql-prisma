@@ -3,8 +3,6 @@ export async function regions(parent, args, context, info) {
 
     const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
-    const count = await context.prisma.category.count()
-
     const where = args.filter
     ? {
       OR: [
@@ -20,7 +18,7 @@ export async function regions(parent, args, context, info) {
     }
     : {}
   
-    const items = await context.prisma.region.findMany({
+    const regions = await context.prisma.region.findMany({
       where,
       include: {country: true, districts: true,},
       skip: skip,
@@ -28,7 +26,8 @@ export async function regions(parent, args, context, info) {
       orderBy: args.orderBy,
     })
   
-    return items.map(obj=> ({ ...obj, count }))
+    const count = await context.prisma.region.count()
+    return {count, regions}
   
   }
   
