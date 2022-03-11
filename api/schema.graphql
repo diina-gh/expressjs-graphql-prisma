@@ -17,8 +17,11 @@ type Query {
   roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
   role(id: Int): Role
   #Variant's Queries
-  variants(filter: String, page: Int, take: Int, orderBy: VariantOrderByInput): [Variant!]!
+  variants(filter: String, page: Int, take: Int, orderBy: VariantOrderByInput): PaginatedVariant
   variant(id: Int): Variant
+  #Option's Queries
+  options(filter: String, page: Int, take: Int, orderBy: OptionOrderByInput): PaginatedOption
+  option(id: Int): Option
   #Product's Queries
   products(filter: String, page: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
   product(id: Int): Product
@@ -284,6 +287,12 @@ type Variant {
   products: [VariantsOnProducts]
 }
 
+type PaginatedVariant{
+  count: Int
+  countOpt: Int
+  variants: [Variant]
+}
+
 type Option {
   id: ID!
   value: String
@@ -292,6 +301,12 @@ type Option {
   variantId: Int
   products: [OptionsOnProducts]
   images: [Image]
+}
+
+type PaginatedOption{
+  count: Int
+  countOpt: Int
+  options: [Option]
 }
 
 type OptionsOnProducts {
@@ -651,9 +666,15 @@ input RoleOrderByInput {
 }
 
 input VariantOrderByInput {
-   id: Sort
+  id: Sort
   createdat: Sort
   title: Sort
+}
+
+input OptionOrderByInput {
+  id: Sort
+  createdat: Sort
+  value: Sort
 }
 
 input ProductOrderByInput {
