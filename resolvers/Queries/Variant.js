@@ -21,8 +21,10 @@ export async function variants(parent, args, context, info) {
     })
 
     const count = await context.prisma.variant.count()
+    const countOpt = await context.prisma.option.count()
+
   
-    return {count, variants}
+    return {count, countOpt, variants}
   
   }
   
