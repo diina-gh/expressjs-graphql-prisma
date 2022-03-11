@@ -305,7 +305,6 @@ type Option {
 
 type PaginatedOption{
   count: Int
-  countOpt: Int
   options: [Option]
 }
 
