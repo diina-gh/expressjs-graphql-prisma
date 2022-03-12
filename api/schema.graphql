@@ -46,8 +46,8 @@ type Query {
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, page: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
   districtsOnUser(id: Int): DistrictsOnUsers
-  #Order's Queries
-  shippingMethods(filter: String, page: Int, take: Int, orderBy: ShippingMethodOrderByInput): [ShippingMethod!]!
+  #shippingMethods's Queries
+  shippingMethods(filter: String, page: Int, take: Int, orderBy: ShippingMethodOrderByInput): PaginatedShippingMethod
   shippingMethod(id: Int): ShippingMethod
   #Order's Queries
   orders(filter: String, page: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
@@ -417,6 +417,11 @@ type ShippingMethod{
     name: String
     desc: String
     orders: [Order]
+}
+
+type PaginatedShippingMethod{
+  count: Int
+  shippingMethods: [ShippingMethod]
 }
 
 
