@@ -55,6 +55,9 @@ type Query {
   #Shipment's Queries
   shipmentStages(filter: String, page: Int, take: Int, orderBy: ShipmentStageOrderByInput): [ShipmentStage!]!
   shipmentStage(id: Int): ShipmentStage
+  #Delivery Man's Queries
+  deliveryMans(filter: String, page: Int, take: Int, orderBy: DeliveryManOrderByInput): PaginatedDeliveryMan
+  deliveryMan(id: Int): DeliveryMan
 }
 
 type Mutation {
@@ -111,6 +114,9 @@ type Mutation {
   #Shipment's mutations
   saveShipmentStage(id: Int, stage: String, desc: String, nextStageId: Int): ShipmentStage!
   deleteShipmentStage(id:Int): ShipmentStage!
+  #Delivery Man's mutations
+  saveDeliveryMan(id: Int, civility: Civility, firstname: String, lastname: String, phonenumber: String, email: String): DeliveryMan!
+  deleteDeliveryMan(id:Int): DeliveryMan!
 }
 
 
@@ -488,6 +494,21 @@ type PaginatedCountry{
   countries: [Country]
 }
 
+type DeliveryMan{
+  id: Int
+  email: String
+  civility: Civility
+  phonenumber: String
+  firstname: String
+  lastname: String
+  shipments: [Shipment]
+}
+
+type PaginatedDeliveryMan{
+  count: Int
+  deliveryMans: [DeliveryMan]
+}
+
 type Shipment{
   id: Int
   shipmentTrackingNumber: Int
@@ -499,6 +520,13 @@ type Shipment{
   orderId: Int 
   shipmentStage: ShipmentStage
   shipmentStageId: Int
+  deliveryMan: DeliveryMan
+  deliveryManId: Int 
+}
+
+type PaginatedShipment{
+  count: Int
+  shipments: [Shipment]
 }
 
 type ShipmentStage{
@@ -511,6 +539,11 @@ type ShipmentStage{
   updatedat: Date
   shipments: [Shipment]
   previous: ShipmentStage
+}
+
+type PaginatedShipmentStage{
+  count: Int
+  shipmentStages: [ShipmentStage]
 }
 
 type NotificationsOnUsers{
@@ -647,11 +680,16 @@ input CartItemInput {
 
 
 
-# Sorting input types definitions
+# Enum and input types definitions
 
 enum Sort {
   asc
   desc
+}
+
+enum Civility {
+  MONSIEUR
+  MADAME
 }
 
 input NewsletterOrderByInput {
@@ -661,10 +699,12 @@ input NewsletterOrderByInput {
 }
 
 input UserOrderByInput {
-   id: Sort
+  id: Sort
   createdat: Sort
   firstname: Sort
   lastname: Sort
+  email: Sort
+  phonenumber: Sort
 }
 
 input CategoryOrderByInput {
@@ -779,4 +819,14 @@ input ShipmentStageOrderByInput {
   createdat: Sort
   stage: Sort
 }
+
+input DeliveryManOrderByInput {
+  id: Sort
+  createdat: Sort
+  firstname: Sort
+  lastname: Sort
+  email: Sort
+  phonenumber: Sort
+}
+
 

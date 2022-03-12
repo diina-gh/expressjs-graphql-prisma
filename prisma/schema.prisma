@@ -346,6 +346,18 @@ model ShippingMethod{
     updatedat   DateTime?
 }
 
+model DeliveryMan{
+  id            Int      @id @default(autoincrement())
+  civility      String?
+  email         String   @unique @db.VarChar(100)
+  phonenumber   String?  @db.VarChar(100)
+  firstname     String?  @db.VarChar(100)
+  lastname      String?  @db.VarChar(100)
+  createdat     DateTime @default(now())
+  updatedat     DateTime?
+  shipments     Shipment[]
+}
+
 
 model Shipment{
   id                       Int      @id @default(autoincrement())
@@ -358,6 +370,8 @@ model Shipment{
   orderId                  Int 
   shipmentStage            ShipmentStage?    @relation(fields: [shipmentStageId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   shipmentStageId          Int
+  deliveryMan              DeliveryMan?      @relation(fields: [deliveryManId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  deliveryManId            Int 
 }
 
 model ShipmentStage{

@@ -15,6 +15,7 @@ export * from "./DistrictsOnUsers.js";
 export * from "./Order.js";
 export * from "./ShippingMethod.js";
 export * from "./ShipmentStage.js";
+export * from "./DeliveryMan.js";
 
 
 
