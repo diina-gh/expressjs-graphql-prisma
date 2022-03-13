@@ -3,8 +3,6 @@ export async function products(parent, args, context, info) {
 
     const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
-    const count = await context.prisma.category.count()
-
     const where = args.filter
     ? {
       OR: [
@@ -19,7 +17,7 @@ export async function products(parent, args, context, info) {
     }
     : {}
   
-    const items = await context.prisma.product.findMany({
+    const products = await context.prisma.product.findMany({
       where,
       include: {variants: {include:{variant:true}}, options: {include:{option:true}}, category: { include: {parent: true,childs: true}} , inventory: true, images: true,},
       skip: skip,
@@ -27,7 +25,8 @@ export async function products(parent, args, context, info) {
       orderBy: args.orderBy,
     })
   
-    return items.map(obj=> ({ ...obj, count }))
+    const count = await context.prisma.product.count()
+    return {count, products}
   
   }
   

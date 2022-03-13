@@ -23,7 +23,7 @@ type Query {
   options(filter: String, page: Int, take: Int, orderBy: OptionOrderByInput): PaginatedOption
   option(id: Int): Option
   #Product's Queries
-  products(filter: String, page: Int, take: Int, orderBy: ProductOrderByInput): [Product!]!
+  products(filter: String, page: Int, take: Int, orderBy: ProductOrderByInput): PaginatedProduct
   product(id: Int): Product
   #Discount's Queries
   discounts(filter: String, page: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
@@ -270,6 +270,11 @@ type Product {
   variants: [VariantsOnProducts]
   options: [OptionsOnProducts]
   inventory: Inventory
+}
+
+type PaginatedProduct{
+  count: Int
+  products: [Product]
 }
 
 type Inventory {
