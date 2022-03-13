@@ -86,6 +86,18 @@ model Category{
   childs      Category[]  @relation("ParentChilds")
 }
 
+model Brand{
+  id          Int      @id @default(autoincrement())
+  name        String    
+  desc        String
+  order       Int?
+  createdat   DateTime @default(now())
+  updatedat   DateTime? 
+  products    Product[]
+  image       Image? @relation(fields: [imageId], references: [id])
+  imageId     Int?
+}
+
 model Product {
   id          Int      @id @default(autoincrement())
   sku         String?
@@ -107,6 +119,8 @@ model Product {
   images      Image[]
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  brand       Brand?   @relation(fields: [brandId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  brandId     Int?
   discount    Discount? @relation(fields: [discountId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   discountId  Int?
   variants    VariantsOnProducts[]
@@ -151,7 +165,9 @@ model Image {
   productId             Int?
   option                Option? @relation(fields: [optionId], references: [id])
   optionId              Int?
-  // productId Int
+  brand                 Brand?
+  createdat   DateTime @default(now())
+  updatedat   DateTime?
 }
 
 

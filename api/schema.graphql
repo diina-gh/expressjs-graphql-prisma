@@ -58,6 +58,9 @@ type Query {
   #Delivery Man's Queries
   deliveryMans(filter: String, page: Int, take: Int, orderBy: DeliveryManOrderByInput): PaginatedDeliveryMan
   deliveryMan(id: Int): DeliveryMan
+  #Brand's Queries
+  brands(filter: String, page: Int, take: Int, orderBy: BrandOrderByInput): PaginatedBrand
+  brand(id: Int): Brand
 }
 
 type Mutation {
@@ -117,6 +120,12 @@ type Mutation {
   #Delivery Man's mutations
   saveDeliveryMan(id: Int, civility: Civility, firstname: String, lastname: String, phonenumber: String, email: String): DeliveryMan!
   deleteDeliveryMan(id:Int): DeliveryMan!
+  #Brand's mutations
+  saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): Brand!
+  deleteBrand(id:Int): Brand!
+  #Brand's mutations
+  saveImage(id: Int, url: String, imageref: String, default: Boolean): Image!
+  deleteImage(id:Int): Image!
 }
 
 
@@ -215,6 +224,24 @@ type PaginatedCategory{
   categories: [Category]
 }
 
+type Brand{
+  id: Int
+  name: String 
+  desc: String
+  order: Int
+  createdat: DateTime
+  updatedat: DateTime
+  products: [Product]
+  imageId: Int
+  image: Image
+}
+
+type PaginatedBrand{
+  count: Int
+  brands: [Brand]
+}
+
+
 type Product {
   id: ID!
   sku: String
@@ -236,6 +263,8 @@ type Product {
   images: [Image]
   category: Category
   categoryId:Int
+  brand: Brand
+  brandId:Int
   discount: Discount
   discountId: Int
   variants: [VariantsOnProducts]
@@ -273,6 +302,7 @@ type Image {
   productId: Int
   option: Option
   optionId: Int
+  brand: Brand
 }
 
 type VariantsOnProducts {
@@ -666,6 +696,7 @@ input ImageInput {
   default: Boolean
   productId: Int
   optionId: Int
+  brandId: Int
 }
 
 input CartItemInput {
@@ -827,6 +858,13 @@ input DeliveryManOrderByInput {
   lastname: Sort
   email: Sort
   phonenumber: Sort
+}
+
+input BrandOrderByInput {
+  id: Sort
+  name: Sort
+  desc: Sort
+  order: Sort
 }
 
 

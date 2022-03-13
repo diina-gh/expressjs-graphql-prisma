@@ -16,6 +16,9 @@ export * from "./Order.js";
 export * from "./ShippingMethod.js";
 export * from "./ShipmentStage.js";
 export * from "./DeliveryMan.js";
+export * from "./Brand.js";
+export * from "./Image.js";
+
 
 
 
