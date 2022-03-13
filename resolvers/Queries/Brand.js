@@ -8,7 +8,6 @@ export async function brands(parent, args, context, info) {
       OR: [
         { name: { contains: args.filter } },
         { desc: { contains: args.filter } },
-        { long_desc: { contains: args.filter } },
       ],
     }
     :
