@@ -6,9 +6,9 @@ export async function deliveryMans(parent, args, context, info) {
     const where = args.filter
     ? {
       OR: [
-        { name: { contains: args.filter } },
-        { iso3: { contains: args.filter } },
-        { isoNum: { contains: args.filter } },
+        { firstname: { contains: args.filter } },
+        { lastname: { contains: args.filter } },
+        { email: { contains: args.filter } },
       ],
     }
     : {}
