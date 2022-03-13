@@ -29,7 +29,7 @@ type Query {
   discounts(filter: String, page: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
   discount(id: Int): Discount
   #Inventory's Queries
-  inventories(filter: String, page: Int, take: Int, orderBy: InventoryOrderByInput): [Inventory!]!
+  inventories(filter: String, page: Int, take: Int, orderBy: InventoryOrderByInput): PaginatedInventory
   inventory(id: Int): Inventory
   #CartItems's Queries
   cartItems(filter: String, page: Int, take: Int, orderBy: CartItemOrderByInput): [CartItem!]!
@@ -285,6 +285,11 @@ type Inventory {
   details: String
   product: Product
   productId: Int
+}
+
+type PaginatedInventory{
+  count: Int
+  inventories: [Inventory]
 }
 
 type Discount {
