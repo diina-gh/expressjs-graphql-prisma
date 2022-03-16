@@ -15,7 +15,7 @@ export async function saveImage(parent, args, context, info) {
   var data = {url: args.url, imageref: args.imageref, default: args.default}
 
   let image = args.id ? 
-    await context.prisma.image.update({data: {...data, updatedat: date}}) :
+    await context.prisma.image.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
     await context.prisma.image.create({data: data})
   
   return image

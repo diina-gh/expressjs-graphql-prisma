@@ -21,7 +21,7 @@ export async function saveBrand(parent, args, context, info) {
 
   let brand = args.id ? 
 
-    await context.prisma.brand.update({data: {...data, updatedat: date}}) :
+    await context.prisma.brand.update({where: {id:args.id},data: {...data, updatedat: date}}) :
     await context.prisma.brand.create({data: data})
   
   return brand
