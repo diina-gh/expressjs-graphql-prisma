@@ -95,20 +95,20 @@ type Mutation {
   saveCartItem(id: Int, unitprice: Float, discount: Float, quantity: Int, productId: Int, optionId: Int ): CartItem!
   deleteCartItem(id:Int): CartItem!
   #Country's mutations
-  saveCountry(id: Int, iso3: String, isoNum: String, name: String): Country!
-  deleteCountry(id:Int): Country!
+  saveCountry(id: Int, iso3: String, isoNum: String, name: String): CountryResult!
+  deleteCountry(id:Int): CountryResult!
   #Region's mutations
-  saveRegion(id: Int, code: String, name: String, countryId: Int ): Region!
-  deleteRegion(id:Int): Region!
+  saveRegion(id: Int, code: String, name: String, countryId: Int ): RegionResult!
+  deleteRegion(id:Int): RegionResult!
   #District's mutations
-  saveDistrict(id: Int, name: String, shipping: Float, regionId: Int ): District!
-  deleteDistrict(id:Int): District!
+  saveDistrict(id: Int, name: String, shipping: Float, regionId: Int ): DistrictResult!
+  deleteDistrict(id:Int): DistrictResult!
   #DistrictsOnUsers's mutations
   saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
   deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
   #ShippingMethod's mutations
-  saveShippingMethod(id: Int, code: String, name: String, desc: String ): ShippingMethod!
-  deleteShippingMethod(id:Int): ShippingMethod!
+  saveShippingMethod(id: Int, code: String, name: String, desc: String ): ShippingMethodResult!
+  deleteShippingMethod(id:Int): ShippingMethodResult!
   #Order's mutations
   saveOrder(id: Int, discount: Float, userId: Int, districtsOnUsersId: Int, shippingMethodId: Int, cartItems: [CartItemInput] ): Order!
   saveOrder2(id: Int, discount: Float, firstname: String, lastname: String, phonenumber: String, email: String, 
@@ -118,8 +118,8 @@ type Mutation {
   saveShipmentStage(id: Int, stage: String, desc: String, nextStageId: Int): ShipmentStage!
   deleteShipmentStage(id:Int): ShipmentStage!
   #Delivery Man's mutations
-  saveDeliveryMan(id: Int, civility: Civility, firstname: String, lastname: String, phonenumber: String, email: String): DeliveryMan!
-  deleteDeliveryMan(id:Int): DeliveryMan!
+  saveDeliveryMan(id: Int, civility: Civility, firstname: String, lastname: String, phonenumber: String, email: String): DeliveryManResult!
+  deleteDeliveryMan(id:Int): DeliveryManResult!
   #Brand's mutations
   saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): BrandResult!
   deleteBrand(id:Int): BrandResult!
@@ -480,6 +480,7 @@ type PaginatedShippingMethod{
   shippingMethods: [ShippingMethod]
 }
 
+union ShippingMethodResult = ShippingMethod | InputError
 
 type DistrictsOnUsers{
   id: ID!
@@ -492,7 +493,6 @@ type DistrictsOnUsers{
   line2: String
   assignedAt: Date
 }
-
 
 type District{
   id: Int
@@ -513,6 +513,8 @@ type PaginatedDistrict{
   districts: [District]
 }
 
+union DistrictResult = District | InputError
+
 type Region{
   id: Int
   code: String
@@ -529,6 +531,8 @@ type PaginatedRegion{
   regions: [Region]
 }
 
+union RegionResult = Region | InputError
+
 type Country{
   id: Int
   iso3: String  
@@ -544,6 +548,8 @@ type PaginatedCountry{
   countries: [Country]
 }
 
+union CountryResult = Country | InputError
+
 type DeliveryMan{
   id: Int
   email: String
@@ -558,6 +564,8 @@ type PaginatedDeliveryMan{
   count: Int
   deliveryMans: [DeliveryMan]
 }
+
+union DeliveryManResult = DeliveryMan | InputError
 
 type Shipment{
   id: Int
