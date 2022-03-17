@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/diina-gh/trade#readme",
   "dependencies": {
-    "@prisma/client": "^3.10.0",
     "apollo-server-core": "^3.6.3",
     "apollo-server-express": "^3.6.3",
     "bcryptjs": "^2.4.3",
@@ -35,9 +34,10 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
+    "@prisma/client": "^3.11.0",
     "consola": "^2.15.3",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
-    "prisma": "^3.10.0"
+    "prisma": "^3.11.0"
   }
 }

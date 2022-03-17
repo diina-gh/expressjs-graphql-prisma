@@ -71,8 +71,8 @@ type Mutation {
   saveNewsletter(id:Int, email: String): Newsletter!
   deleteNewsletter(id:Int): Newsletter!
   #Category's mutations
-  saveCategory(id:Int, name: String!, desc: String!, long_desc: String, order: Int!, parentId: Int, updatedat: String): Category!
-  deleteCategory(id:Int): Category!
+  saveCategory(id:Int, name: String, desc: String, long_desc: String, order: Int, parentId: Int, updatedat: String): CategoryResult!
+  deleteCategory(id:Int): CategoryResult!
   #Permission's mutations
   savePermission(id:Int, title: String, desc:String): Permission!
   deletePermission(id:Int): Permission!
@@ -121,11 +121,11 @@ type Mutation {
   saveDeliveryMan(id: Int, civility: Civility, firstname: String, lastname: String, phonenumber: String, email: String): DeliveryMan!
   deleteDeliveryMan(id:Int): DeliveryMan!
   #Brand's mutations
-  saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): Brand!
-  deleteBrand(id:Int): Brand!
+  saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): BrandResult!
+  deleteBrand(id:Int): BrandResult!
   #Brand's mutations
-  saveImage(id: Int, url: String, imageref: String, default: Boolean): Image!
-  deleteImage(id:Int): Image!
+  saveImage(id: Int, url: String, imageref: String, default: Boolean, productId: Int, optionId: Int, brandId: Int): ImageResult!
+  deleteImage(id:Int): ImageResult!
 }
 
 
@@ -137,6 +137,11 @@ scalar DateTime
 
 
 # Type definitions
+
+type InputError{
+  message: String
+  input: String
+}
 
 type AuthPayload {
   token: String
@@ -224,6 +229,8 @@ type PaginatedCategory{
   categories: [Category]
 }
 
+union CategoryResult = Category | InputError
+
 type Brand{
   id: Int
   name: String 
@@ -232,7 +239,6 @@ type Brand{
   createdat: DateTime
   updatedat: DateTime
   products: [Product]
-  imageId: Int
   image: Image
 }
 
@@ -241,6 +247,7 @@ type PaginatedBrand{
   brands: [Brand]
 }
 
+union BrandResult = Brand | InputError
 
 type Product {
   id: ID!
@@ -313,7 +320,10 @@ type Image {
   option: Option
   optionId: Int
   brand: Brand
+  brandId: Int
 }
+
+union ImageResult = Image | InputError
 
 type VariantsOnProducts {
   product: Product

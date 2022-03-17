@@ -94,8 +94,7 @@ model Brand{
   createdat   DateTime @default(now())
   updatedat   DateTime? 
   products    Product[]
-  image       Image? @relation(fields: [imageId], references: [id])
-  imageId     Int?
+  image       Image?
 }
 
 model Product {
@@ -161,13 +160,14 @@ model Image {
   url                   String
   imageref              String
   default               Boolean  @default(false)
-  product               Product? @relation(fields: [productId], references: [id])
+  product               Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId             Int?
-  option                Option? @relation(fields: [optionId], references: [id])
+  option                Option? @relation(fields: [optionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   optionId              Int?
-  brand                 Brand?
-  createdat   DateTime @default(now())
-  updatedat   DateTime?
+  brand                 Brand? @relation(fields: [brandId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  brandId               Int?
+  createdat             DateTime @default(now())
+  updatedat             DateTime?
 }
 
 

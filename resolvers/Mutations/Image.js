@@ -1,33 +1,31 @@
-import { UserInputError} from "apollo-server-express";
-
 export async function saveImage(parent, args, context, info) {
     
-  if(args.url == null) throw new UserInputError("Veuillez donner l'url de l'image.", {cstm_code: 'E3192013'});
+  if(args.url == null) return { __typename: "InputError", message: `Veuillez donner l'url de l'image.`,};
     
-  if(args.imageref == null) throw new UserInputError("Veuillez donner l'imageref de l'image.", {cstm_code: 'E3192013'});
+  if(args.imageref == null) return { __typename: "InputError", message: `Veuillez donner l'imageref de l'image.`,};
 
   if(args.id != null){
     let image = await context.prisma.image.findUnique({ where: {id: args.id} })
-    if (!image) throw new UserInputError("Cette image n'éxiste pas.", {cstm_code: 'E3192013'});
+    if (!image) return { __typename: "InputError", message: `Cette image n'éxiste pas.`,};
   }
   
   const date = new Date()
-  var data = {url: args.url, imageref: args.imageref, default: args.default}
+  var data = {url: args.url, imageref: args.imageref, default: args.default, productId: args.productId, optionId: args.optionId, brandId: args.brandId}
 
   let image = args.id ? 
     await context.prisma.image.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
     await context.prisma.image.create({data: data})
-  
-  return image
+
+    return { __typename: "Image", ...image};
 }
 
 export async function deleteImage(parent, args, context, info){
 
   let entity = await context.prisma.image.findUnique({ where: { id: args.id } })
-  if(!entity) throw new UserInputError("Cette image n'éxiste pas.", {cstm_code: 'E3192013'});
+  if(!entity) return { __typename: "InputError", message: `Cette image n'éxiste pas.`,};
 
-  const deletedEntity = await context.prisma.image.delete({where: {id: args.id,},})
-  return deletedEntity
+  let deletedEntity = await context.prisma.image.delete({where: {id: args.id,},})
+  return { __typename: "Image", ...deletedEntity};
 
 }
 
