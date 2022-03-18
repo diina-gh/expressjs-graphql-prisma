@@ -1,5 +1,3 @@
-import { UserInputError} from "apollo-server-express";
-
 export async function saveRegion(parent, args, context, info) {
     
   if(args.code == null || args.code.length != 2) return { __typename: "InputError", message: `Veuillez donner le code (le code d'une région doit comporter 2 charactère)`,};
@@ -33,7 +31,8 @@ export async function saveRegion(parent, args, context, info) {
   let region = args.id ? 
             await context.prisma.region.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
             await context.prisma.region.create({data: data})
-  return region
+  
+  return { __typename: "Region", ...region,};
 
 }
 
