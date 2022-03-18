@@ -30,7 +30,7 @@ export async function brands(parent, args, context, info) {
 
   
 export async function brand(parent, args, context, info) {
-  try {
+  // try {
 
       if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant 😣`,};
 
@@ -38,9 +38,9 @@ export async function brand(parent, args, context, info) {
       if(!entity)  return { __typename: "InputError", message: `Cette marque n'éxiste pas.`,};
     
       return { __typename: "Brand", ...entity,};
-  }
-  catch (e) {
-      console.log("Get brand error => ", e)
-      return { __typename: "InputError", message: `Erreur interne du serveur. .`}
-  }
+  // }
+  // catch (e) {
+  //     console.error("Get brand error => ", e)
+  //     return { __typename: "InputError", message: `Erreur interne du serveur.`}
+  // }
 }

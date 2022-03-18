@@ -141,6 +141,7 @@ scalar DateTime
 type InputError{
   message: String
   input: String
+  reason: String
 }
 
 type AuthPayload {
