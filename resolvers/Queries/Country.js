@@ -27,8 +27,12 @@ export async function countries(parent, args, context, info) {
   }
   
   export async function country(parent, args, context, info) {
-    return await context.prisma.country.findUnique({
-        where: {id: args.id,},
-        include: {regions: {include:{districts:true}}, },
-    })
+
+    if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
+
+    let entity = await context.prisma.country.findUnique({where: {id: args.id,},include: {regions: {include:{districts:true}}, },})
+    if(!entity) return { __typename: "InputError", message: `Ce pays n'éxiste pas.`,};
+   
+    return { __typename: "Country", ...entity,};
+  
   }

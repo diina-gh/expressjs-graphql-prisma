@@ -36,13 +36,13 @@ type Query {
   cartItem(id: Int): Inventory
   #Country's Queries
   countries(filter: String, page: Int, take: Int, orderBy: CountryOrderByInput): PaginatedCountry
-  country(id: Int): Country
+  country(id: Int): CountryResult
   #Region's Queries
   regions(filter: String, page: Int, take: Int, orderBy: RegionOrderByInput): PaginatedRegion
-  region(id: Int): Region
+  region(id: Int): RegionResult
   #District's Queries
   districts(filter: String, page: Int, take: Int, orderBy: DistrictOrderByInput): PaginatedDistrict
-  district(id: Int): Region
+  district(id: Int): DistrictResult
   #DistrictsOnUser's Queries
   districtsOnUsers(filter: String, page: Int, take: Int, userId: Int, orderBy: DistrictsOnUsersOrderByInput): [DistrictsOnUsers!]!
   districtsOnUser(id: Int): DistrictsOnUsers
@@ -60,7 +60,7 @@ type Query {
   deliveryMan(id: Int): DeliveryMan
   #Brand's Queries
   brands(filter: String, page: Int, take: Int, orderBy: BrandOrderByInput): PaginatedBrand
-  brand(id: Int): Brand
+  brand(id: Int): BrandResult
 }
 
 type Mutation {

@@ -21,6 +21,8 @@ export async function saveBrand(parent, args, context, info) {
 
 export async function deleteBrand(parent, args, context, info){
 
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant 😣`,};
+
   let entity = await context.prisma.brand.findUnique({ where: { id: args.id } })
   if(!entity) return { __typename: "InputError", message: `Cette marque n'éxiste pas.`,};
  
