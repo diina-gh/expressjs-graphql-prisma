@@ -30,12 +30,17 @@ export async function brands(parent, args, context, info) {
 
   
 export async function brand(parent, args, context, info) {
+  try {
 
-  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant 😣`,};
+      if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant 😣`,};
 
-  let entity =  await context.prisma.brand.findUnique({where: {id: args.id,},include: {image: true},  })
-  if(!entity)  return { __typename: "InputError", message: `Cette marque n'éxiste pas.`,};
-
-  return { __typename: "Brand", ...entity,};
-
+      let entity =  await context.prisma.brand.findUnique({where: {id: args.id,},include: {image: true},  })
+      if(!entity)  return { __typename: "InputError", message: `Cette marque n'éxiste pas.`,};
+    
+      return { __typename: "Brand", ...entity,};
+  }
+  catch (e) {
+      console.error("Get brand error => ", e)
+      return { __typename: "InputError", message: `Erreur interne du serveur. .`}
+  }
 }
