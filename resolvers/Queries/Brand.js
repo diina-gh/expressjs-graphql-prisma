@@ -40,7 +40,7 @@ export async function brand(parent, args, context, info) {
       return { __typename: "Brand", ...entity,};
   }
   catch (e) {
-      console.error("Get brand error => ", e)
+      console.log("Get brand error => ", e)
       return { __typename: "InputError", message: `Erreur interne du serveur. .`}
   }
 }
