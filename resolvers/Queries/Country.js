@@ -27,7 +27,7 @@ export async function countries(parent, args, context, info) {
   }
   
   export async function country(parent, args, context, info) {
-    return await prisma.country.findUnique({
+    return await context.prisma.country.findUnique({
         where: {id: args.id,},
         include: {regions: {include:{districts:true}}, },
     })
