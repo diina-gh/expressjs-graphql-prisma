@@ -45,7 +45,7 @@ model RolesOnUsers {
 
 model Role {
   id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(200) @unique
+  name       String   @db.VarChar(200) @unique
   desc        String?   @db.VarChar(400)
   createdat   DateTime @default(now())
   updatedat   DateTime? 
@@ -65,7 +65,7 @@ model PermissionsOnRoles {
 
 model Permission {
   id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(200) @unique
+  name       String   @db.VarChar(200) @unique
   desc        String   @db.VarChar(400)
   createdat   DateTime @default(now())
   updatedat   DateTime? 
@@ -141,7 +141,7 @@ model Inventory {
 
 model Discount {
   id          Int       @id @default(autoincrement())
-  title       String    @unique
+  name       String    @unique
   desc        String
   percent     Decimal
   enabled     Boolean   @default(false)
@@ -183,7 +183,7 @@ model VariantsOnProducts {
 
 model Variant {
   id          Int      @id @default(autoincrement())
-  title       String   @unique
+  name       String   @unique
   desc        String
   createdat   DateTime @default(now())
   updatedat   DateTime?
@@ -428,7 +428,7 @@ model Notification{
 
 model Post{
   id            Int       @id @default(autoincrement())
-  title         String?
+  name         String?
   metaTitle     String?
   slug          String?
   summary       String?
@@ -469,7 +469,7 @@ model PostCategoriesOnPosts{
 
 model PostCategory{
   id            Int       @id @default(autoincrement())
-  title         String
+  name         String
   desc          String?
   posts         PostCategoriesOnPosts[]
   parent        PostCategory?  @relation("PostCategoryParentChilds", fields: [parentId], references: [id])
@@ -491,7 +491,7 @@ model PostTagsOnPosts{
 
 model PostTag{
   id            Int       @id @default(autoincrement())
-  title         String
+  name         String
   desc          String?
   posts         PostTagsOnPosts[]
   parent        PostTag?  @relation("PostTagParentChilds", fields: [parentId], references: [id])

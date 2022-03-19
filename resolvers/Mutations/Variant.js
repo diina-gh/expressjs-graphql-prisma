@@ -2,32 +2,33 @@ import { UserInputError} from "apollo-server-express";
 
 export async function saveVariant(parent, args, context, info) {
     
-  if(args.title == null){
-    throw new UserInputError("Veuillez donner une désignation.", {cstm_code: 'E3192013'});
-  }
-  else if(args.desc == null){
-    throw new UserInputError("Veuillez donner une description.", {cstm_code: 'E3192013'});
-  }
-  else if(args.options == null || args.options?.length <= 0){
-    throw new UserInputError("Veuillez ajoutez des options pour ce variant.", {cstm_code: 'E3192013'});
-  }
-  
-  else {
+  if(args.title == null || args.title == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.options == null || args.options?.length <= 0)  return { __typename: "InputError", message: `Veuillez ajoutez des options pour ce variant`,};
 
-    for (let i = 0; i < args.options.length; i++) {
-        if(args.options[i].value == null || args.options[i].value == '') throw new UserInputError("Veuillez donner la valeur de l'option " + (i+1), {cstm_code: 'E3192013'});
-        if( args.title.toLowerCase().includes("couleur") && (args.options[i].colorCode == null || args.options[i].colorCode == '')) throw new UserInputError("Veuillez donner le code couleur de l'option " + i, {cstm_code: 'E3192013'});
-    }
+  var query0 = { id: args.id }
+  var query1 = { name: args.name }
+  var query2 = {not: args.id,}
 
-    if(args.id == null){
-      let variant = await context.prisma.variant.findUnique({ where: { title: args.title } })
-      if (variant) throw new UserInputError("Ce variant éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
-    }
+  if(args.id != null){
+    let region = await context.prisma.region.findUnique({ where: query0 })
+    if (!region) return { __typename: "InputError", message: `Cette région n'éxiste pas`,};
+    query2.id = query4; query3.id = query4 ;
+  } 
+ 
+  for (let i = 0; i < args.options.length; i++) {
+      if(args.options[i].value == null || args.options[i].value == '') return { __typename: "InputError", message: `Veuillez donner la valeur de l'option ${i+1}`,}; 
+      if( args.title.toLowerCase().includes("couleur") && (args.options[i].colorCode == null || args.options[i].colorCode == '')) return { __typename: "InputError", message: `Veuillez donner le code couleur de l'option ${i+1}`,};
+  }
 
-    else{
-      let variant = await context.prisma.variant.findUnique({ where: { id: args.id } })
-      if (!variant) throw new UserInputError("Ce variant n'éxiste pas.", {cstm_code: 'E3192013'});
-    }
+  if(args.id == null){
+    let variant = await context.prisma.variant.findUnique({ where: { title: args.title } })
+    if (variant) throw new UserInputError("Ce variant éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
+  }
+
+  else{
+    let variant = await context.prisma.variant.findUnique({ where: { id: args.id } })
+    if (!variant) throw new UserInputError("Ce variant n'éxiste pas.", {cstm_code: 'E3192013'});
   }
 
   const date = new Date()
