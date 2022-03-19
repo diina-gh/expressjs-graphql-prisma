@@ -8,18 +8,18 @@ export async function saveCountry(parent, args, context, info) {
 
   if(args.id != null){
     let country = await context.prisma.country.findUnique({ where: query0 })
-    if (!country) return { __typename: "InputError", message: `Ce pays n'éxiste pas 😪`,};
+    if (!country) return { __typename: "InputError", message: `Ce pays n'éxiste pas`,};
     query1.id = query4; query2.id = query4; query3.id = query4;
   } 
 
-  let row = await context.prisma.country.findUnique({ where: query1 })
-  if(row) return { __typename: "InputError", message: `Ce code iso3 est déjà attribué à un pays 😫`,};
+  let row = await context.prisma.country.findFirst({ where: query1 })
+  if(row) return { __typename: "InputError", message: `Ce code iso3 est déjà attribué à un pays`,};
 
-  let row2 = await context.prisma.country.findUnique({ where: query2 })
-  if(row2) return { __typename: "InputError", message: `Ce code iso numérique est déjà attribué à un pays 😫`,};
+  let row2 = await context.prisma.country.findFirst({ where: query2 })
+  if(row2) return { __typename: "InputError", message: `Ce code iso numérique est déjà attribué à un pays`,};
 
-  let row3 = await context.prisma.country.findUnique({ where: query3 })
-  if(row3) return { __typename: "InputError", message: `Ce nom est déjà attribué à un pays 😫`,};
+  let row3 = await context.prisma.country.findFirst({ where: query3 })
+  if(row3) return { __typename: "InputError", message: `Ce nom est déjà attribué à un pays`,};
 
   const date = new Date()
   const data= {iso3: args.iso3, isoNum: args.isoNum, name: args.name}
