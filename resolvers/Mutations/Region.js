@@ -47,7 +47,7 @@ export async function deleteRegion(parent, args, context, info){
   if(district) return { __typename: "InputError", message: `Cette région est liée à des quartiers`,};
     
   const deletedEntity = await context.prisma.region.delete({where: {id: args.id,},})
-  return { __typename: "Country", ...deletedEntity,};
+  return { __typename: "Region", ...deletedEntity,};
   
 }
 
