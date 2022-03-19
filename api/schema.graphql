@@ -9,7 +9,7 @@ type Query {
   #Categories's Queries
   categories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
   subCategories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
-  category(id: Int): Category
+  category(id: Int): CategoryResult
   #Permission's Queries
   permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
   permission(id: Int): Permission

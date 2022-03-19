@@ -34,13 +34,13 @@ export async function saveCountry(parent, args, context, info) {
 
 export async function deleteCountry(parent, args, context, info){
 
-  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant 😣`,};
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
   let entity = await context.prisma.country.findUnique({ where: { id: args.id } })
-  if(!entity) return { __typename: "InputError", message: `Ce pays n'éxiste pas 😔`,};
+  if(!entity) return { __typename: "InputError", message: `Ce pays n'éxiste pas`,};
 
   let region = await context.prisma.region.findFirst({where: { countryId: args.id}})
-  if(region) return { __typename: "InputError", message: `Ce pays est lié à des régions 😔`,};
+  if(region) return { __typename: "InputError", message: `Ce pays est lié à des régions`,};
     
   const deletedEntity = await context.prisma.country.delete({where: {id: args.id,},})
   return { __typename: "Country", ...deletedEntity,};

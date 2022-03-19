@@ -79,8 +79,11 @@ export async function subCategories(parent, args, context, info) {
 }
   
 export async function category(parent, args, context, info) {
-  return await context.prisma.category.findUnique({
-      where: {id: args.id,},
-      include: {parent: true,childs: true},
-  })
+
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
+
+  let entity =  await context.prisma.category.findUnique({where: {id: args.id,}, include: {parent: true, childs: true},})
+  if(!entity) return { __typename: "InputError", message: `Cette catégorie n'éxiste pas.`,};
+   
+  return { __typename: "Category", ...entity,};
 }
