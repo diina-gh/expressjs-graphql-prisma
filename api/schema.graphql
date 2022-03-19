@@ -71,7 +71,7 @@ type Mutation {
   saveNewsletter(id:Int, email: String): Newsletter!
   deleteNewsletter(id:Int): Newsletter!
   #Category's mutations
-  saveCategory(id:Int, name: String, desc: String, long_desc: String, order: Int, activated: Boolean, parentId: Int, updatedat: String): CategoryResult!
+  saveCategory(id:Int, name: String, desc: String, order: Int, activated: Boolean, parentId: Int, updatedat: String): CategoryResult!
   deleteCategory(id:Int): CategoryResult!
   #Permission's mutations
   savePermission(id:Int, name: String, desc:String): Permission!

@@ -21,7 +21,7 @@ export async function saveCategory(parent, args, context, info) {
   }
 
   const date = new Date()
-  var data = {name: args.name.toLowerCase(),desc: args.desc, long_desc:args.long_desc, order:args.order }
+  var data = {name: args.name.toLowerCase(),desc: args.desc, order:args.order, activated: args.activated}
   if(args.parentId != null) data.parentId = args.parentId
 
   let category = args.id ? 
