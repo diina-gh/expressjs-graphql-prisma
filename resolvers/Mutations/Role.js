@@ -2,7 +2,7 @@ import { UserInputError} from "apollo-server-express";
 
 export async function saveRole(parent, args, context, info) {
     
-  if(args.title == null){
+  if(args.name == null){
     throw new UserInputError("Veuillez donner une désignation.", {cstm_code: 'E3192013'});
   }
   else if(args.desc == null){
@@ -20,7 +20,7 @@ export async function saveRole(parent, args, context, info) {
     }
 
     if(args.id == null){
-      let role = await context.prisma.role.findUnique({ where: { title: args.title } })
+      let role = await context.prisma.role.findUnique({ where: { name: args.name } })
       if (role) throw new UserInputError("Ce role éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
     }
 
@@ -38,7 +38,7 @@ export async function saveRole(parent, args, context, info) {
     links.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:args.permissions[i]}}});
   }
 
-  const data= {title: args.title, desc: args.desc, permissions: {create: links}}
+  const data= {name: args.name, desc: args.desc, permissions: {create: links}}
 
   let role = args.id ? 
             await context.prisma.role.update({data: {...data, updatedat: date}}) :

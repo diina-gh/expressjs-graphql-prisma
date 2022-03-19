@@ -2,7 +2,7 @@ import { UserInputError} from "apollo-server-express";
 
 export async function saveDiscount(parent, args, context, info) {
     
-  if(args.title == null){
+  if(args.name == null){
     throw new UserInputError("Veuillez donner une désignation.", {cstm_code: 'E3192013'});
   }
   else if(args.desc == null){
@@ -23,7 +23,7 @@ export async function saveDiscount(parent, args, context, info) {
     }
 
     if(args.id == null){
-      let discount = await context.prisma.discount.findUnique({ where: { title: args.title } })
+      let discount = await context.prisma.discount.findUnique({ where: { name: args.name } })
       if (discount) throw new UserInputError("Cette remise éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
     }
 
@@ -41,7 +41,7 @@ export async function saveDiscount(parent, args, context, info) {
     links.push({ id: args.products[i]});
   }
 
-  const data= {title: args.title, desc: args.desc, percent:args.percent, products: {connect: links}}
+  const data= {name: args.name, desc: args.desc, percent:args.percent, products: {connect: links}}
 
   let discount = args.id ? 
             await context.prisma.discount.update({data: {...data, updatedat: date}}) :

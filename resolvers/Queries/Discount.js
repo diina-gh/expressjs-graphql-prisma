@@ -8,7 +8,7 @@ export async function discounts(parent, args, context, info) {
     const where = args.filter
     ? {
       OR: [
-        { title: { contains: args.filter } },
+        { name: { contains: args.filter } },
         { desc: { contains: args.filter } },
       ],
     }

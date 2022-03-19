@@ -2,7 +2,7 @@ import { UserInputError} from "apollo-server-express";
 
 export async function savePermission(parent, args, context, info) {
     
-  if(args.title == null){
+  if(args.name == null){
     throw new UserInputError("Veuillez donner une désignation.", {cstm_code: 'E3192013'});
   }
   else if(args.desc == null){
@@ -10,7 +10,7 @@ export async function savePermission(parent, args, context, info) {
   }
   else {
     if(args.id == null){
-      let permission = await context.prisma.permission.findUnique({ where: { title: args.title } })
+      let permission = await context.prisma.permission.findUnique({ where: { name: args.name } })
       if (permission) throw new UserInputError("Cette permission éxiste déjà. Veuillez choisir un autre nom", {cstm_code: 'E3192013'});
     }
     else{
@@ -20,7 +20,7 @@ export async function savePermission(parent, args, context, info) {
   }
 
   const date = new Date()
-  const data= {title: args.title,desc: args.desc }
+  const data= {name: args.name,desc: args.desc }
 
   let permission = await context.prisma.permission.upsert({
     where: {id: args.id ? args.id : 0,},
