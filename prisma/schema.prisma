@@ -78,6 +78,7 @@ model Category{
   desc        String
   long_desc   String?
   order       Int?
+  activated   Boolean @default(false)
   createdat   DateTime @default(now())
   updatedat   DateTime? 
   products    Product[]
