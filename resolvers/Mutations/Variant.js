@@ -1,5 +1,3 @@
-import { UserInputError} from "apollo-server-express";
-
 export async function saveVariant(parent, args, context, info) {
     
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
@@ -26,6 +24,8 @@ export async function saveVariant(parent, args, context, info) {
 
   const date = new Date()
   const data= {name: args.name.toLowerCase(), desc: args.desc, options: {create: args.options}}
+
+  if(args.id) await prisma.option.deleteMany({where: { variantId: args.id },})
 
   let variant = args.id ? 
             await context.prisma.variant.update({data: {...data, updatedat: date}}) :
