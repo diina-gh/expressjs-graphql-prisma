@@ -1,6 +1,6 @@
 export async function saveRegion(parent, args, context, info) {
     
-  if(args.code == null || args.code.length != 2) return { __typename: "InputError", message: `Veuillez donner le code (le code d'une région doit comporter 2 charactère)`,};
+  if(args.code == null || args.code.length != 2) return { __typename: "InputError", message: `Veuillez donner le code (le code d'une région doit comporter 2 charactères)`,};
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner le nom de la région`,};
   if(args.countryId == null) return { __typename: "InputError", message: `Veuillez sélectionner un pays`,};
 

@@ -1,7 +1,6 @@
 
 export async function countries(parent, args, context, info) {
 
-    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
     const where = args.filter
     ? {
@@ -13,13 +12,13 @@ export async function countries(parent, args, context, info) {
     }
     : {}
   
-    const countries = await context.prisma.country.findMany({
-      where,
-      include: {regions: {include:{districts:true}}, },
-      skip: skip,
-      take: args.take,
-      orderBy: args.orderBy,
-    })
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+    var query = {where, include: {regions: {include:{districts:true}}, }, skip: skip,}
+    
+    if(args.take) query.take = args.take
+    if(args.orderBy) query.orderBy = args.orderBy
+
+    const countries = await context.prisma.country.findMany(query)
   
     const count = await context.prisma.country.count()
     return {count, countries}
