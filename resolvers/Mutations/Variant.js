@@ -28,7 +28,7 @@ export async function saveVariant(parent, args, context, info) {
   if(args.id) await context.prisma.option.deleteMany({where: { variantId: args.id },})
 
   let variant = args.id ? 
-            await context.prisma.variant.update({data: {...data, updatedat: date}}) :
+            await context.prisma.variant.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
             await context.prisma.variant.create({data: data})
 
   return { __typename: "Variant", ...variant,};
