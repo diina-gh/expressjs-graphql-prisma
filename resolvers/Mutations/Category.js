@@ -46,6 +46,6 @@ export async function deleteCategory(parent, args, context, info){
   if(child) return { __typename: "InputError", message: `Cette catégorie est liée à d'autres catégories`,};
 
   const deletedEntity = await context.prisma.category.delete({where: {id: args.id,},})
-  return deletedEntity
+  return { __typename: "Category", ...deletedEntity,};
 
 }
