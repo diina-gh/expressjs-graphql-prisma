@@ -22,7 +22,7 @@ export async function saveShippingMethod(parent, args, context, info) {
             await context.prisma.shippingMethod.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
             await context.prisma.shippingMethod.create({data: data})
 
-    return shippingMethod
+    return { __typename: "ShippingMethod", ...shippingMethod,};
 }
 
 export async function deleteShippingMethod(parent, args, context, info){
