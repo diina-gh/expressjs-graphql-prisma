@@ -10,7 +10,7 @@ export async function saveImage(parent, args, context, info) {
   }
   
   const date = new Date()
-  var data = {url: args.url, imageref: args.imageref, default: args.default, productId: args.productId, optionId: args.optionId, brandId: args.brandId}
+  var data = {url: args.url, imageref: args.imageref, default: args.default, productId: args.productId, optionId: args.optionId, brandId: args.brandId, categoryId: args.categoryId}
 
   let image = args.id ? 
     await context.prisma.image.update({where: {id:args.id}, data: {...data, updatedat: date}}) :

@@ -85,6 +85,7 @@ model Category{
   parentId    Int?
   parent      Category?   @relation("ParentChilds", fields: [parentId], references: [id])
   childs      Category[]  @relation("ParentChilds")
+  image       Image?
 }
 
 model Brand{
@@ -167,6 +168,8 @@ model Image {
   optionId              Int?
   brand                 Brand? @relation(fields: [brandId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   brandId               Int?
+  category              Category? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  categoryId            Int?
   createdat             DateTime @default(now())
   updatedat             DateTime?
 }
