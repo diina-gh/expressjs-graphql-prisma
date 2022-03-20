@@ -4,7 +4,7 @@ export async function saveShippingMethod(parent, args, context, info) {
     if(args.code == null ) return { __typename: "InputError", message: `Veuillez donner un code`,};
     if(args.desc == null ) return { __typename: "InputError", message: `Veuillez donner une description`,};
 
-    var query0 = { id: args.id }, query1 = { code: args.iso3 }, query2 = {not: args.id,}
+    var query0 = { id: args.id }, query1 = { code: args.code }, query2 = {not: args.id,}
 
     if(args.id != null){
       let shippingMethod = await context.prisma.shippingMethod.findUnique({ where: query0 })
