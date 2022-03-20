@@ -2,49 +2,44 @@ import { UserInputError} from "apollo-server-express";
 
 export async function saveDeliveryMan(parent, args, context, info) {
     
-    if(args.civility == null) throw new UserInputError("Veuillez donner une civilité.", {cstm_code: 'E3192013'});
-
-    if(args.civility != "MONSIEUR" && args.civility != "MADAME") throw new UserInputError("Veuillez donner une civilité valide.", {cstm_code: 'E3192013'});
-
-    if(args.firstname == null) throw new UserInputError("Veuillez donner un prénom.", {cstm_code: 'E3192013'});
-      
-    if(args.lastname == null) throw new UserInputError("Veuillez donner un nom.", {cstm_code: 'E3192013'});
-      
-    if (args.phonenumber == null) throw new UserInputError("Veuillez donner un numéro de téléphone.", {cstm_code: 'E3192013'});
+    if(args.civility == null) return { __typename: "InputError", message: `Veuillez donner une civilité`,}; 
+    if(args.civility != "MONSIEUR" && args.civility != "MADAME") return { __typename: "InputError", message: `Veuillez donner une civilité valide`,};
+    if(args.firstname == null) return { __typename: "InputError", message: `Veuillez donner un prénom`,};
+    if(args.lastname == null) return { __typename: "InputError", message: `Veuillez donner un nom`,};
+    if (args.phonenumber == null) return { __typename: "InputError", message: `Veuillez donner un numéro de téléphone`,};
+    if (args.email == null) return { __typename: "InputError", message: `Veuillez donner une adresse email`,};
     
-    if (args.email == null) throw new UserInputError("Veuillez donner une adresse email.", {custom_code: 'E3192013' });
-    
-    var query0 = { id: args.id }
-    var query1 = { email: args.email }
-    var query2 = { id: {not: args.id,}}
-    if(args.id != null) query1.push(query2)
-
-    let row = await context.prisma.deliveryMan.findUnique({ where: query1 })
-    if(row) throw new UserInputError("Cette adresse email est déjà attribuée à un livreur.", {cstm_code: 'E3192013'});
+    var query0 = { id: args.id }, query1 = { email: args.email }, query2 = {not: args.id,}
 
     if(args.id != null){
-        let deliveryMan = await context.prisma.deliveryMan.findUnique({ where: query0 })
-        if (!deliveryMan) throw new UserInputError("Ce livreur n'éxiste pas.", {cstm_code: 'E3192013'});
-    }
+      let deliveryMan = await context.prisma.deliveryMan.findUnique({ where: query0 })
+      if (!deliveryMan) return { __typename: "InputError", message: `Ce livreur n'éxiste pas`,};
+      query1.id = query2
+    } 
+
+    let row = await context.prisma.deliveryMan.findFirst({ where: query1 })
+    if(row) return { __typename: "InputError", message: `Cette adresse email est déjà attribuée à un livreur`,};
 
     const date = new Date()
     const data= {civility:args.civility, firstname: args.firstname, lastname: args.lastname, phonenumber: args.phonenumber, email:args.email}
 
     let deliveryMan = args.id ? 
-                await context.prisma.deliveryMan.update({data: {...data, updatedat: date}}) :
+                await context.prisma.deliveryMan.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
                 await context.prisma.deliveryMan.create({data: data})
-    return deliveryMan
+
+    return { __typename: "DeliveryMan", ...deliveryMan,};
 
 }
 
 export async function deleteDeliveryMan(parent, args, context, info){
 
-  let entity = await context.prisma.deliveryMan.findUnique({ where: { id: args.id } })
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
-  if(!entity) throw new UserInputError("Ce livreur n'éxiste pas.", {cstm_code: 'E3192013'});
+  let entity = await context.prisma.deliveryMan.findUnique({ where: { id: args.id } })
+  if(!entity) return { __typename: "InputError", message: `Ce livreur n'éxiste pas`,};
     
   const deletedEntity = await context.prisma.deliveryMan.delete({where: {id: args.id,},})
-  return deletedEntity
+  return { __typename: "DeliveryMan", ...deletedEntity,};
   
 }
 

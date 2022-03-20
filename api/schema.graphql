@@ -57,7 +57,7 @@ type Query {
   shipmentStage(id: Int): ShipmentStage
   #Delivery Man's Queries
   deliveryMans(filter: String, page: Int, take: Int, orderBy: DeliveryManOrderByInput): PaginatedDeliveryMan
-  deliveryMan(id: Int): DeliveryMan
+  deliveryMan(id: Int): DeliveryManResult
   #Brand's Queries
   brands(filter: String, page: Int, take: Int, orderBy: BrandOrderByInput): PaginatedBrand
   brand(id: Int): BrandResult
