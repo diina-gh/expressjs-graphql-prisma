@@ -1,8 +1,6 @@
 
 export async function categories(parent, args, context, info) {
 
-    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-
     const where = args.filter
     ? {
       OR: [
@@ -14,33 +12,24 @@ export async function categories(parent, args, context, info) {
     }
     :
     { parent: null}
-  
-    const categories = await context.prisma.category.findMany({
-      where,
-      include: {
-        parent: true,
-        childs: true
-      },
-      skip: skip,
-      take: args.take,
-      orderBy: args.orderBy,
-    })
-  
-    const count = await context.prisma.category.count({
-      where: { parent: null}
-    })
 
-    const countSub = await context.prisma.category.count({
-      where: { parentId: {not: null,}}
-    })
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+    var query = {where, include: {parent: true,childs: true, image: true}, skip: skip,}
+    
+    if(args.take) query.take = args.take
+    if(args.orderBy) query.orderBy = args.orderBy
+  
+    const categories = await context.prisma.category.findMany(query)
+  
+    const count = await context.prisma.category.count({where: { parent: null}})
+
+    const countSub = await context.prisma.category.count({where: { parentId: {not: null,}}})
 
     return {count, countSub, categories}
   
 }
 
 export async function subCategories(parent, args, context, info) {
-
-  const skip = args.page && args.take ? (args.page - 1) * args.take : 0
 
   const where = args.filter
   ? {
@@ -54,17 +43,13 @@ export async function subCategories(parent, args, context, info) {
   :
   { parentId: {not: null,}}
 
+  const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+  var query = {where, include: {parent: true, childs: true, image: true}, skip: skip,}
+  
+  if(args.take) query.take = args.take
+  if(args.orderBy) query.orderBy = args.orderBy
 
-  const categories = await context.prisma.category.findMany({
-    where,
-    include: {
-      parent: true,
-      childs: true
-    },
-    skip: skip,
-    take: args.take,
-    orderBy: args.orderBy,
-  })
+  const categories = await context.prisma.category.findMany(query)
 
   const count = await context.prisma.category.count({
     where: { parent: null}
