@@ -24,7 +24,7 @@ type Query {
   option(id: Int): Option
   #Product's Queries
   products(filter: String, page: Int, take: Int, orderBy: ProductOrderByInput): PaginatedProduct
-  product(id: Int): Product
+  product(id: Int): ProductResult
   #Discount's Queries
   discounts(filter: String, page: Int, take: Int, orderBy: DiscountOrderByInput): [Discount!]!
   discount(id: Int): Discount
@@ -83,8 +83,8 @@ type Mutation {
   saveVariant(id:Int, name: String, desc:String, options:[OptionInput]): VariantResult!
   deleteVariant(id:Int): VariantResult!
   #Product's mutations
-  saveProduct(id:Int, sku: String, name:String, short_desc: String, long_desc: String, status: Int , activated: Boolean, unit: String, unitweight: Float, unitprice: Float, taxable: Boolean, order: Int, categoryId: Int, discountId: Int, images:[ImageInput] ,variants:[Int], options:[Int]): Product!
-  deleteProduct(id:Int): Product!
+  saveProduct(id:Int, name:String, short_desc: String, long_desc: String, activated: Boolean, unit: String, unitweight: Float, unitprice: Float, order: Int, categoryId: Int, brandId: Int, variants:[Int], options:[Int]): ProductResult!
+  deleteProduct(id:Int): ProductResult!
   #Discount's mutations
   saveDiscount(id:Int, name: String, desc:String, percent: Float, products:[Int]): Discount!
   deleteDiscount(id:Int): Discount!

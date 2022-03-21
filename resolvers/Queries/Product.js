@@ -30,9 +30,12 @@ export async function products(parent, args, context, info) {
   
   }
   
-  export async function product(parent, args, context, info) {
-    return await prisma.product.findUnique({
-        where: {id: args.id,},
-        include: {variants: {include:{variant:true}}, options: {include:{option:true}}, category: { include: {parent: true,childs: true}} , inventory: true, images: true,},
-      })
-  }
+export async function product(parent, args, context, info) {
+
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
+
+  let entity =  await prisma.product.findUnique({where: {id: args.id,}, include: {variants: {include:{variant:true}}, options: {include:{option:true}}, category: { include: {parent: true,childs: true}} , brand: true, inventory: true, images: true,},})
+  if(!entity) return { __typename: "InputError", message: `Ce produit n'éxiste pas.`,};
+
+  return { __typename: "Product", ...entity,};
+}

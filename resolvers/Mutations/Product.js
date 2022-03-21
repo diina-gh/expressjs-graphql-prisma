@@ -1,43 +1,34 @@
-import { UserInputError} from "apollo-server-express";
-
-
 export async function saveProduct(parent, args, context, info) {
-    
-  if(args.name == null) throw new UserInputError("Veuillez donner une désignation.", {cstm_code: 'E3192013'});
-  
-  if(args.short_desc == null) throw new UserInputError("Veuillez donner une description.", {cstm_code: 'E3192013'});
-  
-  if(args.unit == null) throw new UserInputError("Veuillez donner l'unité du produit.", {cstm_code: 'E3192013'});
-  
-  if(args.unitweight == null) throw new UserInputError("Veuillez donner le poids par unité.", {cstm_code: 'E3192013'});
-  
-  if(args.unitprice == null) throw new UserInputError("Veuillez donner le prix par unité.", {cstm_code: 'E3192013'});
-  
-  if(args.categoryId == null) throw new UserInputError("Veuillez choisir une catégorie.", {cstm_code: 'E3192013'});
-  
-  if(args.brandId == null) throw new UserInputError("Veuillez choisir une marque.", {cstm_code: 'E3192013'});
-
-  if(args.images == null || args.images?.length <= 0) throw new UserInputError("Veuillez ajoutez des images.", {cstm_code: 'E3192013'});
-  
-  let category = await context.prisma.category.findUnique({ where: { id: args.id } })
-  if(!category) throw new UserInputError("Cette catégorie n'éxiste pas.", {cstm_code: 'E3192013'});
-
-  let brand = await context.prisma.brand.findUnique({ where: { id: args.id } })
-  if(!brand) throw new UserInputError("Cette marque n'éxiste pas.", {cstm_code: 'E3192013'});
-
-  for (let i = 0; i < args.images.length; i++) {
-      if(args.images[i].url == null || args.images[i].url == '') throw new UserInputError("Veuillez donner l'url de l'image " + (i+1), {cstm_code: 'E3192013'});
-      if(args.images[i].imageref == null || args.images[i].imageref == '') throw new UserInputError("Veuillez donner la référence de l'image " + (i+1), {cstm_code: 'E3192013'});
-  }
-
-  if(args.variants != null && args.variants.length >= 0){
-      if(args.options == null || args.options.length <= 0) throw new UserInputError("Veuillez donner des options pour les variants de ce produit.", {cstm_code: 'E3192013'});
-  }
 
   if(args.id != null){
     let product = await context.prisma.product.findUnique({ where: { id: args.id } })
-    if (!product) throw new UserInputError("Ce produit n'éxiste pas.", {cstm_code: 'E3192013'});
+    if (!product) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,}; 
   }
+    
+  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  
+  if(args.short_desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,}; 
+  
+  if(args.unit == null) return { __typename: "InputError", message: `Veuillez donner l'unité du produit`,};
+  
+  if(args.unitweight == null) return { __typename: "InputError", message: `Veuillez donner le poids par unité`,};
+  
+  if(args.unitprice == null) return { __typename: "InputError", message: `Veuillez donner le prix par unité`,}; 
+  
+  if(args.categoryId == null) return { __typename: "InputError", message: `Veuillez choisir une catégorie`,};
+  
+  if(args.brandId == null) return { __typename: "InputError", message: `Veuillez choisir une marque`,};
+  
+  let category = await context.prisma.category.findUnique({ where: { id: args.id } })
+  if(!category) return { __typename: "InputError", message: `Cette catégorie n'éxiste pas`,};
+
+  let brand = await context.prisma.brand.findUnique({ where: { id: args.id } })
+  if(!brand) return { __typename: "InputError", message: `Cette marque n'éxiste pas`,};
+
+  if(args.variants != null && args.variants.length >= 0){
+      if(args.options == null || args.options.length <= 0) return { __typename: "InputError", message: `Veuillez donner des options pour les variants de ce produit`,};
+  }
+
 
   const date = new Date()
 
@@ -64,23 +55,20 @@ export async function saveProduct(parent, args, context, info) {
   let product = args.id ? 
             await context.prisma.product.update({data: {...data, updatedat: date}}) :
             await context.prisma.product.create({data: data})
-  return product
+
+  return { __typename: "Product", ...product,};
+
 }
 
 export async function deleteProduct(parent, args, context, info){
 
-  let entity = await context.prisma.product.findUnique({ where: { id: args.id } })
+  if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
-  if(!entity){
-    throw new UserInputError("Ce produit n'éxiste pas.", {cstm_code: 'E3192013'});
-  }
-//   else if(entity){
-//     let entity2 = await context.prisma.productsOnProducts.findMany({ where: { productId: args.id } })
-//     if(entity2 != null && entity2.length > 0) throw new UserInputError("Ce product est liée à des produits.", {cstm_code: 'E3192013'});
-//   }
+  let entity = await context.prisma.product.findUnique({ where: { id: args.id } })
+  if(!entity) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,};
     
   const deletedEntity = await context.prisma.product.delete({where: {id: args.id,},})
-  return deletedEntity
+  return { __typename: "Product", ...deletedEntity,};
 
 }
 
