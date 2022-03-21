@@ -83,7 +83,7 @@ type Mutation {
   saveVariant(id:Int, name: String, desc:String, options:[OptionInput]): VariantResult!
   deleteVariant(id:Int): VariantResult!
   #Product's mutations
-  saveProduct(id:Int, name:String, short_desc: String, long_desc: String, activated: Boolean, unit: String, unitweight: Float, unitprice: Float, order: Int, categoryId: Int, brandId: Int, variants:[Int], options:[Int]): ProductResult!
+  saveProduct(id:Int, name:String, long_desc: String, activated: Boolean, unit: String, unitweight: Float, unitprice: Float, order: Int, categoryId: Int, brandId: Int, variants:[Int], options:[Int]): ProductResult!
   deleteProduct(id:Int): ProductResult!
   #Discount's mutations
   saveDiscount(id:Int, name: String, desc:String, percent: Float, products:[Int]): Discount!

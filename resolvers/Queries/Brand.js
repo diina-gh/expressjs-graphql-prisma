@@ -1,8 +1,6 @@
 
 export async function brands(parent, args, context, info) {
 
-    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-
     const where = args.filter
     ? {
       OR: [
@@ -12,16 +10,14 @@ export async function brands(parent, args, context, info) {
     }
     :
     { }
+
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+    var query = {where, include: {image: true}, skip: skip,}
+    
+    if(args.take) query.take = args.take
+    if(args.orderBy) query.orderBy = args.orderBy
   
-    const brands = await context.prisma.brand.findMany({
-      where,
-      include: {
-        image: true,
-      },
-      skip: skip,
-      take: args.take,
-      orderBy: args.orderBy,
-    })
+    const brands = await context.prisma.brand.findMany(query)
   
     const count = await context.prisma.brand.count()
     return {count, brands}
