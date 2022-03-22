@@ -5,7 +5,7 @@ export async function products(parent, args, context, info) {
     ? {
       OR: [
         { name: { contains: args.filter } },
-        { short_desc: { contains: args.filter } },
+        { desc: { contains: args.filter } },
         { category: {
           name: {contains: args.filter,},
           desc: {contains: args.filter,},
@@ -23,7 +23,7 @@ export async function products(parent, args, context, info) {
   
     const products = await context.prisma.product.findMany(query)
     const count = await context.prisma.product.count()
-    
+
     return {count, products}
   
   }

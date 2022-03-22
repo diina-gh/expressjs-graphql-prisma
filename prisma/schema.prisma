@@ -103,8 +103,8 @@ model Product {
   id          Int      @id @default(autoincrement())
   sku         String?
   name        String  
-  short_desc  String
-  long_desc   String?
+  desc        String
+  details     String?
   status      Int?
   activated   Boolean @default(false)
   unit        String?
@@ -129,6 +129,7 @@ model Product {
   cartItems   CartItem[]
   orderItems  OrderItem[]
   inventory   Inventory?
+  gender      String?
 }
 
 model Inventory {
