@@ -27,8 +27,8 @@ export async function saveProduct(parent, args, context, info) {
   let brand = await context.prisma.brand.findUnique({ where: { id: args.brandId } })
   if(!brand) return { __typename: "InputError", message: `Cette marque n'éxiste pas`,};
 
-  if(args.variants != null && args.variants.length >= 0){
-      if(args.options == null || args.options.length <= 0) return { __typename: "InputError", message: `Veuillez donner des options pour les variants de ce produit`,};
+  if(args.variants != null && args.variants.length > 0){
+      if(args.options == null || args.options.length == 0) return { __typename: "InputError", message: `Veuillez donner des options pour les variants de ce produit`,};
   }
 
   const date = new Date()
