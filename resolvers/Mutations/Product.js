@@ -38,7 +38,7 @@ export async function saveProduct(parent, args, context, info) {
   
   const data= {name: args.name, desc: args.desc, activated: args.activated, unit: args.unit, unitweight: args.unitweight, unitprice: args.unitprice, order: args.order, categoryId:args.categoryId, brandId: args.brandId, gender:args.gender }
 
-  if(args.variants != null && args.variants.length >= 0){
+  if(args.variants != null && args.variants.length > 0){
 
     for (let i = 0; i < args.variants.length; i++) {
       links.push({ assignedAt: date, variant: { connect: {id:args.variants[i]}}});
