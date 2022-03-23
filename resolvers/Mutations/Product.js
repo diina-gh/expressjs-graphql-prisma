@@ -21,10 +21,10 @@ export async function saveProduct(parent, args, context, info) {
   
   if(args.brandId == null) return { __typename: "InputError", message: `Veuillez choisir une marque`,};
   
-  let category = await context.prisma.category.findUnique({ where: { id: args.id } })
+  let category = await context.prisma.category.findUnique({ where: { id: args.categoryId } })
   if(!category) return { __typename: "InputError", message: `Cette catégorie n'éxiste pas`,};
 
-  let brand = await context.prisma.brand.findUnique({ where: { id: args.id } })
+  let brand = await context.prisma.brand.findUnique({ where: { id: args.brandId } })
   if(!brand) return { __typename: "InputError", message: `Cette marque n'éxiste pas`,};
 
   if(args.variants != null && args.variants.length >= 0){
