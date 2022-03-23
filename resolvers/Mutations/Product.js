@@ -5,15 +5,17 @@ export async function saveProduct(parent, args, context, info) {
     if (!product) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,}; 
   }
     
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
   
-  if(args.short_desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,}; 
+  if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,}; 
   
-  if(args.unit == null) return { __typename: "InputError", message: `Veuillez donner l'unité du produit`,};
+  if(args.unit == null || args.unit == '') return { __typename: "InputError", message: `Veuillez donner l'unité du produit`,};
   
-  if(args.unitweight == null) return { __typename: "InputError", message: `Veuillez donner le poids par unité`,};
+  // if(args.unitweight == null) return { __typename: "InputError", message: `Veuillez donner le poids par unité`,};
   
-  if(args.unitprice == null) return { __typename: "InputError", message: `Veuillez donner le prix par unité`,}; 
+  if(args.unitprice == null || args.unitrice == 0) return { __typename: "InputError", message: `Veuillez donner le prix par unité`,}; 
+
+  if(args.gender == null || args.gender == '') return { __typename: "InputError", message: `Veuillez choisir le sexe`,};
   
   if(args.categoryId == null) return { __typename: "InputError", message: `Veuillez choisir une catégorie`,};
   
@@ -29,13 +31,12 @@ export async function saveProduct(parent, args, context, info) {
       if(args.options == null || args.options.length <= 0) return { __typename: "InputError", message: `Veuillez donner des options pour les variants de ce produit`,};
   }
 
-
   const date = new Date()
 
   let links = []
   let links2 = []
   
-  const data= {name: args.name, short_desc: args.short_desc, long_desc: args.long_desc, status: args.status , activated: args.activated, unit: args.unit, unitweight: args.unitweight, unitprice: args.unitprice, taxable: args.taxable, order: args.order, images: {create: args.images}, category:{connect:{id: args.categoryId}}, brandId: args.brandId }
+  const data= {name: args.name, desc: args.desc, activated: args.activated, unit: args.unit, unitweight: args.unitweight, unitprice: args.unitprice, order: args.order, categoryId:args.categoryId, brandId: args.brandId, gender:args.gender }
 
   if(args.variants != null && args.variants.length >= 0){
 
