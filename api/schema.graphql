@@ -83,7 +83,7 @@ type Mutation {
   saveVariant(id:Int, name: String, desc:String, options:[OptionInput]): VariantResult!
   deleteVariant(id:Int): VariantResult!
   #Product's mutations
-  saveProduct(id:Int, name:String, desc: String, activated: Boolean, unit: String, unitweight: Float, unitprice: Float, order: Int, categoryId: Int, brandId: Int, variants:[Int], options:[Int], gender: Gender): ProductResult!
+  saveProduct(id:Int, name:String, desc: String, activated: Boolean, unit: String, unitweight: Float, unitprice: Float, order: Int, categoryId: Int, brandId: Int, variants:[Int], options:[Int], gender: Gender, relatives: [Int]): ProductResult!
   deleteProduct(id:Int): ProductResult!
   #Discount's mutations
   saveDiscount(id:Int, name: String, desc:String, percent: Float, products:[Int]): Discount!
@@ -281,6 +281,9 @@ type Product {
   options: [OptionsOnProducts]
   inventory: Inventory
   gender: Gender
+  relatedId: Int
+  related: Product
+  relatives: [Product]
 }
 
 type PaginatedProduct{

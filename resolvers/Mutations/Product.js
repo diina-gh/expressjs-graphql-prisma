@@ -1,8 +1,21 @@
 export async function saveProduct(parent, args, context, info) {
 
+  var savedVariantIds, savedOptionIds, savedRelativeIds
+
   if(args.id != null){
+
     let product = await context.prisma.product.findUnique({ where: { id: args.id } })
     if (!product) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,}; 
+
+    const savedVariants = await context.prisma.VariantsOnProducts.findMany({where: { productId: args.id } })
+    savedVariantIds = savedVariants.map(item =>  item.id);
+
+    const savedOptions = await context.prisma.OptionsOnProducts.findMany({where: { productId: args.id } })
+    savedOptionIds = savedOptions.map(item =>  item.id);
+
+    const savedRelatives = await context.prisma.product.findMany({where: { relatedId: args.id } })
+    savedRelativeIds = savedRelatives.map(item =>  item.id);
+
   }
     
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};

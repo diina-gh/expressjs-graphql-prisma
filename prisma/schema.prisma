@@ -129,6 +129,9 @@ model Product {
   cartItems   CartItem[]
   orderItems  OrderItem[]
   inventory   Inventory?
+  relatedId   Int?
+  related     Product?   @relation("RelatedProducts", fields: [relatedId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  relatives   Product[]   @relation("RelatedProducts")
   gender      String?
 }
 
