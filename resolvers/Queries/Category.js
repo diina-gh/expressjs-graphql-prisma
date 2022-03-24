@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function categories(parent, args, context, info) {
 
@@ -13,8 +14,9 @@ export async function categories(parent, args, context, info) {
     :
     { parent: null}
 
+    const selectedFields = new PrismaSelect(info).valueOf('categories');
     const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-    var query = {where, include: {parent: true,childs: true, image: true}, skip: skip,}
+    var query = {where, select: selectedFields.select, skip: skip,}
     
     if(args.take) query.take = args.take
     if(args.orderBy) query.orderBy = args.orderBy
@@ -43,8 +45,9 @@ export async function subCategories(parent, args, context, info) {
   :
   { parentId: {not: null,}}
 
+  const selectedFields = new PrismaSelect(info).valueOf('categories');
   const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-  var query = {where, include: {parent: true, childs: true, image: true}, skip: skip,}
+  var query = {where, select: selectedFields.select, skip: skip,}
   
   if(args.take) query.take = args.take
   if(args.orderBy) query.orderBy = args.orderBy
@@ -67,7 +70,8 @@ export async function category(parent, args, context, info) {
 
   if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
-  let entity =  await context.prisma.category.findUnique({where: {id: args.id,}, include: {parent: true, childs: true, image: true},})
+  const selectedFields = new PrismaSelect(info).value;
+  let entity =  await context.prisma.category.findUnique({where: {id: args.id,}, select: selectedFields.select})
   if(!entity) return { __typename: "InputError", message: `Cette catégorie n'éxiste pas.`,};
    
   return { __typename: "Category", ...entity,};

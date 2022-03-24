@@ -1,6 +1,5 @@
 // const jwt = require('jsonwebtoken');
-
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 export const APP_SECRET = 'GraphQL-is-aw3some';
 
@@ -26,4 +25,6 @@ export function getUserId(req, authToken) {
 
   throw new Error('Not authenticated');
 }
+
+
 

@@ -4,16 +4,16 @@ export async function saveProduct(parent, args, context, info) {
 
   if(args.id != null){
 
-    let product = await context.prisma.product.findUnique({ where: { id: args.id } })
+    let product = await context.prisma.product.findUnique({ where: { id: args.id }, select: {id: true,}, })
     if (!product) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,}; 
 
-    const savedVariants = await context.prisma.VariantsOnProducts.findMany({where: { productId: args.id } })
+    const savedVariants = await context.prisma.VariantsOnProducts.findMany({where: { productId: args.id }, select: {id: true,}, })
     savedVariantIds = savedVariants.map(item =>  item.id);
 
-    const savedOptions = await context.prisma.OptionsOnProducts.findMany({where: { productId: args.id } })
+    const savedOptions = await context.prisma.OptionsOnProducts.findMany({where: { productId: args.id }, select: {id: true,}, })
     savedOptionIds = savedOptions.map(item =>  item.id);
 
-    const savedRelatives = await context.prisma.product.findMany({where: { relatedId: args.id } })
+    const savedRelatives = await context.prisma.product.findMany({where: { relatedId: args.id }, select: {id: true,}, })
     savedRelativeIds = savedRelatives.map(item =>  item.id);
 
   }
@@ -34,10 +34,10 @@ export async function saveProduct(parent, args, context, info) {
   
   if(args.brandId == null) return { __typename: "InputError", message: `Veuillez choisir une marque`,};
   
-  let category = await context.prisma.category.findUnique({ where: { id: args.categoryId } })
+  let category = await context.prisma.category.findUnique({ where: { id: args.categoryId }, select: {id: true,}, })
   if(!category) return { __typename: "InputError", message: `Cette catégorie n'éxiste pas`,};
 
-  let brand = await context.prisma.brand.findUnique({ where: { id: args.brandId } })
+  let brand = await context.prisma.brand.findUnique({ where: { id: args.brandId }, select: {id: true,}, })
   if(!brand) return { __typename: "InputError", message: `Cette marque n'éxiste pas`,};
 
   if(args.variants != null && args.variants.length > 0){

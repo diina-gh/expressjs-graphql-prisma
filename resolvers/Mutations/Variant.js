@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveVariant(parent, args, context, info) {
     
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};

@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/diina-gh/trade#readme",
   "dependencies": {
+    "@paljs/plugins": "^4.0.18",
     "apollo-server-core": "^3.6.3",
     "apollo-server-express": "^3.6.3",
     "bcryptjs": "^2.4.3",
