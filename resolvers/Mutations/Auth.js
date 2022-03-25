@@ -35,7 +35,7 @@ export async function saveUser(parent, args, context, info) {
     }
 
     var links = []
-    // const date = new Date()
+    const date = new Date()
     var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, roles: {}}
 
     if(args.id == null || (args.id != null && (args.password?.length > 1 || args.repassword?.length > 1))){
