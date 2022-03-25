@@ -26,7 +26,7 @@ export async function saveUser(parent, args, context, info) {
 
     if(args.roles == null || args.roles?.length <= 0) return { __typename: "InputError", message: `Veuillez sélectionner au moins un role pour cet utilisateur`,};
 
-    let row = await context.prisma.user.findUnique({ where: query1, select:{id:true} })
+    let row = await context.prisma.user.findFirst({ where: query1, select:{id:true} })
     if (row) throw new UserInputError("Cette adresse email éxiste déjà.", {cstm_code: 'E3192013'});
 
     for (let i = 0; i < args.roles.length; i++) {
