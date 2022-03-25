@@ -27,7 +27,7 @@ export async function roles(parent, args, context, info) {
   export async function role(parent, args, context, info) {
     if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
-    const selectedFields = new PrismaSelect(info).value;
+    const selectedFields = new PrismaSelect(info).valueOf('Role');
   
     let entity =  await context.prisma.role.findUnique({where: {id: args.id,}, select: selectedFields.select})
     if(!entity) return { __typename: "InputError", message: `Ce role n'éxiste pas.`,};
