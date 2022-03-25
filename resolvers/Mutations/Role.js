@@ -1,8 +1,4 @@
 export async function saveRole(parent, args, context, info) {
-    
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
-  if(args.desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,};
-  if(args.permissions == null || args.permissions?.length <= 0) return { __typename: "InputError", message: `Veuillez sélectionner des permissions pour ce role`,};
 
   var query0 = { id: args.id }; var query1 = { name: args.name };  var query2 = {not: args.id,};
 
@@ -11,6 +7,10 @@ export async function saveRole(parent, args, context, info) {
     if (!permission) return { __typename: "InputError", message: `Ce role n'éxiste pas`,}; 
     query1.id = query2
   }
+    
+  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  if(args.desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.permissions == null || args.permissions?.length <= 0) return { __typename: "InputError", message: `Veuillez sélectionner des permissions pour ce role`,};
 
   let row = await context.prisma.role.findFirst({ where: query1 })
   if(row) return { __typename: "InputError", message: `Ce role éxiste déjà. Veuillez choisir un autre nom`,};

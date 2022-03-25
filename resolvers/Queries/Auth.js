@@ -5,29 +5,32 @@ export async function users(parent, args, context, info) {
     const where = args.filter
     ? {
       OR: [
-        { email: { contains: args.filter } },
-        { firtname: { contains: args.filter } },
-        { lastname: { contains: args.filter } },
-        { phonenumber: { contains: args.filter } },
+        { name: { contains: args.filter } },
+        { desc: { contains: args.filter } },
       ],
     }
     : {}
+
+    const selectedFields = new PrismaSelect(info).valueOf('users');
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+    var query = {where, select: selectedFields.select, skip: skip,}
   
-    const items = await context.prisma.user.findMany({
-      where,
-      skip: args.skip,
-      take: args.take,
-      orderBy: args.orderBy,
-    })
+    if(args.take) query.take = args.take
+    if(args.orderBy) query.orderBy = args.orderBy
   
-    return items
+    const users = await context.prisma.user.findMany(query)
+    const count = await context.prisma.user.count()
+    return {count, users}
   
   }
   
   export async function user(parent, args, context, info) {
-    return await prisma.user.findUnique({
-        where: {
-        id: args.id,
-        }
-    })
+    if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
+
+    const selectedFields = new PrismaSelect(info).valueWithFilter('User');
+  
+    let entity =  await context.prisma.user.findUnique({where: {id: args.id,}, select: selectedFields.select})
+    if(!entity) return { __typename: "InputError", message: `Cet utilisateur n'éxiste pas.`,};
+  
+    return { __typename: "User", ...entity,};
   }

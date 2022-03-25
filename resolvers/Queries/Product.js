@@ -19,8 +19,6 @@ export async function products(parent, args, context, info) {
     const selectedFields = new PrismaSelect(info).valueOf('products');
     const skip = args.page && args.take ? (args.page - 1) * args.take : 0
     var query = {where, select: selectedFields.select, skip: skip,}
-
-    // var query = {where, include: {variants: {include:{variant:true}}, options: {include:{option:true}}, category: { include: {parent: true}} , brand: true, inventory: true, images: true,}, skip: skip,}
     
     if(args.take) query.take = args.take
     if(args.orderBy) query.orderBy = args.orderBy

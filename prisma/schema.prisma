@@ -19,8 +19,6 @@ model User {
   enabled       Boolean  @default(false)
   lastlogin     DateTime?
   password      String?   @db.VarChar(200)
-  imageurl      String?   @db.VarChar(200)
-  imagesrc      String?   @db.VarChar(200)
   admin         Boolean   @default(false)
   vendor        Boolean   @default(false)
   roles         RolesOnUsers[]
@@ -31,6 +29,8 @@ model User {
   posts         Post[]
   comments      Comment[]
   notifications NotificationsOnUsers[]
+  image       Image?
+
 }
 
 model RolesOnUsers {
@@ -55,7 +55,7 @@ model Role {
 
 model PermissionsOnRoles {
   permission      Permission?  @relation(fields: [permissionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  permissionId    Int 
+  permissionId    Int
   role            Role?     @relation(fields: [roleId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   roleId          Int 
   assignedAt      DateTime @default(now())
@@ -174,6 +174,8 @@ model Image {
   brandId               Int?
   category              Category? @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   categoryId            Int?
+  user                  User? @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId                Int?
   createdat             DateTime @default(now())
   updatedat             DateTime?
 }

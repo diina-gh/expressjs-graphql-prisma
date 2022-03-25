@@ -1,8 +1,8 @@
 type Query {
   info: String!
   #Auth's Queries
-  users(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): [User!]!
-  user(id: Int): User
+  users(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): PaginatedUser
+  user(id: Int): UserResult
   #Newsletters's Queries
   newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): PaginatedNewsletter
   newsletter(id: Int): Newsletter
@@ -65,8 +65,9 @@ type Query {
 
 type Mutation {
   #Auth's Mutations
-  signup(firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String ): AuthPayload
-  login(email: String, password: String): AuthPayload
+  saveUser(id: Int, firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String, roles:[Int] ): AuthPayloadResult
+  login(email: String, password: String): UserResult
+  deleteUser(id: Int): UserResult
   #Newsletter's mutations
   saveNewsletter(id:Int, email: String): Newsletter!
   deleteNewsletter(id:Int): Newsletter!
@@ -124,7 +125,7 @@ type Mutation {
   saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): BrandResult!
   deleteBrand(id:Int): BrandResult!
   #Brand's mutations
-  saveImage(id: Int, url: String, imageref: String, default: Boolean, productId: Int, optionId: Int, brandId: Int, categoryId: Int): ImageResult!
+  saveImage(id: Int, url: String, imageref: String, default: Boolean, productId: Int, optionId: Int, brandId: Int, categoryId: Int, userId: Int): ImageResult!
   deleteImage(id:Int): ImageResult!
 }
 
@@ -160,8 +161,6 @@ type User {
   enabled: Boolean
   lastlogin: Date
   password: String
-  imageurl: String
-  imagesrc: String
   admin: Boolean
   vendor: Boolean
   roles: [RolesOnUsers]
@@ -172,7 +171,17 @@ type User {
   posts: [Post]
   comments: [Comment]
   notifications: [NotificationsOnUsers]
+  image: Image
 }
+
+type PaginatedUser{
+  count: Int
+  users: [User]
+}
+
+union AuthPayloadResult = AuthPayload | InputError
+union UserResult = User | InputError
+
 
 type Role {
   id: ID!
@@ -348,6 +357,8 @@ type Image {
   brandId: Int
   category: Category
   categoryId: Int
+  user: User
+  userId: Int
 }
 
 union ImageResult = Image | InputError
