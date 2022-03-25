@@ -20,44 +20,17 @@ export async function saveRole(parent, args, context, info) {
       if(!row) return { __typename: "InputError", message: `Certaines des permissions sélectionnées n'éxistent pas au niveau de la base de données`,};
   }
 
+  var links = []
   const date = new Date()
-
   const data= {name: args.name, desc: args.desc, permissions: {}}
 
-  if(args.id == null){
-
-    var links = []
-
-    for (let i = 0; i < args.permissions.length; i++) {
-      links.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:args.permissions[i]}}});
-    }
-
-    data.permissions.create = links
-
+  if(args.id != null) await prisma.role.update({where: {id: args.id}, data: {permissions: {set: []}}})
+  
+  for (let i = 0; i < args.permissions.length; i++) {
+    links.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:args.permissions[i]}}});
   }
-  else{
 
-    var links2 = []
-    var links2 = []
-
-    const savedPermissions = await context.prisma.PermissionsOnRoles.findMany({where: { roleId: args.id }, })
-    const savedPermissionIds = savedPermissions.map(item =>  item.id);
-    const permissionDiffs = savedPermissionIds.filter(x => !args.permissions.includes(x)).concat(args.permissions.filter(x => !savedPermissionIds.includes(x)));
-    const permissionAdds = args.permissions.filter(x => !savedPermissionIds.includes(x)).concat(savedPermissionIds.filter(x => !args.permissions.includes(x)));
-
-    for (let i = 0; i < permissionDiffs.length; i++) {
-      links2.push({ id: args.permissionDiffs[i]});
-    }
-
-    data.permissions.disconnect = links2
-
-    for (let i = 0; i < permissionAdds.length; i++) {
-      links3.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:permissionAdds[i]}}});
-    }
-
-    data.permissions.create = links3
-
-  }
+  data.permissions.create = links
 
   let role = args.id ? 
     await context.prisma.role.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
