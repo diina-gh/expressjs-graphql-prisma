@@ -11,7 +11,7 @@ type Query {
   subCategories(filter: String, page: Int, take: Int, orderBy: CategoryOrderByInput): PaginatedCategory
   category(id: Int): CategoryResult
   #Permission's Queries
-  permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
+  permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): PaginatedPermission
   permission(id: Int): PermissionResult
   #Permission's Queries
   roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
@@ -189,6 +189,11 @@ type Permission {
   createdat: Date
   updatedat: Date
   roles: [PermissionsOnRoles]
+}
+
+type PaginatedPermission{
+  count: Int
+  permissions: [Permission]
 }
 
 union PermissionResult = Permission | InputError
