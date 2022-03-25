@@ -24,7 +24,7 @@ export async function saveRole(parent, args, context, info) {
   const date = new Date()
   const data= {name: args.name, desc: args.desc, permissions: {}}
 
-  if(args.id != null) await prisma.role.update({where: {id: args.id}, data: {permissions: {set: []}}})
+  if(args.id != null) await context.prisma.role.update({where: {id: args.id}, data: {permissions: {set: []}}})
   
   for (let i = 0; i < args.permissions.length; i++) {
     links.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:args.permissions[i]}}});
