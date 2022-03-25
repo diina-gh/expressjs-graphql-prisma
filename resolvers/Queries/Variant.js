@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function variants(parent, args, context, info) {
 
@@ -33,5 +34,5 @@ export async function variants(parent, args, context, info) {
     if(!entity) return { __typename: "InputError", message: `Ce variant n'éxiste pas.`,};
    
     return { __typename: "Variant", ...entity,};
-    
+
   }

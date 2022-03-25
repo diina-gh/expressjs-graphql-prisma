@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function deliveryMans(parent, args, context, info) {
 
@@ -19,7 +20,7 @@ export async function deliveryMans(parent, args, context, info) {
   
     const deliveryMans = await context.prisma.deliveryMan.findMany(query)
     const count = await context.prisma.deliveryMan.count()
-    
+
     return {count, deliveryMans}
   
   }

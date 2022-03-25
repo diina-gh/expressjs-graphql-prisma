@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 import { UserInputError} from "apollo-server-express";
 
 export async function saveOrder(parent, args, context, info) {

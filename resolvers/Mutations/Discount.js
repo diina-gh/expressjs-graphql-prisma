@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 import { UserInputError} from "apollo-server-express";
 
 export async function saveDiscount(parent, args, context, info) {

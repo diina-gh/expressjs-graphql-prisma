@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function shippingMethods(parent, args, context, info) {
 

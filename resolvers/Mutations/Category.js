@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveCategory(parent, args, context, info) {
     
   if(args.name == null) return { __typename: "InputError", message: `Veuillez donner un nom.`,};

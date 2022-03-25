@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveCountry(parent, args, context, info) {
     
   if(args.iso3 == null || args.iso3.length != 3) return { __typename: "InputError", message: `Veuillez donner le code iso3 (le code iso3 d'un pays doit comporter 3 charactères) 😣`,};

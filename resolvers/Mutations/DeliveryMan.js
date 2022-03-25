@@ -1,4 +1,4 @@
-import { UserInputError} from "apollo-server-express";
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function saveDeliveryMan(parent, args, context, info) {
     

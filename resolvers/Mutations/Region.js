@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveRegion(parent, args, context, info) {
     
   if(args.code == null || args.code.length != 2) return { __typename: "InputError", message: `Veuillez donner le code (le code d'une région doit comporter 2 charactères)`,};

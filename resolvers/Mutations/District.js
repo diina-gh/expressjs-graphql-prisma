@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveDistrict(parent, args, context, info) {
     
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner le nom du quartier 😣`,};

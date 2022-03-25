@@ -12,7 +12,7 @@ type Query {
   category(id: Int): CategoryResult
   #Permission's Queries
   permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): [Permission!]!
-  permission(id: Int): Permission
+  permission(id: Int): PermissionResult
   #Permission's Queries
   roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
   role(id: Int): Role
@@ -74,8 +74,8 @@ type Mutation {
   saveCategory(id:Int, name: String, desc: String, order: Int, activated: Boolean, parentId: Int, updatedat: String): CategoryResult!
   deleteCategory(id:Int): CategoryResult!
   #Permission's mutations
-  savePermission(id:Int, name: String, desc:String): Permission!
-  deletePermission(id:Int): Permission!
+  savePermission(id:Int, name: String, desc:String): PermissionResult!
+  deletePermission(id:Int): PermissionResult!
   #Role's mutations
   saveRole(id:Int, name: String, desc:String, permissions:[Int]): Role!
   deleteRole(id:Int): Role!
@@ -191,6 +191,7 @@ type Permission {
   roles: [PermissionsOnRoles]
 }
 
+union PermissionResult = Permission | InputError
 
 type RolesOnUsers {
   user: User

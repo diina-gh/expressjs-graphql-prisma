@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs/index.js"
 import jwt from "jsonwebtoken"
 import { APP_SECRET, getUserId } from "../../utils.js"
 import { UserInputError} from "apollo-server-express";
-
+import { PrismaSelect } from '@paljs/plugins';
 
 export async function signup(parent, args, context, info) {
     

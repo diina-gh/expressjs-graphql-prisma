@@ -1,3 +1,5 @@
+import { PrismaSelect } from '@paljs/plugins';
+
 export async function saveImage(parent, args, context, info) {
     
   if(args.url == null) return { __typename: "InputError", message: `Veuillez donner l'url de l'image.`,};

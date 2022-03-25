@@ -1,3 +1,4 @@
+import { PrismaSelect } from '@paljs/plugins';
 import { UserInputError} from "apollo-server-express";
 
 export async function saveDistrictsOnUsers(parent, args, context, info) {
