@@ -11,7 +11,7 @@ export async function savePermission(parent, args, context, info) {
     query1.id = query2
   }
 
-  let row = await context.prisma.country.findFirst({ where: query1 })
+  let row = await context.prisma.permission.findFirst({ where: query1 })
   if(row) return { __typename: "InputError", message: `Cette permission éxiste déjà. Veuillez choisir un autre nom`,};
 
   const date = new Date()

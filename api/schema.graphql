@@ -14,8 +14,8 @@ type Query {
   permissions(filter: String, page: Int, take: Int, orderBy: PermissionOrderByInput): PaginatedPermission
   permission(id: Int): PermissionResult
   #Permission's Queries
-  roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): [Role!]!
-  role(id: Int): Role
+  roles(filter: String, page: Int, take: Int, orderBy: RoleOrderByInput): PaginatedRole
+  role(id: Int): RoleResult
   #Variant's Queries
   variants(filter: String, page: Int, take: Int, orderBy: VariantOrderByInput): PaginatedVariant
   variant(id: Int): VariantResult
@@ -77,8 +77,8 @@ type Mutation {
   savePermission(id:Int, name: String, desc:String): PermissionResult!
   deletePermission(id:Int): PermissionResult!
   #Role's mutations
-  saveRole(id:Int, name: String, desc:String, permissions:[Int]): Role!
-  deleteRole(id:Int): Role!
+  saveRole(id:Int, name: String, desc:String, permissions:[Int]): RoleResult!
+  deleteRole(id:Int): RoleResult!
   #Variant's mutations
   saveVariant(id:Int, name: String, desc:String, options:[OptionInput]): VariantResult!
   deleteVariant(id:Int): VariantResult!
@@ -181,6 +181,13 @@ type Role {
   RolesOnUsers: [RolesOnUsers]
   permissions: [PermissionsOnRoles]
 }
+
+type PaginatedRole{
+  count: Int
+  roles: [Role]
+}
+
+union RoleResult = Role | InputError
 
 type Permission {
   id: ID!
