@@ -37,7 +37,8 @@ export async function saveRole(parent, args, context, info) {
   }
   else{
 
-    var links2, links3
+    var links2 = []
+    var links2 = []
 
     const savedPermissions = await context.prisma.PermissionsOnRoles.findMany({where: { roleId: args.id }, })
     const savedPermissionIds = savedPermissions.map(item =>  item.id);
