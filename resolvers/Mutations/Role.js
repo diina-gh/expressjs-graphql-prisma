@@ -24,7 +24,7 @@ export async function saveRole(parent, args, context, info) {
   const date = new Date()
   const data= {name: args.name, desc: args.desc, permissions: {}}
 
-  if(args.id != null) await context.prisma.role.deleteMany({where: {roleId: args.id}})
+  if(args.id != null) await context.prisma.PermissionsOnRoles.deleteMany({where: {roleId: args.id}})
   
   for (let i = 0; i < args.permissions.length; i++) {
     links.push({ assignedAt: date, assignedById: 0, permission: { connect: {id:args.permissions[i]}}});
