@@ -39,7 +39,7 @@ export async function saveRole(parent, args, context, info) {
 
     var links2, links3
 
-    const savedPermissions = await context.prisma.PermissionsOnRoles.findMany({where: { roleId: args.id }, select: {id: true,}, })
+    const savedPermissions = await context.prisma.PermissionsOnRoles.findMany({where: { roleId: args.id }, })
     const savedPermissionIds = savedPermissions.map(item =>  item.id);
     const permissionDiffs = savedPermissionIds.filter(x => !args.permissions.includes(x)).concat(args.permissions.filter(x => !savedPermissionIds.includes(x)));
     const permissionAdds = args.permissions.filter(x => !savedPermissionIds.includes(x)).concat(savedPermissionIds.filter(x => !args.permissions.includes(x)));
