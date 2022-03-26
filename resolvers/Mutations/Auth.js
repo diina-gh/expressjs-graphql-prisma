@@ -52,13 +52,51 @@ export async function saveUser(parent, args, context, info) {
     data.roles.create = links
     
     let user = args.id ? 
-        await context.prisma.user.update({where: {id:args.id}, data: data}) :
+        await context.prisma.user.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
         await context.prisma.user.create({data: data})
 
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
     const authPayload = {token,user}
 
     return { __typename: "AuthPayload", ...authPayload,};
+
+  }
+
+  export async function saveCient(parent, args, context, info) {
+
+    var query0 = { id: args.id }; var query1 = { email: args.email };  var query2 = {not: args.id,};
+
+    if(args.id != null){
+      let user = context.prisma.user.findUnique({where:query0, select:{id:true}})
+      if(!user) return { __typename: "InputError", message: `Erreur, utilisateur introuvable`,};
+      query1.id = query2
+    }
+    
+    if(args.firstname == null || args.firstname == '') return { __typename: "InputError", message: `Veuillez renseigner le prénom de l'utilisateur`,};
+    if(args.lastname == null || args.lastname == '') return { __typename: "InputError", message: `Veuillez renseigner le nom de l'utilisateur`,};
+    if (args.phonenumber == null || args.phonenumber == '') return { __typename: "InputError", message: `Veuillez donner un numéro de téléphone`,};
+    if (args.email == null || args.email == '') return { __typename: "InputError", message: `Veuillez donner une adresse email`,};
+
+    if(args.addresses == null || args.addresses?.length <= 0) return { __typename: "InputError", message: `Veuillez ajouter au moins une adresse`,};
+
+    let row = await context.prisma.user.findFirst({ where: query1, select:{id:true} })
+    if (row) throw new UserInputError("Cette adresse email éxiste déjà.", {cstm_code: 'E3192013'});
+
+    for (let i = 0; i < args.roles.length; i++) {
+      let row = await context.prisma.district.findUnique({ where: { id: args.addresses[i].districtId }, select:{id: true} })
+      if(!row) return { __typename: "InputError", message: `Certaines des zones choisies n'éxistent pas au niveau de la base de données`,};
+    }
+
+    const date = new Date()
+    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, districts: {create: args.addresses}}
+
+    if(args.id != null) await context.prisma.DistrictsOnUsers.deleteMany({where: {userId: args.id}})
+      
+    let user = args.id ? 
+        await context.prisma.user.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
+        await context.prisma.user.create({data: data})
+
+    return { __typename: "User", ...user,};
 
   }
 

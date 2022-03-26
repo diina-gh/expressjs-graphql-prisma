@@ -2,6 +2,7 @@ type Query {
   info: String!
   #Auth's Queries
   users(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): PaginatedUser
+  clients(filter: String, page: Int, take: Int, orderBy: UserOrderByInput): PaginatedUser
   user(id: Int): UserResult
   #Newsletters's Queries
   newsletters(filter: String, page: Int, take: Int, orderBy: NewsletterOrderByInput): PaginatedNewsletter
@@ -65,7 +66,8 @@ type Query {
 
 type Mutation {
   #Auth's Mutations
-  saveUser(id: Int, firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String, roles:[Int] ): AuthPayloadResult
+  saveUser(id: Int, firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String, roles:[Int], civility: Civility ): AuthPayloadResult
+  saveClient(id: Int, firstname: String, lastname: String, email: String, phonenumber: String, addresses:[AddressInput], civility: Civility ): UserResult
   login(email: String, password: String): UserResult
   deleteUser(id: Int): UserResult
   #Newsletter's mutations
@@ -154,11 +156,12 @@ type User {
   id: ID!
   email: String 
   token: String
+  civility: Civility
   phonenumber: String
   firstname: String
   lastname: String
   emailVerified: Boolean
-  enabled: Boolean
+  activated: Boolean
   lastlogin: Date
   password: String
   admin: Boolean
@@ -799,6 +802,14 @@ enum Gender {
   HOMME
   FEMME
   UNISEX
+}
+
+input AddressInput {
+  id: Int
+  line1: String
+  line2: String
+  districtId: Int
+  default: Boolean
 }
 
 input NewsletterOrderByInput {
