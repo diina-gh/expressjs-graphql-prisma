@@ -2,8 +2,6 @@ import { PrismaSelect } from '@paljs/plugins';
 
 export async function districts(parent, args, context, info) {
 
-    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
-
     const where = args.filter
     ? {
       OR: [
@@ -17,14 +15,15 @@ export async function districts(parent, args, context, info) {
     }
     : {}
   
-    const districts = await context.prisma.district.findMany({
-      where,
-      include: {region: {include:{country:true}}},
-      skip: skip,
-      take: args.take,
-      orderBy: args.orderBy,
-    })
+    const selectedFields = new PrismaSelect(info).valueOf('districts');
+    const skip = args.page && args.take ? (args.page - 1) * args.take : 0
+
+    var query = {where, select: selectedFields.select, skip: skip,}
+    
+    if(args.take) query.take = args.take
+    if(args.orderBy) query.orderBy = args.orderBy
   
+    const districts = await context.prisma.district.findMany(query)
     const count = await context.prisma.district.count()
     const countRegions = await context.prisma.region.count()
     const countCountries = await context.prisma.country.count()

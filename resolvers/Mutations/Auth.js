@@ -62,7 +62,7 @@ export async function saveUser(parent, args, context, info) {
 
   }
 
-  export async function saveCient(parent, args, context, info) {
+  export async function saveClient(parent, args, context, info) {
 
     var query0 = { id: args.id }; var query1 = { email: args.email };  var query2 = {not: args.id,};
 
