@@ -77,12 +77,12 @@ export async function saveUser(parent, args, context, info) {
     if (args.phonenumber == null || args.phonenumber == '') return { __typename: "InputError", message: `Veuillez donner un numéro de téléphone`,};
     if (args.email == null || args.email == '') return { __typename: "InputError", message: `Veuillez donner une adresse email`,};
 
-    if(args.addresses == null || args.addresses?.length <= 0) return { __typename: "InputError", message: `Veuillez ajouter au moins une adresse`,};
+    if(args.addresses == null || args.addresses?.length == 0) return { __typename: "InputError", message: `Veuillez ajouter au moins une adresse`,};
 
     let row = await context.prisma.user.findFirst({ where: query1, select:{id:true} })
     if (row) throw new UserInputError("Cette adresse email éxiste déjà.", {cstm_code: 'E3192013'});
 
-    for (let i = 0; i < args.roles.length; i++) {
+    for (let i = 0; i < args.addresses.length; i++) {
       let row = await context.prisma.district.findUnique({ where: { id: args.addresses[i].districtId }, select:{id: true} })
       if(!row) return { __typename: "InputError", message: `Certaines des zones choisies n'éxistent pas au niveau de la base de données`,};
     }
