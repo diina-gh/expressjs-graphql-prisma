@@ -168,7 +168,7 @@ model Image {
   id                    Int      @id @default(autoincrement())
   url                   String
   imageref              String
-  default               Boolean  @default(false)
+  isDefault               Boolean  @default(false)
   product               Product? @relation(fields: [productId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   productId             Int?
   option                Option? @relation(fields: [optionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
@@ -324,7 +324,7 @@ model DistrictsOnUsers{
   userId          Int 
   district        District?    @relation(fields: [districtId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   districtId      Int 
-  default         Boolean      @default(false)
+  isDefault       Boolean      @default(false)
   line1           String?
   line2           String?
   assignedAt      DateTime     @default(now())

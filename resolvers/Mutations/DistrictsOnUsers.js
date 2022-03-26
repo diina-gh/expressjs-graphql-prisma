@@ -14,7 +14,7 @@ export async function saveDistrictsOnUsers(parent, args, context, info) {
     else if(args.line1 == null){
         throw new UserInputError("Veuillez renseigner la ligne 1.", {cstm_code: 'E3192013'});
     }
-    else if(args.default == true){
+    else if(args.isDefault == true){
         defaultAddress = true;
     }
 
@@ -34,13 +34,13 @@ export async function saveDistrictsOnUsers(parent, args, context, info) {
     }
 
     var count = await context.prisma.districtsOnUsers.count({where: {userId: args.userId, default: true},})
-    if(count > 0 && defaultAddress == true ) await context.prisma.districtsOnUsers.updateMany({where: {default: true, userId: args.userId},data: {default: false},})
+    if(count > 0 && defaultAddress == true ) await context.prisma.districtsOnUsers.updateMany({where: {isDefault: true, userId: args.userId},data: {default: false},})
 
     var count2 = await context.prisma.districtsOnUsers.count({where: {userId: args.userId},})
     if (count2 == 0 && defaultAddress == false) defaultAddress = true
 
     const date = new Date()
-    const data= {userId: args.userId, districtId: args.districtId, default: defaultAddress, line1: args.line1, line2: args.line2}
+    const data= {userId: args.userId, districtId: args.districtId, isDefault: defaultAddress, line1: args.line1, line2: args.line2}
 
     let districtsOnUsers = args.id ? 
                 await context.prisma.districtsOnUsers.update({data: {...data, updatedat: date}}) :

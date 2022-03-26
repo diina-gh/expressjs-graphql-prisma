@@ -107,7 +107,7 @@ type Mutation {
   saveDistrict(id: Int, name: String, shipping: Float, regionId: Int ): DistrictResult!
   deleteDistrict(id:Int): DistrictResult!
   #DistrictsOnUsers's mutations
-  saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, default: Boolean, line1: String, line2: String ): DistrictsOnUsers!
+  saveDistrictsOnUsers(id: Int, userId: Int, districtId: Int, isDefault: Boolean, line1: String, line2: String ): DistrictsOnUsers!
   deleteDistrictsOnUsers(id:Int): DistrictsOnUsers!
   #ShippingMethod's mutations
   saveShippingMethod(id: Int, code: String, name: String, desc: String ): ShippingMethodResult!
@@ -127,7 +127,7 @@ type Mutation {
   saveBrand(id: Int, name: String, desc: String, order: Int, imageId: Int): BrandResult!
   deleteBrand(id:Int): BrandResult!
   #Brand's mutations
-  saveImage(id: Int, url: String, imageref: String, default: Boolean, productId: Int, optionId: Int, brandId: Int, categoryId: Int, userId: Int): ImageResult!
+  saveImage(id: Int, url: String, imageref: String, isDefault: Boolean, productId: Int, optionId: Int, brandId: Int, categoryId: Int, userId: Int): ImageResult!
   deleteImage(id:Int): ImageResult!
 }
 
@@ -351,7 +351,7 @@ type Image {
   id: ID!
   url: String
   imageref: String
-  default: Boolean
+  isDefault: Boolean
   product: Product
   productId: Int
   option: Option
@@ -535,7 +535,7 @@ type DistrictsOnUsers{
   userId: Int 
   district: District
   districtId: Int 
-  default: Boolean
+  isDefault: Boolean
   line1: String
   line2: String
   assignedAt: Date
@@ -768,7 +768,7 @@ input OptionInput {
 input ImageInput {
   url: String
   imageref: String
-  default: Boolean
+  isDefault: Boolean
   productId: Int
   optionId: Int
   brandId: Int
@@ -809,7 +809,7 @@ input AddressInput {
   line1: String
   line2: String
   districtId: Int
-  default: Boolean
+  isDefault: Boolean
 }
 
 input NewsletterOrderByInput {
