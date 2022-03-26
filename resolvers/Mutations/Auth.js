@@ -36,7 +36,7 @@ export async function saveUser(parent, args, context, info) {
 
     var links = []
     const date = new Date()
-    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, customer: true, roles: {}}
+    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, roles: {}}
 
     if(args.id == null || (args.id != null && (args.password?.length > 1 || args.repassword?.length > 1))){
       const password = await bcrypt.hash(args.password, 10)
@@ -88,7 +88,7 @@ export async function saveUser(parent, args, context, info) {
     }
 
     const date = new Date()
-    var data = {civility: args.civility,firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, districts: {create: args.addresses}}
+    var data = {civility: args.civility,firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, customer: true, districts: {create: args.addresses}}
 
     if(args.id != null) await context.prisma.DistrictsOnUsers.deleteMany({where: {userId: args.id}})
       
