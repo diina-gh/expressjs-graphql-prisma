@@ -88,7 +88,7 @@ export async function saveUser(parent, args, context, info) {
     }
 
     const date = new Date()
-    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, districts: {create: args.addresses}}
+    var data = {civility: args.civility,firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, districts: {create: args.addresses}}
 
     if(args.id != null) await context.prisma.DistrictsOnUsers.deleteMany({where: {userId: args.id}})
       
