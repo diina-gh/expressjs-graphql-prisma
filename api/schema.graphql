@@ -164,8 +164,7 @@ type User {
   activated: Boolean
   lastlogin: Date
   password: String
-  admin: Boolean
-  vendor: Boolean
+  customer: Boolean
   roles: [RolesOnUsers]
   cart: Cart
   districts: [DistrictsOnUsers]

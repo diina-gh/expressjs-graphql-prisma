@@ -20,8 +20,7 @@ model User {
   activated     Boolean  @default(false)
   lastlogin     DateTime?
   password      String?   @db.VarChar(200)
-  admin         Boolean   @default(false)
-  vendor        Boolean   @default(false)
+  customer      Boolean   @default(false)
   roles         RolesOnUsers[]
   cart          Cart?
   districts     DistrictsOnUsers[]
