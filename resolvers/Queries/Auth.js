@@ -7,6 +7,7 @@ export async function users(parent, args, context, info) {
       OR: [
         { name: { contains: args.filter } },
         { desc: { contains: args.filter } },
+        { customer: false}
       ],
     }
     : 
@@ -20,7 +21,7 @@ export async function users(parent, args, context, info) {
     if(args.orderBy) query.orderBy = args.orderBy
   
     const users = await context.prisma.user.findMany(query)
-    const count = await context.prisma.user.count()
+    const count = await context.prisma.user.count({where: { customer: false}})
     return {count, users}
   
 }
@@ -32,6 +33,8 @@ export async function clients(parent, args, context, info) {
     OR: [
       { name: { contains: args.filter } },
       { desc: { contains: args.filter } },
+      { customer: true}
+
     ],
   }
   : 
@@ -45,7 +48,7 @@ export async function clients(parent, args, context, info) {
   if(args.orderBy) query.orderBy = args.orderBy
 
   const users = await context.prisma.user.findMany(query)
-  const count = await context.prisma.user.count()
+  const count = await context.prisma.user.count({where: { customer: true}})
   return {count, users}
 
 }
