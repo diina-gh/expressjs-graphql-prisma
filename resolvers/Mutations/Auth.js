@@ -60,8 +60,8 @@ export async function saveUser(parent, args, context, info) {
     }
 
     for (let i = 0; i < args.roles.length; i++){
-      var link = { assignedById: 0};
-      await context.prisma.RolesOnUsers.upsert({ where: {userId:user.id, roleId: args.roles[i]}, update: {...link, assignedAt: date}, create: link }) 
+      var link = { assignedById: 0, roleId: args.roles[i]};
+      await context.prisma.RolesOnUsers.upsert({ where: {userId:user.id}, update: {...link, assignedAt: date}, create: link }) 
     }
     
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
