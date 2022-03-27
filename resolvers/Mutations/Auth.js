@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs/index.js"
 import jwt from "jsonwebtoken"
-import { APP_SECRET, getUserId } from "../../utils.js"
+import { APP_SECRET, getDifference, getUserId } from "../../utils.js"
 import { UserInputError} from "apollo-server-express";
 
 export async function saveUser(parent, args, context, info) {
@@ -34,27 +34,35 @@ export async function saveUser(parent, args, context, info) {
       if(!row) return { __typename: "InputError", message: `Certains des roles sélectionnés n'éxistent pas au niveau de la base de données`,};
     }
 
-    var links = []
     const date = new Date()
-    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, roles: {}}
+    var data = {firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber}
 
     if(args.id == null || (args.id != null && (args.password?.length > 1 || args.repassword?.length > 1))){
       const password = await bcrypt.hash(args.password, 10)
       data.password = password
     }
 
-    if(args.id != null) await context.prisma.RolesOnUsers.deleteMany({where: {userId: args.id}})
-  
-    for (let i = 0; i < args.roles.length; i++) {
-      links.push({ assignedAt: date, assignedById: 0, role: { connect: {id:args.roles[i]}}});
-    }
-  
-    data.roles.create = links
-    
-    let user = args.id ? 
-        await context.prisma.user.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
-        await context.prisma.user.create({data: data})
+    var user = args.id ? 
+    await context.prisma.user.update({where: {id:args.id}, data: {...data, updatedat: date}}) :
+    await context.prisma.user.create({data: data})
 
+    if(args.id != null){
+
+      var savedRoles = await context.prisma.RolesOnUsers.findMany({where: {userId: args.id}})
+      savedRoles = savedRoles.map((item) => item.id)
+      var diffs = getDifference(savedRoles, args.roles)
+      
+      if(diffs.length > 0){
+        for (let i = 0; i < diffs.length; i++) await context.prisma.RolesOnUsers.delete({where: {id: diffs[i],},})
+      }
+    
+    }
+
+    for (let i = 0; i < args.roles.length; i++){
+      var link = { assignedById: 0};
+      await context.prisma.RolesOnUsers.upsert({ where: {userId:user.id, roleId: args.roles[i]}, update: {...link, assignedAt: date}, create: link }) 
+    }
+    
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
     const authPayload = {token,user}
 
