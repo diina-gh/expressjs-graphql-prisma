@@ -68,7 +68,7 @@ type Mutation {
   #Auth's Mutations
   saveUser(id: Int, firstname: String, lastname: String, email: String, password: String,repassword: String, phonenumber: String, roles:[Int], civility: Civility ): AuthPayloadResult
   saveClient(id: Int, firstname: String, lastname: String, email: String, phonenumber: String, addresses:[AddressInput], civility: Civility ): UserResult
-  login(email: String, password: String): UserResult
+  login(email: String, password: String): AuthPayloadResult
   deleteUser(id: Int): UserResult
   #Newsletter's mutations
   saveNewsletter(id:Int, email: String): Newsletter!

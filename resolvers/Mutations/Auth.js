@@ -114,20 +114,19 @@ export async function saveUser(parent, args, context, info) {
   
   export async function login(parent, args, context, info) {
 
-    if(args.email == null){
-      throw new UserInputError("Veuillez donner votre adresse email.", {cstm_code: 'E3192013'});
-    }
-    else if(args.password == null){
-      throw new UserInputError("Veuillez donner votre mot de passe.", {cstm_code: 'E3192013'});
-    }
-    
+    if(args.email == null) return { __typename: "InputError", message: `Veuillez donner votre adresse email`,};
+    if(args.password == null)return { __typename: "InputError", message: `Veuillez donner votre mot de passe`,};
+
     const user = await context.prisma.user.findUnique({ where: { email: args.email } })
-    if (!user) throw new UserInputError("Cet utilisateur n'éxiste pas.", {cstm_code: 'E3192013'});
+    if (!user) return { __typename: "InputError", message: `Identifiant incorrecte`,};
     const valid = await bcrypt.compare(args.password, user.password)
-    if (!valid) throw new UserInputError("Mot de passe incorrecte.", {cstm_code: 'E3192013'});
+    if (!valid) return { __typename: "InputError", message: `Mot de passe incorrecte`,};
 
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
-    return {token,user,}
+    
+    const authPayload = {token,user}
+
+    return { __typename: "AuthPayload", ...authPayload,};
    
   }
 
