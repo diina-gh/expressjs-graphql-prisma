@@ -28,7 +28,7 @@ export async function saveUser(parent, args, context, info) {
     if(args.roles == null || args.roles?.length <= 0) return { __typename: "InputError", message: `Veuillez sélectionner au moins un role pour cet utilisateur`,};
 
     let row = await context.prisma.user.findFirst({ where: query1, select:{id:true} })
-    if (row) throw new UserInputError("Cette adresse email éxiste déjà.", {cstm_code: 'E3192013'});
+    if (row) return { __typename: "InputError", message: `Cette adresse email éxiste déjà`,};
 
     for (let i = 0; i < args.roles.length; i++) {
       let row = await context.prisma.role.findUnique({ where: { id: args.roles[i] }, select:{id: true} })
@@ -61,7 +61,7 @@ export async function saveUser(parent, args, context, info) {
 
     for (let i = 0; i < args.roles.length; i++){
       var link = { assignedById: 0};
-      await context.prisma.RolesOnUsers.upsert({ where: {id: [user.Id, roles[i]]}, update: {...link, assignedAt: date}, create: link }) 
+      await context.prisma.RolesOnUsers.upsert({ where: {id: [user.Id, args.roles[i]]}, update: {...link, assignedAt: date}, create: link }) 
     }
     
     const token = jwt.sign({ userId: user.id }, APP_SECRET)
