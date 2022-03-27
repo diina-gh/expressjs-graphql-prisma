@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs/index.js"
 import jwt from "jsonwebtoken"
 import { APP_SECRET, getDifference, getUserId } from "../../utils.js"
 import { UserInputError} from "apollo-server-express";
+import { PrismaSelect } from '@paljs/plugins';
+
 
 export async function saveUser(parent, args, context, info) {
 
@@ -114,11 +116,15 @@ export async function saveUser(parent, args, context, info) {
   
   export async function login(parent, args, context, info) {
 
+    
     if(args.email == null) return { __typename: "InputError", message: `Veuillez donner votre adresse email`,};
     if(args.password == null)return { __typename: "InputError", message: `Veuillez donner votre mot de passe`,};
 
-    const user = await context.prisma.user.findUnique({ where: { email: args.email } })
+    const selectedFields = new PrismaSelect(info).valueWithFilter('User');
+
+    const user = await context.prisma.user.findUnique({ where: { email: args.email }, include:{image:true, roles:{include:{role: true}} } })
     if (!user) return { __typename: "InputError", message: `Identifiant incorrecte`,};
+
     const valid = await bcrypt.compare(args.password, user.password)
     if (!valid) return { __typename: "InputError", message: `Mot de passe incorrecte`,};
 
