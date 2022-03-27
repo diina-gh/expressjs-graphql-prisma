@@ -13,6 +13,7 @@ export async function saveUser(parent, args, context, info) {
       query1.id = query2
     }
     
+    if(args.civility != "MONSIEUR" && args.civility != "MADAME") return { __typename: "InputError", message: `Veuillez donner une civilité valide`,};
     if(args.firstname == null || args.firstname == '') return { __typename: "InputError", message: `Veuillez renseigner le prénom de l'utilisateur`,};
     if(args.lastname == null || args.lastname == '') return { __typename: "InputError", message: `Veuillez renseigner le nom de l'utilisateur`,};
     if (args.phonenumber == null || args.phonenumber == '') return { __typename: "InputError", message: `Veuillez donner un numéro de téléphone`,};
@@ -80,6 +81,7 @@ export async function saveUser(parent, args, context, info) {
       query1.id = query2
     }
     
+    if(args.civility != "MONSIEUR" && args.civility != "MADAME") return { __typename: "InputError", message: `Veuillez donner une civilité valide`,};
     if(args.firstname == null || args.firstname == '') return { __typename: "InputError", message: `Veuillez renseigner le prénom de l'utilisateur`,};
     if(args.lastname == null || args.lastname == '') return { __typename: "InputError", message: `Veuillez renseigner le nom de l'utilisateur`,};
     if (args.phonenumber == null || args.phonenumber == '') return { __typename: "InputError", message: `Veuillez donner un numéro de téléphone`,};
