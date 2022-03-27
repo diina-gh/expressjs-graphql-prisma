@@ -35,6 +35,7 @@ export async function saveUser(parent, args, context, info) {
       if(!row) return { __typename: "InputError", message: `Certains des roles sélectionnés n'éxistent pas au niveau de la base de données`,};
     }
 
+    var links = []
     const date = new Date()
     var data = {civility: args.civility, firstname: args.firstname, lastname: args.lastname, email: args.email, phonenumber:args.phonenumber, roles: {}}
 
@@ -43,23 +44,9 @@ export async function saveUser(parent, args, context, info) {
       data.password = password
     }
 
-    var links = []
-    var links2 = []
+    if(args.id != null) await context.prisma.RolesOnUsers.deleteMany({where: {userId: args.id}})
 
-    if(args.id != null){
-      var savedRoles = await context.prisma.RolesOnUsers.findMany({where: {userId: args.id}})
-      savedRoles = savedRoles.map((item) => item.id)
-      var diffs = getDifference(savedRoles, args.roles)
-      var plus =  getDifference(args.roles, savedRoles)
-      if(diffs.length > 0){
-        for (let i = 0; i < diffs.length; i++) links2.push({roleId: diffs[i]})
-        data.roles.disconnect = links2
-      }
-      if(plus.length > 0) for (let i = 0; i < plus.length; i++) links.push({ assignedAt: date, assignedById: 0, role: { connect: {id:plus[i]}}});
-    }
-    else{
-      for (let i = 0; i < args.roles.length; i++) links.push({ assignedAt: date, assignedById: 0, role: { connect: {id:args.roles[i]}}});
-    }
+    for (let i = 0; i < args.roles.length; i++) links.push({ assignedAt: date, assignedById: 0, role: { connect: {id:args.roles[i]}}});
 
     data.roles.create = links
 
