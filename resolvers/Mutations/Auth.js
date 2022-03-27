@@ -44,13 +44,17 @@ export async function saveUser(parent, args, context, info) {
     }
 
     var links = []
+    var links2 = []
 
     if(args.id != null){
       var savedRoles = await context.prisma.RolesOnUsers.findMany({where: {userId: args.id}})
       savedRoles = savedRoles.map((item) => item.id)
       var diffs = getDifference(savedRoles, args.roles)
       var plus =  getDifference(args.roles, savedRoles)
-      if(diffs.length > 0) for (let i = 0; i < diffs.length; i++) await context.prisma.RolesOnUsers.delete({where: {roleId: diffs[i],},})
+      if(diffs.length > 0){
+        for (let i = 0; i < diffs.length; i++) links2.push({roleId: diffs[i]})
+        data.roles.disconnect = links2
+      }
       if(plus.length > 0) for (let i = 0; i < plus.length; i++) links.push({ assignedAt: date, assignedById: 0, role: { connect: {id:plus[i]}}});
     }
     else{
