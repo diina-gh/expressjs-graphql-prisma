@@ -120,8 +120,6 @@ export async function saveUser(parent, args, context, info) {
     if(args.email == null) return { __typename: "InputError", message: `Veuillez donner votre adresse email`,};
     if(args.password == null)return { __typename: "InputError", message: `Veuillez donner votre mot de passe`,};
 
-    const selectedFields = new PrismaSelect(info).valueWithFilter('User');
-
     const user = await context.prisma.user.findUnique({ where: { email: args.email }, include:{image:true, roles:{include:{role: true}} } })
     if (!user) return { __typename: "InputError", message: `Identifiant incorrecte`,};
 
