@@ -33,7 +33,7 @@ export async function product(parent, args, context, info) {
 
   if(args.id == null) return { __typename: "InputError", message: `Veuilez donner un identifiant`,};
 
-  const selectedFields = new PrismaSelect(info).value;
+  const selectedFields = new PrismaSelect(info).valueWithFilter('Product');
 
   let entity =  await context.prisma.product.findUnique({where: {id: args.id,}, select: selectedFields.select})
   if(!entity) return { __typename: "InputError", message: `Ce produit n'éxiste pas.`,};
