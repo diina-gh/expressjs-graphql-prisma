@@ -52,7 +52,7 @@ type Query {
   shippingMethod(id: Int): ShippingMethodResult
   #paymentMethods's Queries
   paymentMethods(filter: String, page: Int, take: Int, orderBy: PaymentMethodOrderByInput): PaginatedPaymentMethod
-  paymentMethod(id: Int): PayementMethodResult
+  paymentMethod(id: Int): PaymentMethodResult
   #Order's Queries
   orders(filter: String, page: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
   order(id: Int): Order
