@@ -24,7 +24,7 @@ export async function products(parent, args, context, info) {
     if(args.orderBy) query.orderBy = args.orderBy
   
     const products = await context.prisma.product.findMany(query)
-    const count = await context.prisma.product.count()
+    const count = await context.prisma.product.count({where})
     return {count, products}
   
   }
