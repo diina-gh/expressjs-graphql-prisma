@@ -299,6 +299,8 @@ model Order{
   districtId        Int?
   shippingMethod    ShippingMethod? @relation(fields: [shippingMethodId], references: [id])
   shippingMethodId  Int?
+  paymentMethod    PaymentMethod? @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId  Int?
   orderItems        OrderItem[]
 }
 
@@ -365,6 +367,16 @@ model Country{
 }
 
 model ShippingMethod{
+    id          Int      @id @default(autoincrement())
+    code        String?  @unique
+    name        String?  
+    desc        String?  
+    orders      Order[]
+    createdat   DateTime @default(now())
+    updatedat   DateTime?
+}
+
+model PaymentMethod{
     id          Int      @id @default(autoincrement())
     code        String?  @unique
     name        String?  

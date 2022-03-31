@@ -50,6 +50,9 @@ type Query {
   #shippingMethods's Queries
   shippingMethods(filter: String, page: Int, take: Int, orderBy: ShippingMethodOrderByInput): PaginatedShippingMethod
   shippingMethod(id: Int): ShippingMethodResult
+  #paymentMethods's Queries
+  paymentMethods(filter: String, page: Int, take: Int, orderBy: PaymentMethodOrderByInput): PaginatedPaymentMethod
+  paymentMethod(id: Int): PayementMethodResult
   #Order's Queries
   orders(filter: String, page: Int, take: Int, orderBy: OrderOrderByInput): [Order!]!
   order(id: Int): Order
@@ -112,6 +115,9 @@ type Mutation {
   #ShippingMethod's mutations
   saveShippingMethod(id: Int, code: String, name: String, desc: String ): ShippingMethodResult!
   deleteShippingMethod(id:Int): ShippingMethodResult!
+  #PaymentMethod's mutations
+  savePaymentMethod(id: Int, code: String, name: String, desc: String ): PaymentMethodResult!
+  deletePaymentMethod(id:Int): PaymentMethodResult!
   #Order's mutations
   saveOrder(id: Int, discount: Float, userId: Int, districtsOnUsersId: Int, shippingMethodId: Int, cartItems: [CartItemInput] ): Order!
   saveOrder2(id: Int, discount: Float, firstname: String, lastname: String, phonenumber: String, email: String, 
@@ -528,6 +534,21 @@ type PaginatedShippingMethod{
 
 union ShippingMethodResult = ShippingMethod | InputError
 
+type PaymentMethod{
+    id: Int
+    code: String
+    name: String
+    desc: String
+    orders: [Order]
+}
+
+type PaginatedPaymentMethod{
+  count: Int
+  paymentMethods: [PaymentMethod]
+}
+
+union PaymentMethodResult = PaymentMethod | InputError
+
 type DistrictsOnUsers{
   id: ID!
   user: User
@@ -888,7 +909,7 @@ input CartItemOrderByInput {
 }
 
 input CountryOrderByInput {
-   id: Sort
+  id: Sort
   createdat: Sort
   iso3: Sort
   isoNum: Sort
@@ -917,7 +938,7 @@ input DistrictsOnUsersOrderByInput {
 }
 
 input OrderOrderByInput {
-   id: Sort
+  id: Sort
   createdat: Sort
   updatedat: Sort
   firstname: Sort
@@ -926,7 +947,15 @@ input OrderOrderByInput {
 }
 
 input ShippingMethodOrderByInput {
-   id: Sort
+  id: Sort
+  createdat: Sort
+  updatedat: Sort
+  name: Sort
+  code: Sort
+}
+
+input PaymentMethodOrderByInput {
+  id: Sort
   createdat: Sort
   updatedat: Sort
   name: Sort
