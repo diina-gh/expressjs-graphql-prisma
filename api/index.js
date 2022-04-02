@@ -45,7 +45,7 @@ const startApolloServer = async(app, httpServer) => {
             req && req.headers.authorization
               ? getUserId(req)
               : null,
-          hostname: req.hostname
+          url: req.headers.referer
         };
       },    
       plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
