@@ -1,6 +1,8 @@
 import { PrismaSelect } from '@paljs/plugins';
 
 export async function saveBrand(parent, args, context, info) {
+
+  return { __typename: "InputError", message: `The hostname is ${context.hostname}`,};
     
   if(args.name == null) return { __typename: "InputError", message: `Veuillez donner un nom.`,};
   if(args.order == null) return { __typename: "InputError", message: `Veuillez donner un ordre.`,};
