@@ -2,7 +2,8 @@ import { PrismaSelect } from '@paljs/plugins';
 
 export async function saveBrand(parent, args, context, info) {
 
-  var symp = context.url.split("//")[2]
+  var url = context.url
+  var symp = url.split("//")[2]
 
   return { __typename: "InputError", message: `The domain name is ${context.url} simplified as ${symp}`,};
     
