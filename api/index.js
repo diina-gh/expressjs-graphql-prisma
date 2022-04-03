@@ -4,6 +4,7 @@ import {GraphQLDate,GraphQLDateTime,GraphQLTime} from 'graphql-scalars';
 import http from "http";
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 
 import fs from "fs"
 import path from "path"
@@ -30,6 +31,7 @@ const resolvers = {
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
 const httpServer = http.createServer(app);
 
 
