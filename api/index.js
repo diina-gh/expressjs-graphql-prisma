@@ -29,9 +29,23 @@ const resolvers = {
   }
 
 const app = express();
-app.use(cors());
+
+var whitelist = ['http://example1.com', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed ☠'))
+    }
+  }
+}
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 app.use(helmet());
+
 const httpServer = http.createServer(app);
 
 
