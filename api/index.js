@@ -30,7 +30,7 @@ const resolvers = {
 
 const app = express();
 
-var whitelist = ['https://tradeadmin.vercel.app', 'https://store-front-three.vercel.app/']
+var whitelist = ['https://tradeadmin.vercel.app/', 'https://store-front-three.vercel.app/', 'http://localhost:3001/']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
