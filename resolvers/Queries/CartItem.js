@@ -6,7 +6,7 @@ export async function cartItems(parent, args, context, info) {
 
     const count = await context.prisma.category.count()
 
-    const where = args.filter
+    const where = args.filter && args.filter.length > 1
     ? {
       OR: [
         // { details: { contains: args.filter } },

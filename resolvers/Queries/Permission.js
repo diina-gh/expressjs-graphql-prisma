@@ -1,6 +1,6 @@
 export async function permissions(parent, args, context, info) {
 
-    const where = args.filter
+    const where = args.filter && args.filter.length > 1
     ? {
       OR: [
         { name: { contains: args.filter } },

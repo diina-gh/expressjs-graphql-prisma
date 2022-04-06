@@ -6,7 +6,7 @@ export async function discounts(parent, args, context, info) {
 
     const count = await context.prisma.category.count()
 
-    const where = args.filter
+    const where = args.filter && args.filter.length > 1
     ? {
       OR: [
         { name: { contains: args.filter } },
