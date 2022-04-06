@@ -2,7 +2,7 @@ import { PrismaSelect } from '@paljs/plugins';
 
 export async function products(parent, args, context, info) {
 
-    const where = args.filter && args.filter.length > 0
+    const where = args.filter && args.filter.length > 1
     ? {
       OR: [
         { name: { contains: args.filter } },
