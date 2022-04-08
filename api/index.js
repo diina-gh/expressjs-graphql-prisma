@@ -44,7 +44,7 @@ const app = express();
 // app.use(cors(corsOptions));
 app.use(cors());
 app.use(express.json());
-app.use(helmet());
+// app.use(helmet());
 
 const httpServer = http.createServer(app);
 

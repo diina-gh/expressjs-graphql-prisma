@@ -57,7 +57,7 @@ export async function saveProduct(parent, args, context, info) {
   }
 
   if(args.relatives != null && args.relatives.length > 0){
-    links3 = args.relatives.map(item => {id: item});
+    for (let i = 0; i < args.relatives.length; i++) links3.push({ id: args.relatives[i] });
     data.relatives = {connect: links3}
   }
 
