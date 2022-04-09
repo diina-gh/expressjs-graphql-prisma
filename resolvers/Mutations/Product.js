@@ -1,10 +1,8 @@
 export async function saveProduct(parent, args, context, info) {
 
   if(args.id != null){
-
     let product = await context.prisma.product.findUnique({ where: { id: args.id }, select: {id: true,}, })
     if (!product) return { __typename: "InputError", message: `Ce produit n'éxiste pas`,}; 
-
   }
     
   if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
@@ -35,7 +33,6 @@ export async function saveProduct(parent, args, context, info) {
 
   const date = new Date()
 
-  var variantDiffs, optionDiffs, relativeDiffs
   let links = []
   let links2 = []
   let links3 = []
