@@ -61,7 +61,7 @@ export async function saveProduct(parent, args, context, info) {
   if(args.id != null){
     await context.prisma.VariantsOnProducts.deleteMany({where: {productId: args.id}})
     await context.prisma.OptionsOnProducts.deleteMany({where: {productId: args.id}})
-    await prisma.product.update({where: {id:args.id}, data: {relatives: {set: []}},})
+    await context.prisma.product.update({where: {id:args.id}, data: {relatives: {set: []}},})
   }
 
   let product = args.id ? 
