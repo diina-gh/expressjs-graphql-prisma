@@ -62,25 +62,9 @@ export async function saveProduct(parent, args, context, info) {
   }
 
   if(args.id != null){
-    const savedVariants = await context.prisma.VariantsOnProducts.findMany({where: { productId: args.id }, select: {id: true,}, })
-    const savedVariantIds = savedVariants.map(item =>  item.id);
-    variantDiffs = savedVariantIds.filter(x => !args.variants.includes(x)).concat(args.variants.filter(x => !savedVariantIds.includes(x)));
-
-    const savedOptions = await context.prisma.OptionsOnProducts.findMany({where: { productId: args.id }, select: {id: true,}, })
-    const savedOptionIds = savedOptions.map(item =>  item.id);
-    optionDiffs = savedOptionIds.filter(x => !args.options.includes(x)).concat(args.options.filter(x => !savedOptionIds.includes(x)));
-
-    const savedRelatives = await context.prisma.product.findMany({where: { relatedId: args.id }, select: {id: true,}, })
-    const savedRelativeIds = savedRelatives.map(item =>  item.id);
-    relativeDiffs = savedRelativeIds.filter(x => !args.relatives.includes(x)).concat(args.relatives.filter(x => !savedRelativeIds.includes(x)));
-
-    variantDiffs = variantDiffs.map(item => {id: item});
-    optionDiffs = optionDiffs.map(item => {id: item});
-    relativeDiffs = relativeDiffs.map(item => {id: item});
-
-    if(variantDiffs.length > 0) data.variants.disconnect = variantDiffs
-    if(optionDiffs.length > 0) data.options.disconnect = optionDiffs
-    if(relativeDiffs.length > 0) data.relatives.disconnect = relativeDiffs
+    await context.prisma.VariantsOnProducts.deleteMany({where: {productId: args.id}})
+    await context.prisma.OptionsOnProducts.deleteMany({where: {productId: args.id}})
+    await prisma.product.update({where: {id:args.id}, data: {relatives: {set: []}},})
   }
 
   let product = args.id ? 
