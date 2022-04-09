@@ -65,8 +65,8 @@ export async function saveProduct(parent, args, context, info) {
   }
 
   let product = args.id ? 
-            await context.prisma.product.update({data: {...data, updatedat: date}, select: {id:true}}) :
-            await context.prisma.product.create({data: data, select: {id:true}})
+            await context.prisma.product.update({where: {id:args.id}, data: {...data, updatedat: date}, select: {id:true}}) :
+            await context.prisma.product.create({data: data})
 
   return { __typename: "Product", ...product,};
 
