@@ -2,9 +2,9 @@ import { PrismaSelect } from '@paljs/plugins';
 
 export async function saveCategory(parent, args, context, info) {
     
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner un nom.`,};
-  if(args.desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,};
-  if(args.order == null) return { __typename:"InputError", message: `Veuillez donner un ordre`,};
+  if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner un nom.`,};
+  if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.order == null || args.order == 0) return { __typename:"InputError", message: `Veuillez donner un ordre`,};
 
   var query0 = { id: args.id }, query1 = { name: args.name.toLowerCase() }, query2 = {not: args.id,}
 
