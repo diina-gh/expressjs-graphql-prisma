@@ -1,12 +1,10 @@
 import { PrismaSelect } from '@paljs/plugins';
 
 export async function saveBrand(parent, args, context, info) {
-
-  // var url = context.url
-  // return { __typename: "InputError", message: `The domain name is ${context.url} `,};
     
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner un nom.`,};
-  if(args.order == null) return { __typename: "InputError", message: `Veuillez donner un ordre.`,};
+  if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner un nom.`,};
+  // if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.order == null || args.order == 0) return { __typename:"InputError", message: `Veuillez donner un ordre`,};
 
   if(args.id != null){
     let brand = await context.prisma.brand.findUnique({ where: {id: args.id} })
