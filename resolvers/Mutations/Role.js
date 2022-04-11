@@ -8,8 +8,8 @@ export async function saveRole(parent, args, context, info) {
     query1.id = query2
   }
     
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
-  if(args.desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,};
   if(args.permissions == null || args.permissions?.length <= 0) return { __typename: "InputError", message: `Veuillez sélectionner des permissions pour ce role`,};
 
   let row = await context.prisma.role.findFirst({ where: query1 })

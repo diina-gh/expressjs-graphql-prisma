@@ -1,7 +1,7 @@
 export async function savePermission(parent, args, context, info) {
     
-  if(args.name == null) return { __typename: "InputError", message: `Veuillez donner une désignation`,};
-  if(args.desc == null) return { __typename: "InputError", message: `Veuillez donner une description`,};
+  if(args.name == null || args.name == '') return { __typename: "InputError", message: `Veuillez donner une désignation`,};
+  if(args.desc == null || args.desc == '') return { __typename: "InputError", message: `Veuillez donner une description`,};
 
   var query0 = { id: args.id }; var query1 = { name: args.name };  var query2 = {not: args.id,};
 
