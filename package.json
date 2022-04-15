@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": "^14.x"
+    "node": "^16.x"
   },
   "type": "module",
   "main": "index.js",
@@ -36,10 +36,10 @@
     "moment": "^2.29.1"
   },
   "devDependencies": {
-    "@prisma/client": "^3.11.1",
+    "@prisma/client": "^3.13.0-dev.12",
     "consola": "^2.15.3",
     "dotenv": "^16.0.0",
     "nodemon": "^2.0.15",
-    "prisma": "^3.12.0-dev.26"
+    "prisma": "^3.13.0-dev.12"
   }
 }
