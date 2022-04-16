@@ -197,6 +197,8 @@ type Role {
   desc: String
   RolesOnUsers: [RolesOnUsers]
   permissions: [PermissionsOnRoles]
+  createdat: Date
+  updatedat: Date
 }
 
 type PaginatedRole{
@@ -298,8 +300,8 @@ type Product {
   order: Int
   likes: Int
   views: Int
-  createdat: String
-  updatedat: String 
+  createdat: Date
+  updatedat: Date
   images: [Image]
   category: Category
   categoryId:Int
@@ -325,8 +327,8 @@ union ProductResult = Product | InputError
 
 type Inventory {
   id: ID!
-  createdat: String
-  updatedat: String 
+  createdat: Date
+  updatedat: Date
   quantity: Int
   details: String
   product: Product
@@ -405,6 +407,8 @@ type Option {
   variantId: Int
   products: [OptionsOnProducts]
   images: [Image]
+  createdat: Date
+  updatedat: Date
 }
 
 type PaginatedOption{
@@ -428,6 +432,7 @@ type Newsletter {
   id: ID!
   email: String
   createdat: Date
+  updatedat: Date
 }
 
 type PaginatedNewsletter{
@@ -525,6 +530,8 @@ type ShippingMethod{
     name: String
     desc: String
     orders: [Order]
+    createdat: Date
+    updatedat: Date
 }
 
 type PaginatedShippingMethod{
@@ -540,6 +547,8 @@ type PaymentMethod{
     name: String
     desc: String
     orders: [Order]
+    createdat: Date
+    updatedat: Date
 }
 
 type PaginatedPaymentMethod{
@@ -625,6 +634,8 @@ type DeliveryMan{
   firstname: String
   lastname: String
   shipments: [Shipment]
+  createdat: Date
+  updatedat: Date
 }
 
 type PaginatedDeliveryMan{
