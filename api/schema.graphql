@@ -74,8 +74,8 @@ type Mutation {
   login(email: String, password: String): AuthPayloadResult
   deleteUser(id: Int): UserResult
   #Newsletter's mutations
-  saveNewsletter(id:Int, email: String): Newsletter!
-  deleteNewsletter(id:Int): Newsletter!
+  saveNewsletter(id:Int, email: String): NewsletterResult!
+  deleteNewsletter(id:Int): NewsletterResult!
   #Category's mutations
   saveCategory(id:Int, name: String, desc: String, order: Int, activated: Boolean, parentId: Int, updatedat: String): CategoryResult!
   deleteCategory(id:Int): CategoryResult!
@@ -150,7 +150,6 @@ scalar DateTime
 type InputError{
   message: String
   input: String
-  reason: String
 }
 
 type AuthPayload {
