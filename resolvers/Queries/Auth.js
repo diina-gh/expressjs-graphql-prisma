@@ -2,7 +2,7 @@ import { PrismaSelect } from '@paljs/plugins';
 
 export async function users(parent, args, context, info) {
 
-    const where = args.filter
+    var where = args.filter
     ? {
       OR: [
         { firstname: { contains: args.filter } },
@@ -29,7 +29,7 @@ export async function users(parent, args, context, info) {
 
 export async function clients(parent, args, context, info) {
 
-  const where = args.filter
+  var where = args.filter
   ? {
     OR: [
       { firstname: { contains: args.filter } },
