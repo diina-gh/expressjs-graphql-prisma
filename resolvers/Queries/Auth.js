@@ -29,14 +29,13 @@ export async function users(parent, args, context, info) {
 
 export async function clients(parent, args, context, info) {
 
-  var where = args.filter
+  var where = args.filter && args.filter.length > 1
   ? {
+    customer: true,
     OR: [
       { firstname: { contains: args.filter } },
       { lastname: { contains: args.filter } },
       { email: { contains: args.filter } },
-      { customer: true}
-
     ],
   }
   : 
