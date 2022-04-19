@@ -4,10 +4,10 @@ export async function categories(parent, args, context, info) {
 
     const where = args.filter && args.filter.length > 1
     ? {
+      parent: null,
       OR: [
         { name: { contains: args.filter } },
         { desc: { contains: args.filter } },
-        { parent: null}
       ],
     }
     :
@@ -34,10 +34,10 @@ export async function subCategories(parent, args, context, info) {
 
   const where = args.filter && args.filter.length > 1
   ? {
+    parentId: {not: null,},
     OR: [
       { name: { contains: args.filter } },
       { desc: { contains: args.filter } },
-      { parentId: {not: null,}}
     ],
   }
   :
