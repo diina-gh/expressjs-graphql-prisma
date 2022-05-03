@@ -19,3 +19,5 @@ export * from "./PaymentMethod.js";
 export * from "./ShipmentStage.js";
 export * from "./DeliveryMan.js";
 export * from "./Brand.js";
+export * from "./Faq.js";
+

@@ -19,8 +19,7 @@ export * from "./ShipmentStage.js";
 export * from "./DeliveryMan.js";
 export * from "./Brand.js";
 export * from "./Image.js";
-
-
+export * from "./Faq.js";
 
 
 
