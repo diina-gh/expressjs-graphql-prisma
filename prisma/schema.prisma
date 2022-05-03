@@ -447,6 +447,14 @@ model Notification{
   updatedat                DateTime?
 }
 
+model Faq {
+  id          Int      @id @default(autoincrement())
+  order       Int
+  question    String
+  answer      String
+  createdat   DateTime @default(now())
+  updatedat   DateTime?
+}
 
 // Blog Database design
 

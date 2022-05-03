@@ -65,6 +65,9 @@ type Query {
   #Brand's Queries
   brands(filter: String, page: Int, take: Int, orderBy: BrandOrderByInput): PaginatedBrand
   brand(id: Int): BrandResult
+  #Faq's Queries
+  faqs(filter: String, page: Int, take: Int, orderBy: FaqOrderByInput): PaginatedFaq
+  faq(id: Int): FaqResult
 }
 
 type Mutation {
@@ -135,6 +138,9 @@ type Mutation {
   #Brand's mutations
   saveImage(id: Int, url: String, imageref: String, isDefault: Boolean, productId: Int, optionId: Int, brandId: Int, categoryId: Int, userId: Int): ImageResult!
   deleteImage(id:Int): ImageResult!
+  #Brand's mutations
+  saveFaq(id: Int, order: String, question: String, answer: String): FaqResult!
+  deleteFaq(id:Int): FaqResult!
 }
 
 
@@ -699,6 +705,23 @@ type Notification{
   createdat: Date
   updatedat: Date
 }
+
+type Faq {
+  id: Int
+  order: Int
+  question: String
+  answer: String
+  createdat: DateTime
+  updatedat: DateTime
+}
+
+type PaginatedFaq{
+  count: Int
+  faqs: [Faq]
+}
+
+union FaqResult = Faq | InputError
+
 
 # Blog types
 
