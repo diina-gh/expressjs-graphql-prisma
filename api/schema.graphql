@@ -1017,4 +1017,11 @@ input BrandOrderByInput {
   order: Sort
 }
 
+input FaqOrderByInput {
+  id: Sort
+  question: Sort
+  order: Sort
+  createdat: Sort
+}
+
 
